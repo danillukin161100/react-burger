@@ -5,20 +5,26 @@ import styles from "./modal.module.css";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { createPortal } from "react-dom";
 
-function Modal({ closeHandler, header, children, ...props }) {
+function Modal({ onClose, header, children, ...props }) {
 	const [isActive, setActive] = useState(false);
 
 	useEffect(() => {
 		setActive(true);
+		document.addEventListener("keydown", onKeyDown);
 
 		return () => {
 			setActive(false);
+			document.removeEventListener("keydown", onKeyDown);
 		};
 	}, []);
 
+	const onKeyDown = (e) => {
+		if (e.code === "Escape") onClose(e);
+	};
+
 	return createPortal(
 		<div className={`${styles.modal}`}>
-			<ModalOverlay onClick={closeHandler} isActive={isActive} />
+			<ModalOverlay onClick={onClose} isActive={isActive} />
 			<div
 				className={`${styles.modalWindow} ${
 					isActive && styles.modalWindowActive
@@ -34,8 +40,7 @@ function Modal({ closeHandler, header, children, ...props }) {
 				<button
 					type="button"
 					className={styles.close}
-					onClick={closeHandler}
-					style={{ cursor: "pointer" }}
+					onClick={onClose}
 				>
 					<CloseIcon />
 				</button>

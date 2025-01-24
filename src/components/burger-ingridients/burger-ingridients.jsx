@@ -1,4 +1,4 @@
-import Tabs from "./categories/tabs";
+import Tabs from "./tabs/tabs";
 import Ingridients from "./ingridients/ingridients";
 import React, { useRef, useCallback, useState, useEffect } from "react";
 

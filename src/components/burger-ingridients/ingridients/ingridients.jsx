@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import IngridientsInCategory from "./ingridients-in-category";
+import IngridientsInCategory from "./ingridients-in-category/ingridients-in-category";
 
 import styles from "./ingridients.module.css";
 
@@ -20,8 +20,9 @@ function Ingridients(props) {
 			setMaxHeight(calcHeight(ref.current));
 		};
 
-		window.addEventListener('resize', updateHeight)
-		setMaxHeight(calcHeight(ref.current));
+		updateHeight();
+
+		window.addEventListener('resize', updateHeight);
 
 		return () => {
 			window.removeEventListener('resize', updateHeight);

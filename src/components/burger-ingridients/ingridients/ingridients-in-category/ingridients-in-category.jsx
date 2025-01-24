@@ -1,6 +1,6 @@
-import Ingridient from "./ingridient";
+import Ingridient from "./ingridient/ingridient";
 
-import styles from "./ingridients.module.css";
+import styles from "./ingridients-in-category.module.css";
 
 function IngridientsInCategory(props) {
 	const elementRef = props.categoryRefs.get(props.category.key);

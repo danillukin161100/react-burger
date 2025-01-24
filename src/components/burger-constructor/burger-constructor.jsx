@@ -1,12 +1,14 @@
+import { useCallback, useEffect, useRef, useState } from "react";
+
 import {
 	ConstructorElement,
 	CurrencyIcon,
 	Button,
 	DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useCallback, useEffect, useRef, useState } from "react";
 import Modal from "../modal/modal";
-import IconSuccess from "../icons/icon-success";
+import OrderDetails from "./order-details/order-details";
+
 import styles from "./burger-constructor.module.css";
 
 function BurgerConstructor(props) {
@@ -70,13 +72,7 @@ function BurgerConstructor(props) {
 
 	return (
 		<div
-			className="burger-constructor pt-25 pl-5 pr-9 pb-10"
-			style={{
-				display: "grid",
-				gap: 16,
-				alignContent: "flex-start",
-				justifyItems: "flex-end",
-			}}
+			className={`${styles.wrap} burger-constructor pt-25 pl-5 pr-9 pb-10`}
 			ref={constructorRef}
 		>
 			<ConstructorElement
@@ -87,14 +83,9 @@ function BurgerConstructor(props) {
 				thumbnail={firstIngridient.image}
 			/>
 			<div
+				className={styles.list}
 				style={{
-					display: "grid",
-					gap: "inherit",
 					maxHeight: `${maxHeight}vh`,
-					overflowX: "hidden",
-					overflowY: "auto",
-					marginRight: -20,
-					width: "calc(100% + 20px)",
 				}}
 				ref={listRef}
 			>
@@ -106,12 +97,7 @@ function BurgerConstructor(props) {
 					return (
 						<div
 							key={index}
-							style={{
-								display: "flex",
-								alignItems: "center",
-								columnGap: 8,
-								justifyContent: "flex-end",
-							}}
+							className={styles.item}
 						>
 							<DragIcon />
 							<ConstructorElement
@@ -133,12 +119,7 @@ function BurgerConstructor(props) {
 			/>
 
 			<div
-				style={{
-					display: "flex",
-					alignItems: "center",
-					justifyContent: "flex-end",
-				}}
-				className="pt-6"
+				className={`${styles.footer} pt-6`}
 			>
 				<span className="text text_type_digits-medium mr-10">
 					{getIngridientSum()} <CurrencyIcon />
@@ -148,34 +129,8 @@ function BurgerConstructor(props) {
 				</Button>
 
 				{orderModalActive && (
-					<Modal closeHandler={closeOrderModal}>
-						<div
-							style={{
-								display: "flex",
-								flexDirection: "column",
-								alignItems: "center",
-								maxWidth: 520,
-								marginLeft: "auto",
-								marginRight: "auto",
-							}}
-							className="pb-15"
-						>
-							<div
-								className={`${styles.orderID} text text_type_digits-large mb-8`}
-							>
-								034536
-							</div>
-							<div className="text text_type_main-medium mb-15">
-								идентификатор заказа
-							</div>
-							<IconSuccess className="mb-15" />
-							<div className="text text_type_main-default mb-2">
-								Ваш заказ начали готовить
-							</div>
-							<div className="text text_type_main-default text_color_inactive">
-								Дождитесь готовности на орбитальной станции
-							</div>
-						</div>
+					<Modal onClose={() => setOrderModalActive(false)}>
+						<OrderDetails />
 					</Modal>
 				)}
 			</div>

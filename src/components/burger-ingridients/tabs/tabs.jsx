@@ -2,6 +2,8 @@ import { useState, useCallback } from "react";
 
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 
+import styles from './tabs.module.css';
+
 function Tabs(props) {
 	const [current, setCurrent] = useState(props.categories[0]?.key);
 
@@ -17,7 +19,7 @@ function Tabs(props) {
 	);
 
 	return (
-		<div className="mb-10" style={{ display: "flex" }}>
+		<div className={`${styles.wrap} mb-10`}>
 			{props.categories?.map((category) => {
 				return (
 					<Tab
