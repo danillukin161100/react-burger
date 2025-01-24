@@ -5,10 +5,12 @@ import React, { useRef, useCallback, useState, useEffect } from "react";
 
 import styles from "./burger-ingridients.module.css";
 
-function BurgerIngridients(props) {
+function BurgerIngridients({ ingridients, categories, currentIngridients }) {
 	const categoryRefs = new Map(
-		props.categories.map((category) => [category.key, React.createRef()])
+		categories.map((category) => [category.key, React.createRef()])
 	);
+
+	console.log(ingridients);
 
 	return (
 		<div
@@ -16,10 +18,11 @@ function BurgerIngridients(props) {
 		>
 			<h2 className="mb-5 text text_type_main-large">Соберите бургер</h2>
 
-			<Tabs categories={props.categories} categoryRefs={categoryRefs} />
+			<Tabs categories={categories} categoryRefs={categoryRefs} />
 			<Ingridients
-				ingridients={props.ingridients}
-				categories={props.categories}
+				ingridients={ingridients}
+				currentIngridients={currentIngridients}
+				categories={categories}
 				categoryRefs={categoryRefs}
 			/>
 		</div>
