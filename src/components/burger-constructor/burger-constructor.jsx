@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+import PropTypes from "prop-types";
 
 import {
 	ConstructorElement,
@@ -95,10 +96,7 @@ function BurgerConstructor(props) {
 					}
 
 					return (
-						<div
-							key={index}
-							className={styles.item}
-						>
+						<div key={index} className={styles.item}>
 							<DragIcon />
 							<ConstructorElement
 								isLocked={false}
@@ -118,9 +116,7 @@ function BurgerConstructor(props) {
 				thumbnail={lastIngridient.image}
 			/>
 
-			<div
-				className={`${styles.footer} pt-6`}
-			>
+			<div className={`${styles.footer} pt-6`}>
 				<span className="text text_type_digits-medium mr-10">
 					{getIngridientSum()} <CurrencyIcon />
 				</span>
@@ -137,5 +133,24 @@ function BurgerConstructor(props) {
 		</div>
 	);
 }
+
+BurgerConstructor.propTypes = {
+	ingridients: PropTypes.arrayOf(
+		PropTypes.shape({
+			_id: PropTypes.string,
+			name: PropTypes.string,
+			type: PropTypes.string,
+			proteins: PropTypes.number,
+			fat: PropTypes.number,
+			carbohydrates: PropTypes.number,
+			calories: PropTypes.number,
+			price: PropTypes.number,
+			image: PropTypes.string,
+			image_mobile: PropTypes.string,
+			image_large: PropTypes.string,
+			__v: PropTypes.number,
+		})
+	),
+};
 
 export default BurgerConstructor;
