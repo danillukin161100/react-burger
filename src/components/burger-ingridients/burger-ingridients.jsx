@@ -1,4 +1,3 @@
-// import Categories from "./categories/categories";
 import Tabs from "./categories/tabs";
 import Ingridients from "./ingridients/ingridients";
 import React, { useRef, useCallback, useState, useEffect } from "react";
@@ -9,9 +8,6 @@ function BurgerIngridients({ ingridients, categories, currentIngridients }) {
 	const categoryRefs = new Map(
 		categories.map((category) => [category.key, React.createRef()])
 	);
-
-	console.log(ingridients);
-
 	return (
 		<div
 			className={`text text_type_main-default ${styles.burgerIngridients} pt-10 pl-5 pr-5`}

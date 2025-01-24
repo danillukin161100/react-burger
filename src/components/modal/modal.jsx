@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
-import Overlay from "./overlay";
+import ModalOverlay from "../modal-overlay/modal-overlay";
 
 import styles from "./modal.module.css";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import { createPortal } from "react-dom";
 
 function Modal({ closeHandler, header, children, ...props }) {
 	const [isActive, setActive] = useState(false);
@@ -15,9 +16,9 @@ function Modal({ closeHandler, header, children, ...props }) {
 		};
 	}, []);
 
-	return (
-		<div className={`${styles.modal}`} >
-			<Overlay onClick={closeHandler} isActive={isActive} />
+	return createPortal(
+		<div className={`${styles.modal}`}>
+			<ModalOverlay onClick={closeHandler} isActive={isActive} />
 			<div
 				className={`${styles.modalWindow} ${
 					isActive && styles.modalWindowActive
@@ -40,7 +41,8 @@ function Modal({ closeHandler, header, children, ...props }) {
 				</button>
 				{children}
 			</div>
-		</div>
+		</div>,
+		document.getElementById("modals")
 	);
 }
 
