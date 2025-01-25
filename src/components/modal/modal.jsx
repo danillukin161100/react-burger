@@ -11,7 +11,12 @@ function Modal({ onClose, header, children, ...props }) {
 	const [isActive, setActive] = useState(false);
 
 	useEffect(() => {
+		const onKeyDown = (e) => {
+			if (e.code === "Escape") onClose(e);
+		};
+
 		setActive(true);
+
 		document.addEventListener("keydown", onKeyDown);
 
 		return () => {
@@ -19,10 +24,6 @@ function Modal({ onClose, header, children, ...props }) {
 			document.removeEventListener("keydown", onKeyDown);
 		};
 	}, []);
-
-	const onKeyDown = (e) => {
-		if (e.code === "Escape") onClose(e);
-	};
 
 	return createPortal(
 		<div className={`${styles.modal}`}>
@@ -59,7 +60,7 @@ Modal.propTypes = {
 		PropTypes.node,
 	]).isRequired,
 	header: PropTypes.string,
-	onClose: PropTypes.func
+	onClose: PropTypes.func,
 };
 
 export default Modal;
