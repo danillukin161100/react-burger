@@ -15,7 +15,7 @@ function App() {
 	const getData = async () => {
 		try {
 			await fetch(INGRIDIENTS_API_URL)
-				.then((res) => res.json())
+				.then((res) => res.ok ? res.json() : Promise.reject(`Error ${res.status}`))
 				.then((res) => {
 					setIngridientsData(res.data);
 				});
