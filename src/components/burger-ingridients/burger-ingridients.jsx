@@ -12,7 +12,7 @@ function BurgerIngridients({ ingridients, categories }) {
 		categories.map((category) => [category.key, React.createRef()])
 	);
 	return (
-		<div
+		<section
 			className={`text text_type_main-default ${styles.burgerIngridients} pt-10 pl-5 pr-5`}
 		>
 			<h2 className="mb-5 text text_type_main-large">Соберите бургер</h2>
@@ -23,7 +23,7 @@ function BurgerIngridients({ ingridients, categories }) {
 				categories={categories}
 				categoryRefs={categoryRefs}
 			/>
-		</div>
+		</section>
 	);
 }
 
@@ -34,9 +34,7 @@ BurgerIngridients.propTypes = {
 			title: PropTypes.string.isRequired,
 		})
 	),
-	ingridients: PropTypes.arrayOf(
-		PropTypes.shape(ingridientType)
-	),
+	ingridients: PropTypes.arrayOf(PropTypes.shape(ingridientType)),
 };
 
 export default BurgerIngridients;

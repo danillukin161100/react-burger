@@ -67,7 +67,7 @@ function BurgerConstructor({ ingridients }) {
 	}, []);
 
 	return (
-		<div
+		<section
 			className={`${styles.wrap} burger-constructor pt-25 pl-5 pr-9 pb-10`}
 			ref={constructorRef}
 		>
@@ -125,7 +125,7 @@ function BurgerConstructor({ ingridients }) {
 					</Modal>
 				)}
 			</div>
-		</div>
+		</section>
 	);
 }
 
