@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import AppHeader from "./components/app-header/app-header";
-import BurgerConstructor from "./components/burger-constructor/burger-constructor";
-import BurgerIngridients from "./components/burger-ingridients/burger-ingridients";
+import AppHeader from "../app-header/app-header.jsx";
+import BurgerConstructor from "../burger-constructor/burger-constructor.jsx";
+import BurgerIngridients from "../burger-ingridients/burger-ingridients.jsx";
 
-import { INGRIDIENTS_API_URL, categories, constructorIngridients } from "./utils/data.js";
+import { INGRIDIENTS_API_URL, categories, constructorIngridients } from "../../utils/data.js";
 
 function App() {
 	const [ingridientsData, setIngridientsData] = useState([]);
