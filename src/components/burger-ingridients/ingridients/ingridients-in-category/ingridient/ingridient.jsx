@@ -8,8 +8,6 @@ import {
 import Modal from "../../../../modal/modal.jsx";
 import IngridientDetails from "./ingridient-details/ingridient-details.jsx";
 
-import { constructorIngridients } from "../../../../../utils/data.js";
-
 import styles from "./ingridient.module.css";
 
 function Ingridient(props) {
@@ -17,11 +15,11 @@ function Ingridient(props) {
 	const [currentIngridient, setCurrentIngridient] = useState(null);
 
 	useEffect(() => {
-		let currentIngirdients = constructorIngridients.filter(
-			(ingridient) => props._id === ingridient._id
-		);
+		const currentIngirdients = JSON.parse(
+			localStorage.getItem("constructorIngridients")
+		)?.filter((ingridient) => props._id === ingridient._id);
 		setCount(currentIngirdients.length);
-	}, [constructorIngridients]);
+	}, []);
 
 	const onClose = (e) => {
 		e.stopPropagation();

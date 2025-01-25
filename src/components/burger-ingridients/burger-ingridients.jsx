@@ -6,7 +6,7 @@ import Ingridients from "./ingridients/ingridients";
 
 import styles from "./burger-ingridients.module.css";
 
-function BurgerIngridients({ ingridients, categories,  }) {
+function BurgerIngridients({ ingridients, categories }) {
 	const categoryRefs = new Map(
 		categories.map((category) => [category.key, React.createRef()])
 	);

@@ -12,21 +12,20 @@ import OrderDetails from "./order-details/order-details";
 
 import styles from "./burger-constructor.module.css";
 
-function BurgerConstructor(props) {
-	const firstIngridient = props.ingridients[0];
-	const lastIngridient = props.ingridients[props.ingridients.length - 1];
+function BurgerConstructor({ ingridients }) {
+	const bun = ingridients.find((ingridient) => ingridient.type === "bun");
 	const listRef = useRef();
 	const constructorRef = useRef();
 	const [maxHeight, setMaxHeight] = useState(0);
 	const [orderModalActive, setOrderModalActive] = useState(false);
 
 	const updateHeight = useCallback(() => {
-		let windowHeight = window.innerHeight;
-		let listRect = listRef.current.getBoundingClientRect();
-		let constructorRect = constructorRef.current.getBoundingClientRect();
-		let body = document.body;
-		let html = document.documentElement;
-		let documentHeight = Math.max(
+		const windowHeight = window.innerHeight;
+		const listRect = listRef.current.getBoundingClientRect();
+		const constructorRect = constructorRef.current.getBoundingClientRect();
+		const body = document.body;
+		const html = document.documentElement;
+		const documentHeight = Math.max(
 			body.scrollHeight,
 			body.offsetHeight,
 			html.clientHeight,
@@ -34,19 +33,19 @@ function BurgerConstructor(props) {
 			html.offsetHeight
 		);
 
-		let offsetTop = (listRect.top / windowHeight) * 100;
-		let listOffsetBottom = documentHeight - listRect.y - listRect.height;
-		let constructorOffsetBottom =
+		const offsetTop = (listRect.top / windowHeight) * 100;
+		const listOffsetBottom = documentHeight - listRect.y - listRect.height;
+		const constructorOffsetBottom =
 			documentHeight - constructorRect.y - constructorRect.height;
-		let offsetBottom =
+		const offsetBottom =
 			((listOffsetBottom - constructorOffsetBottom) / windowHeight) * 100;
-		let result = 100 - offsetBottom - offsetTop;
+		const result = 100 - offsetBottom - offsetTop;
 
 		setMaxHeight(result);
 	});
 
 	const getIngridientSum = () => {
-		return props.ingridients.reduce(
+		return ingridients.reduce(
 			(sum, ingridient) => sum + ingridient.price,
 			0
 		);
@@ -57,11 +56,6 @@ function BurgerConstructor(props) {
 		setOrderModalActive(true);
 	};
 
-	const closeOrderModal = (e) => {
-		e.stopPropagation();
-		setOrderModalActive(false);
-	};
-
 	useEffect(() => {
 		updateHeight();
 		window.addEventListener("resize", updateHeight);
@@ -69,7 +63,7 @@ function BurgerConstructor(props) {
 		return () => {
 			window.removeEventListener("resize", updateHeight);
 		};
-	});
+	}, []);
 
 	return (
 		<div
@@ -79,9 +73,9 @@ function BurgerConstructor(props) {
 			<ConstructorElement
 				type={"top"}
 				isLocked={true}
-				text={firstIngridient.name}
-				price={firstIngridient.price}
-				thumbnail={firstIngridient.image}
+				text={bun.name}
+				price={bun.price}
+				thumbnail={bun.image}
 			/>
 			<div
 				className={styles.list}
@@ -90,13 +84,13 @@ function BurgerConstructor(props) {
 				}}
 				ref={listRef}
 			>
-				{props.ingridients?.map((ingridient, index) => {
-					if (index === 0 || index === props.ingridients.length - 1) {
+				{ingridients?.map((ingridient, index) => {
+					if (ingridient.type === "bun") {
 						return;
 					}
 
 					return (
-						<div key={index} className={styles.item}>
+						<div key={`${ingridient._id}`} className={styles.item}>
 							<DragIcon />
 							<ConstructorElement
 								isLocked={false}
@@ -111,9 +105,9 @@ function BurgerConstructor(props) {
 			<ConstructorElement
 				type={"bottom"}
 				isLocked={true}
-				text={lastIngridient.name}
-				price={lastIngridient.price}
-				thumbnail={lastIngridient.image}
+				text={bun.name}
+				price={bun.price}
+				thumbnail={bun.image}
 			/>
 
 			<div className={`${styles.footer} pt-6`}>

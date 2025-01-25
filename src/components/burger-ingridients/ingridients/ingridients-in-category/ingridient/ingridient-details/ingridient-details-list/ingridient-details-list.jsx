@@ -8,9 +8,9 @@ function IngridientDetailsList(props) {
 	useEffect(() => {
 		let newParams = [];
 
-		for (let key in props) {
-			let value = props[key];
-			let currentIngridientParam = ingridientParams.find(
+		for (const key in props) {
+			const value = props[key];
+			const currentIngridientParam = ingridientParams.find(
 				(param) => param.key === key
 			);
 
