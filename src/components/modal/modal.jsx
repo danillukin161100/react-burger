@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
+import PropTypes from "prop-types";
+import { createPortal } from "react-dom";
+
 import ModalOverlay from "../modal-overlay/modal-overlay";
+import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import styles from "./modal.module.css";
-import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import { createPortal } from "react-dom";
 
 function Modal({ onClose, header, children, ...props }) {
 	const [isActive, setActive] = useState(false);
@@ -50,5 +52,14 @@ function Modal({ onClose, header, children, ...props }) {
 		document.getElementById("modals")
 	);
 }
+
+Modal.propTypes = {
+	children: PropTypes.oneOfType([
+		PropTypes.arrayOf(PropTypes.node),
+		PropTypes.node,
+	]).isRequired,
+	header: PropTypes.string,
+	onClose: PropTypes.func
+};
 
 export default Modal;

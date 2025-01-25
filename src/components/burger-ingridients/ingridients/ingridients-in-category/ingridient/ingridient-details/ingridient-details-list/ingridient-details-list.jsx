@@ -1,39 +1,34 @@
-import { useEffect, useState } from "react";
-import styles from "./ingridient-details-list.module.css";
+import PropTypes from "prop-types";
+
 import IngridientDetailsItem from "./ingridient-details-item/ingridient-details-item";
 
+import { ingridientParams } from "../../../../../../../utils/data";
+import styles from "./ingridient-details-list.module.css";
+
 function IngridientDetailsList(props) {
-	const [params, setParams] = useState([]);
-
-	useEffect(() => {
-		let newParams = [];
-
-		for (const key in props) {
-			const value = props[key];
-			const currentIngridientParam = ingridientParams.find(
-				(param) => param.key === key
-			);
-
-			newParams.push({ key, name: currentIngridientParam.name, value });
-		}
-
-		setParams(newParams);
-	}, []);
-
-	const ingridientParams = [
-		{ key: "calories", name: "Калории,ккал" },
-		{ key: "proteins", name: "Белки, г" },
-		{ key: "fat", name: "Жиры, г" },
-		{ key: "carbohydrates", name: "Углеводы, г" },
-	];
-
 	return (
 		<div className={`${styles.wrap} mt-8`}>
-			{params.map((param) => (
-				<IngridientDetailsItem name={param.name} value={param.value} key={param.key} />
-			))}
+			{Object.keys(props).map((key) => {
+				const value = props[key];
+				const name = ingridientParams[key];
+
+				return (
+					<IngridientDetailsItem
+						name={name}
+						value={value}
+						key={key}
+					/>
+				);
+			})}
 		</div>
 	);
 }
+
+IngridientDetailsList.propTypes = {
+	calories: PropTypes.number,
+	proteins: PropTypes.number,
+	carbohydrates: PropTypes.number,
+	fat: PropTypes.number,
+};
 
 export default IngridientDetailsList;

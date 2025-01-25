@@ -1,3 +1,5 @@
+import PropTypes from "prop-types";
+
 function IconSuccess(props) {
 	return (
 		<svg
@@ -72,6 +74,10 @@ function IconSuccess(props) {
 			</defs>
 		</svg>
 	);
+}
+
+IconSuccess.propTypes = {
+	className: PropTypes.string,
 }
 
 export default IconSuccess;
