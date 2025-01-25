@@ -23,10 +23,16 @@ function App() {
 				)
 				.then((res) => {
 					setIngridientsData(res.data);
+
+					/**
+					 * Пока не реализован функционал добавления в конструктор
+					 * реализовал через localStorage в качестве временного решения
+					 */
 					localStorage.setItem(
 						"constructorIngridients",
 						JSON.stringify(res.data)
 					);
+
 					setIsLoading(false);
 				});
 		} catch (error) {
