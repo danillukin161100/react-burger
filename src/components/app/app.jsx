@@ -44,7 +44,7 @@ function App() {
 	return (
 		<>
 			<AppHeader />
-			<div className={`${styles.wrap} container`}>
+			<main className={`${styles.wrap} container`}>
 				{isLoading ? (
 					"Загрузка..."
 				) : (
@@ -56,7 +56,7 @@ function App() {
 						<BurgerConstructor ingridients={ingridientsData} />
 					</>
 				)}
-			</div>
+			</main>
 		</>
 	);
 }
