@@ -15,6 +15,10 @@ function Ingridient(props) {
 	const [currentIngridient, setCurrentIngridient] = useState(null);
 
 	useEffect(() => {
+		/**
+		 * Пока не реализован функционал добавления в конструктор
+		 * реализовал через localStorage в качестве временного решения
+		 */
 		const currentIngirdients = JSON.parse(
 			localStorage.getItem("constructorIngridients")
 		)?.filter((ingridient) => props._id === ingridient._id);
