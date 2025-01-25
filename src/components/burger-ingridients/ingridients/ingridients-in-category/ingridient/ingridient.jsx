@@ -9,6 +9,7 @@ import Modal from "../../../../modal/modal.jsx";
 import IngridientDetails from "./ingridient-details/ingridient-details.jsx";
 
 import styles from "./ingridient.module.css";
+import { ingridientType } from "../../../../../utils/types.js";
 
 function Ingridient(props) {
 	const [count, setCount] = useState(0);
@@ -59,19 +60,6 @@ function Ingridient(props) {
 	);
 }
 
-Ingridient.propTypes = {
-	_id: PropTypes.string.isRequired,
-	name: PropTypes.string.isRequired,
-	type: PropTypes.string.isRequired,
-	proteins: PropTypes.number,
-	fat: PropTypes.number,
-	carbohydrates: PropTypes.number,
-	calories: PropTypes.number,
-	price: PropTypes.number.isRequired,
-	image: PropTypes.string.isRequired,
-	image_mobile: PropTypes.string,
-	image_large: PropTypes.string.isRequired,
-	__v: PropTypes.number,
-};
+Ingridient.propTypes = ingridientType;
 
 export default Ingridient;

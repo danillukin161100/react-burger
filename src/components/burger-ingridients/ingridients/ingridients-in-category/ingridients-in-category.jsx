@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import Ingridient from "./ingridient/ingridient";
 
 import styles from "./ingridients-in-category.module.css";
+import { ingridientType } from "../../../../utils/types";
 
 function IngridientsInCategory(props) {
 	const elementRef = props.categoryRefs.get(props.category.key);
@@ -31,20 +32,7 @@ IngridientsInCategory.propTypes = {
 		PropTypes.shape({ current: PropTypes.instanceOf(Element) }),
 	]),
 	ingridients: PropTypes.arrayOf(
-		PropTypes.shape({
-			_id: PropTypes.string.isRequired,
-			name: PropTypes.string.isRequired,
-			type: PropTypes.string.isRequired,
-			proteins: PropTypes.number,
-			fat: PropTypes.number,
-			carbohydrates: PropTypes.number,
-			calories: PropTypes.number,
-			price: PropTypes.number.isRequired,
-			image: PropTypes.string.isRequired,
-			image_mobile: PropTypes.string,
-			image_large: PropTypes.string.isRequired,
-			__v: PropTypes.number,
-		})
+		PropTypes.shape(ingridientType)
 	),
 };
 
