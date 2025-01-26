@@ -1,4 +1,6 @@
 .ingridients {
 	overflow: hidden;
 	overflow-y: auto;
+	margin-right: calc(var(--offset-base-size) * -2);
+	padding-right: calc(var(--offset-base-size) * -4);
 }
