@@ -1,0 +1,31 @@
+body {
+	/* scrollbar-width: thin;
+	scrollbar-color: #8585AD #2F2F37 ; */
+	scrollbar-width: initial;
+	scrollbar-color: initial;
+}
+
+*::-webkit-scrollbar {
+	width: calc(var(--offset-base-size) * 2);
+}
+
+*::-webkit-scrollbar-track {
+	background: #2F2F37;
+}
+
+*::-webkit-scrollbar-thumb {
+	background-color: #8585AD;
+	border: unset;
+	border-radius: 0px;
+	-webkit-border-radius: 0px;
+	-moz-border-radius: 0px;
+	-ms-border-radius: 0px;
+	-o-border-radius: 0px;
+}
+
+.container {
+	position: relative;
+	max-width: 1300px;
+	margin-left: auto;
+	margin-right: auto;
+}
