@@ -1,39 +1,31 @@
 import PropTypes from "prop-types";
-
 import Ingridient from "./ingridient/ingridient";
-
 import styles from "./ingridients-in-category.module.css";
 import { ingridientType } from "../../../../utils/types";
+import { useSelector } from "react-redux";
+import { getIngridientsByCategory } from "../../../../services/ingridients/reducer";
+import { useEffect } from "react";
 
 function IngridientsInCategory(props) {
-	const elementRef = props.categoryRefs.get(props.category.key);
+	const { category, categoryRefs } = props;
+	const ingridients = useSelector((state) =>
+		getIngridientsByCategory(state, category.key)
+	);
+	const categoryRef = categoryRefs.get(category.key);
+
 	return (
-		<>
-			<h3 ref={elementRef} className="mb-6 text text_type_main-medium">
-				{props.category.title}
+		<div ref={categoryRef}>
+			<h3 className="mb-6 text text_type_main-medium">
+				{category.title}
 			</h3>
 
 			<div className={`${styles.list} pl-4 pr-4 pb-10`}>
-				{props.ingridients.map((ingridient, key) => (
+				{ingridients.map((ingridient) => (
 					<Ingridient key={ingridient._id} {...ingridient} />
 				))}
 			</div>
-		</>
+		</div>
 	);
 }
-
-IngridientsInCategory.propTypes = {
-	category: PropTypes.shape({
-		key: PropTypes.string.isRequired,
-		title: PropTypes.string.isRequired,
-	}),
-	categoryRefs: PropTypes.oneOfType([
-		PropTypes.func,
-		PropTypes.shape({ current: PropTypes.instanceOf(Element) }),
-	]),
-	ingridients: PropTypes.arrayOf(
-		PropTypes.shape(ingridientType)
-	),
-};
 
 export default IngridientsInCategory;

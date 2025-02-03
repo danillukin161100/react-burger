@@ -1,14 +1,21 @@
-import { useEffect, useRef, useState } from "react";
+import { createRef, useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 
 import IngridientsInCategory from "./ingridients-in-category/ingridients-in-category";
 
 import styles from "./ingridients.module.css";
 import { ingridientType } from "../../../utils/types";
+import { categories } from "../../../utils/data";
+import { useDispatch } from "react-redux";
+import { setCurrentCategory } from "../../../services/ingridients/actions";
 
 function Ingridients(props) {
-	const ref = useRef(null);
+	const ref = useRef();
+	const categoryRefs = new Map(
+		categories.map((category) => [category.key, createRef()])
+	);
 	const [maxHeight, setMaxHeight] = useState(0);
+	const dispatch = useDispatch();
 
 	useEffect(() => {
 		if (!ref.current) return;
@@ -32,25 +39,50 @@ function Ingridients(props) {
 		};
 	}, [ref.current]);
 
+	useEffect(() => {
+		const scrollHandler = () => {
+			const parentTop = ref.current.scrollTop;
+
+			for (const [key, categoryRef] of categoryRefs) {
+				if (!categoryRef.current) return;
+
+				const categoryBottom =
+					categoryRef.current.getBoundingClientRect().bottom;
+
+				if (categoryBottom > parentTop) {
+					// диспач на currentIngridient
+					dispatch(setCurrentCategory(key));
+					break;
+				}
+			}
+		};
+
+		ref.current?.addEventListener("scroll", scrollHandler);
+
+		return () => {
+			ref.current?.removeEventListener("scroll", scrollHandler);
+		};
+	}, [categoryRefs]);
+
+	// useEffect(() => {
+	// 	categoryRefs.forEach((categoryRef, key) => {
+	// 		console.log(key);
+	// 		setCategoriesTop({ ...categoriesTop, [key]: 1 });
+	// 	});
+	// }, []);
+
 	return (
 		<div
 			ref={ref}
 			className={`${styles.ingridients}`}
 			style={{ maxHeight }}
 		>
-			{props.categories.map((category, key) => {
-				const ingridientsInCat = props.ingridients.filter(
-					(ingridient) => {
-						return ingridient.type === category.key;
-					}
-				);
-
+			{categories.map((category, key) => {
 				return (
 					<IngridientsInCategory
 						key={key}
 						category={category}
-						ingridients={ingridientsInCat}
-						categoryRefs={props.categoryRefs}
+						categoryRefs={categoryRefs}
 					/>
 				);
 			})}
@@ -65,13 +97,7 @@ Ingridients.propTypes = {
 			title: PropTypes.string.isRequired,
 		})
 	),
-	categoryRefs: PropTypes.oneOfType([
-		PropTypes.func,
-		PropTypes.shape({ current: PropTypes.instanceOf(Element) }),
-	]),
-	ingridients: PropTypes.arrayOf(
-		PropTypes.shape(ingridientType)
-	),
+	ingridients: PropTypes.arrayOf(PropTypes.shape(ingridientType)),
 };
 
 export default Ingridients;

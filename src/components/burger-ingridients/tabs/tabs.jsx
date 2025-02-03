@@ -1,36 +1,21 @@
-import { useState, useCallback } from "react";
 import PropTypes from "prop-types";
-
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
-
 import styles from "./tabs.module.css";
+import { categories } from "../../../utils/data";
+import { useSelector } from "react-redux";
+import { getCurrentCategoryKey } from "../../../services/ingridients/reducer";
 
-function Tabs(props) {
-	const [current, setCurrent] = useState(props.categories[0]?.key);
-
-	const handleCategoryClick = useCallback(
-		(categoryKey) => {
-			const elementRef = props.categoryRefs.get(categoryKey);
-			elementRef?.current?.scrollIntoView({
-				behavior: "smooth",
-				block: "start",
-			});
-		},
-		[props.categoryRefs]
-	);
+function Tabs() {
+	const currentCategoryKey = useSelector(getCurrentCategoryKey);
 
 	return (
 		<div className={`${styles.wrap} mb-10`}>
-			{props.categories?.map((category) => {
+			{categories.map((category) => {
 				return (
 					<Tab
 						key={category.key}
 						value={category.key}
-						active={current === category.key}
-						onClick={(current) => {
-							setCurrent(current);
-							handleCategoryClick(current);
-						}}
+						active={currentCategoryKey === category.key}
 					>
 						{category.title}
 					</Tab>
@@ -39,18 +24,5 @@ function Tabs(props) {
 		</div>
 	);
 }
-
-Tabs.propType = {
-	categories: PropTypes.arrayOf(
-		PropTypes.shape({
-			key: PropTypes.string.isRequired,
-			title: PropTypes.string.isRequired,
-		})
-	),
-	categoryRefs: PropTypes.oneOfType([
-		PropTypes.func,
-		PropTypes.shape({ current: PropTypes.instanceOf(Element) }),
-	]),
-};
 
 export default Tabs;

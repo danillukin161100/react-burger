@@ -4,12 +4,12 @@ export const categories = [
 		title: "Булки",
 	},
 	{
-		key: 'sauce',
-		title: "Соусы",
-	},
-	{
 		key: 'main',
 		title: "Начинки",
+	},
+	{
+		key: 'sauce',
+		title: "Соусы",
 	},
 ]
 export const ingridients = [
