@@ -9,21 +9,23 @@ import IngridientDetails from "./ingridient-details/ingridient-details.jsx";
 
 import styles from "./ingridient.module.css";
 import { ingridientType } from "../../../../../utils/types.js";
+import { useSelector } from "react-redux";
+import { getIngridientCount } from "../../../../../services/burger-constructor/reducer.js";
+import { useDrag } from "react-dnd";
 
 function Ingridient(props) {
-	const [count, setCount] = useState(0);
+	const count = useSelector(state => {
+		getIngridientCount(state, props)
+	})
 	const [currentIngridient, setCurrentIngridient] = useState(null);
 
-	useEffect(() => {
-		/**
-		 * Пока не реализован функционал добавления в конструктор
-		 * реализовал через localStorage в качестве временного решения
-		 */
-		const currentIngirdients = JSON.parse(
-			localStorage.getItem("constructorIngridients")
-		)?.filter((ingridient) => props._id === ingridient._id);
-		setCount(currentIngirdients.length);
-	}, []);
+	const [{isDrag}, dragRef] = useDrag({
+		type: 'ingridient',
+		item: props,
+		collect: monitor => ({
+			isDrag: monitor.isDragging(),
+		})
+	});
 
 	const onClose = (e) => {
 		e.stopPropagation();
@@ -34,6 +36,7 @@ function Ingridient(props) {
 		<div
 			className={styles.card}
 			onClick={() => setCurrentIngridient(props)}
+			ref={dragRef}
 		>
 			{count > 0 && <Counter count={count} size="default" />}
 			<img

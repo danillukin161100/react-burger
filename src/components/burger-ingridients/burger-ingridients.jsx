@@ -1,6 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { useSelector, useDispatch } from "react-redux";
 
 import Tabs from "./tabs/tabs";
 import Ingridients from "./ingridients/ingridients";

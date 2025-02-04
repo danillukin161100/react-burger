@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
-
 import {
 	ConstructorElement,
 	CurrencyIcon,
@@ -9,16 +8,46 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import Modal from "../modal/modal";
 import OrderDetails from "./order-details/order-details";
-
 import { ingridientType } from "../../utils/types";
 import styles from "./burger-constructor.module.css";
+import { useDispatch, useSelector } from "react-redux";
+import {
+	getBun,
+	getIngridients,
+	getTotal,
+} from "../../services/burger-constructor/reducer";
+import EmptyElement from "./empty-element/empty-element";
+import { useDrop } from "react-dnd";
+import {
+	addIngridient,
+	removeIngridient,
+} from "../../services/burger-constructor/actions";
 
-function BurgerConstructor({ ingridients }) {
-	const bun = ingridients.find((ingridient) => ingridient.type === "bun");
+function BurgerConstructor() {
+	const dispatch = useDispatch();
+	const bun = useSelector(getBun);
+	const total = useSelector((state) => getTotal(state));
+	const ingridients = useSelector(getIngridients);
 	const listRef = useRef();
 	const constructorRef = useRef();
-	const [maxHeight, setMaxHeight] = useState(0);
+	const [, drop] = useDrop({
+		accept: "ingridient",
+		drop(ingridient) {
+			dispatch(addIngridient(ingridient));
+		},
+	});
+
+	// const [maxHeight, setMaxHeight] = useState(0);
+	const [maxHeight, setMaxHeight] = useState(100);
 	const [orderModalActive, setOrderModalActive] = useState(false);
+
+	const onDelete = (key) => {
+		dispatch(removeIngridient(key));
+	};
+	const openOrderModal = (e) => {
+		e.stopPropagation();
+		setOrderModalActive(true);
+	};
 
 	const updateHeight = useCallback(() => {
 		const windowHeight = window.innerHeight;
@@ -44,19 +73,6 @@ function BurgerConstructor({ ingridients }) {
 
 		setMaxHeight(result);
 	});
-
-	const getIngridientSum = () => {
-		return ingridients.reduce(
-			(sum, ingridient) => sum + ingridient.price,
-			0
-		);
-	};
-
-	const openOrderModal = (e) => {
-		e.stopPropagation();
-		setOrderModalActive(true);
-	};
-
 	useEffect(() => {
 		updateHeight();
 		window.addEventListener("resize", updateHeight);
@@ -66,18 +82,24 @@ function BurgerConstructor({ ingridients }) {
 		};
 	}, []);
 
+	drop(constructorRef);
+
 	return (
 		<section
 			className={`${styles.wrap} burger-constructor pt-25 pl-5 pr-9 pb-10`}
 			ref={constructorRef}
 		>
-			<ConstructorElement
-				type={"top"}
-				isLocked={true}
-				text={`${bun.name} (верх)`}
-				price={bun.price}
-				thumbnail={bun.image}
-			/>
+			{bun ? (
+				<ConstructorElement
+					type={"top"}
+					isLocked={true}
+					text={`${bun.name} (верх)`}
+					price={bun.price}
+					thumbnail={bun.image}
+				/>
+			) : (
+				<EmptyElement type="top" text="Выбирете булку" />
+			)}
 			<div
 				className={styles.list}
 				style={{
@@ -85,35 +107,40 @@ function BurgerConstructor({ ingridients }) {
 				}}
 				ref={listRef}
 			>
-				{ingridients?.map((ingridient, index) => {
-					if (ingridient.type === "bun") {
-						return;
-					}
-
-					return (
-						<div key={`${ingridient._id}`} className={styles.item}>
+				{ingridients.length ? (
+					ingridients.map((ingridient) => (
+						<div key={`${ingridient.key}`} className={styles.item}>
 							<DragIcon />
 							<ConstructorElement
 								isLocked={false}
 								text={ingridient.name}
 								price={ingridient.price}
 								thumbnail={ingridient.image}
+								handleClose={(e, key = ingridient.key) =>
+									onDelete(key)
+								}
 							/>
 						</div>
-					);
-				})}
+					))
+				) : (
+					<EmptyElement type="middle" text="Выбирете ингридиент" />
+				)}
 			</div>
-			<ConstructorElement
-				type={"bottom"}
-				isLocked={true}
-				text={`${bun.name} (низ)`}
-				price={bun.price}
-				thumbnail={bun.image}
-			/>
+			{bun ? (
+				<ConstructorElement
+					type={"bottom"}
+					isLocked={true}
+					text={`${bun.name} (низ)`}
+					price={bun.price}
+					thumbnail={bun.image}
+				/>
+			) : (
+				<EmptyElement type="bottom" text="Выбирете булку" />
+			)}
 
 			<div className={`${styles.footer} pt-6`}>
 				<span className="text text_type_digits-medium mr-10">
-					{getIngridientSum()} <CurrencyIcon />
+					{total} <CurrencyIcon />
 				</span>
 				<Button onClick={openOrderModal} htmlType="button" size="large">
 					Оформить заказ
@@ -130,9 +157,7 @@ function BurgerConstructor({ ingridients }) {
 }
 
 BurgerConstructor.propTypes = {
-	ingridients: PropTypes.arrayOf(
-		PropTypes.shape(ingridientType)
-	),
+	ingridients: PropTypes.arrayOf(PropTypes.shape(ingridientType)),
 };
 
 export default BurgerConstructor;

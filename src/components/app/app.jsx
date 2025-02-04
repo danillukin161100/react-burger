@@ -25,7 +25,7 @@ function App() {
 				) : (
 					<>
 						<BurgerIngridients />
-						{/* <BurgerConstructor ingridients={ingridientsData} /> */}
+						<BurgerConstructor />
 					</>
 				)}
 			</main>

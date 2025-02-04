@@ -1,5 +1,5 @@
 import { createAction, createAsyncThunk } from "@reduxjs/toolkit";
-import { categories, INGRIDIENTS_API_URL } from "../../utils/data";
+import { INGRIDIENTS_API_URL } from "../../utils/data";
 
 export const loadIngridients = createAsyncThunk(
     'ingridients/loadIngridients',

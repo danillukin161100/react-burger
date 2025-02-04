@@ -1,10 +1,7 @@
-import PropTypes from "prop-types";
 import Ingridient from "./ingridient/ingridient";
 import styles from "./ingridients-in-category.module.css";
-import { ingridientType } from "../../../../utils/types";
 import { useSelector } from "react-redux";
 import { getIngridientsByCategory } from "../../../../services/ingridients/reducer";
-import { useEffect } from "react";
 
 function IngridientsInCategory(props) {
 	const { category, categoryRefs } = props;
