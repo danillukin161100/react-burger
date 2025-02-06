@@ -4,55 +4,41 @@ import {
 	ConstructorElement,
 	CurrencyIcon,
 	Button,
-	DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import Modal from "../modal/modal";
 import OrderDetails from "./order-details/order-details";
 import { ingridientType } from "../../utils/types";
 import styles from "./burger-constructor.module.css";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import {
 	getBun,
 	getIngridients,
 	getTotal,
 } from "../../services/burger-constructor/reducer";
 import EmptyElement from "./empty-element/empty-element";
-import { useDrop } from "react-dnd";
-import {
-	addIngridient,
-	removeIngridient,
-} from "../../services/burger-constructor/actions";
+import ConstructorIngridient from "./constructor-ingridient/constructor-ingridient";
 
 function BurgerConstructor() {
-	const dispatch = useDispatch();
 	const bun = useSelector(getBun);
 	const total = useSelector((state) => getTotal(state));
 	const ingridients = useSelector(getIngridients);
 	const listRef = useRef();
 	const constructorRef = useRef();
-	const [, drop] = useDrop({
-		accept: "ingridient",
-		drop(ingridient) {
-			dispatch(addIngridient(ingridient));
-		},
-	});
 
-	// const [maxHeight, setMaxHeight] = useState(0);
 	const [maxHeight, setMaxHeight] = useState(100);
+	const [isScroll, setIsScroll] = useState(false);
 	const [orderModalActive, setOrderModalActive] = useState(false);
-
-	const onDelete = (key) => {
-		dispatch(removeIngridient(key));
-	};
 	const openOrderModal = (e) => {
 		e.stopPropagation();
 		setOrderModalActive(true);
 	};
 
 	const updateHeight = useCallback(() => {
+		if (!listRef?.current || !constructorRef?.current) return;
+
 		const windowHeight = window.innerHeight;
 		const listRect = listRef.current.getBoundingClientRect();
-		const constructorRect = constructorRef.current.getBoundingClientRect();
+		const constructorRect = constructorRef.current?.getBoundingClientRect();
 		const body = document.body;
 		const html = document.documentElement;
 		const documentHeight = Math.max(
@@ -70,7 +56,6 @@ function BurgerConstructor() {
 		const offsetBottom =
 			((listOffsetBottom - constructorOffsetBottom) / windowHeight) * 100;
 		const result = 100 - offsetBottom - offsetTop;
-
 		setMaxHeight(result);
 	});
 	useEffect(() => {
@@ -82,7 +67,13 @@ function BurgerConstructor() {
 		};
 	}, []);
 
-	drop(constructorRef);
+	useEffect(() => {
+		if (!listRef?.current) return;
+		
+		setIsScroll(
+			listRef.current.scrollHeight > listRef.current.clientHeight
+		);
+	}, [ingridients?.length]);
 
 	return (
 		<section
@@ -90,18 +81,12 @@ function BurgerConstructor() {
 			ref={constructorRef}
 		>
 			{bun ? (
-				<ConstructorElement
-					type={"top"}
-					isLocked={true}
-					text={`${bun.name} (верх)`}
-					price={bun.price}
-					thumbnail={bun.image}
-				/>
+				<ConstructorIngridient {...bun} formType="top" />
 			) : (
 				<EmptyElement type="top" text="Выбирете булку" />
 			)}
 			<div
-				className={styles.list}
+				className={`${styles.list} ${isScroll && styles.hasScroll}`}
 				style={{
 					maxHeight: `${maxHeight}vh`,
 				}}
@@ -109,31 +94,17 @@ function BurgerConstructor() {
 			>
 				{ingridients.length ? (
 					ingridients.map((ingridient) => (
-						<div key={`${ingridient.key}`} className={styles.item}>
-							<DragIcon />
-							<ConstructorElement
-								isLocked={false}
-								text={ingridient.name}
-								price={ingridient.price}
-								thumbnail={ingridient.image}
-								handleClose={(e, key = ingridient.key) =>
-									onDelete(key)
-								}
-							/>
-						</div>
+						<ConstructorIngridient
+							{...ingridient}
+							key={ingridient.id}
+						/>
 					))
 				) : (
 					<EmptyElement type="middle" text="Выбирете ингридиент" />
 				)}
 			</div>
 			{bun ? (
-				<ConstructorElement
-					type={"bottom"}
-					isLocked={true}
-					text={`${bun.name} (низ)`}
-					price={bun.price}
-					thumbnail={bun.image}
-				/>
+				<ConstructorIngridient {...bun} formType="bottom" />
 			) : (
 				<EmptyElement type="bottom" text="Выбирете булку" />
 			)}
