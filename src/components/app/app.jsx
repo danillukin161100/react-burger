@@ -7,6 +7,8 @@ import styles from "./app.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { loadIngridients } from "../../services/ingridients/actions.js";
 import Loader from "../loader/loader.jsx";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 
 function App() {
 	const dispatch = useDispatch();
@@ -23,10 +25,10 @@ function App() {
 				{loading ? (
 					<Loader fullscreen={true} />
 				) : (
-					<>
+					<DndProvider backend={HTML5Backend}>
 						<BurgerIngridients />
 						<BurgerConstructor />
-					</>
+					</DndProvider>
 				)}
 			</main>
 		</>
