@@ -69,7 +69,7 @@ function BurgerConstructor() {
 
 	useEffect(() => {
 		if (!listRef?.current) return;
-		
+
 		setIsScroll(
 			listRef.current.scrollHeight > listRef.current.clientHeight
 		);
@@ -95,8 +95,8 @@ function BurgerConstructor() {
 				{ingridients.length ? (
 					ingridients.map((ingridient) => (
 						<ConstructorIngridient
-							{...ingridient}
 							key={ingridient.id}
+							{...ingridient}
 						/>
 					))
 				) : (

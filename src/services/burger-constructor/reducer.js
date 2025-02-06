@@ -44,7 +44,7 @@ export const burgerConstructorSlice = createSlice({
             .addCase(addIngridient, (state, action) => {
                 const ingridient = action.payload;
                 const bun = state.bun;
-                const ingridients = JSON.parse(JSON.stringify(state.ingridients));
+                const ingridients = state.ingridients;
                 const current = ingridients.find(item => ingridient.id === item.id);
 
                 /* Обработчик булки */
