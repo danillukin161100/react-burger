@@ -9,7 +9,7 @@ import { categories } from "../../../utils/data";
 import { useDispatch } from "react-redux";
 import { setCurrentCategory } from "../../../services/ingredients/actions";
 
-function Ingredients(props) {
+function Ingredients() {
 	const ref = useRef();
 	const categoryRefs = new Map(categories.map((category) => [category.key, createRef()]));
 	const [maxHeight, setMaxHeight] = useState(0);
@@ -45,7 +45,6 @@ function Ingredients(props) {
 				const categoryBottom = categoryRef.current.getBoundingClientRect().bottom;
 
 				if (categoryBottom > parentTop) {
-					// диспач на currentIngredient
 					dispatch(setCurrentCategory(key));
 					break;
 				}
@@ -58,13 +57,6 @@ function Ingredients(props) {
 			ref.current?.removeEventListener("scroll", scrollHandler);
 		};
 	}, [categoryRefs]);
-
-	// useEffect(() => {
-	// 	categoryRefs.forEach((categoryRef, key) => {
-	// 		console.log(key);
-	// 		setCategoriesTop({ ...categoriesTop, [key]: 1 });
-	// 	});
-	// }, []);
 
 	return (
 		<div
@@ -84,15 +76,5 @@ function Ingredients(props) {
 		</div>
 	);
 }
-
-Ingredients.propTypes = {
-	categories: PropTypes.arrayOf(
-		PropTypes.shape({
-			key: PropTypes.string.isRequired,
-			title: PropTypes.string.isRequired,
-		}),
-	),
-	ingredients: PropTypes.arrayOf(PropTypes.shape(ingredientType)),
-};
 
 export default Ingredients;

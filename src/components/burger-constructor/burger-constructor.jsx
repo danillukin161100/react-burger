@@ -1,9 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import PropTypes from "prop-types";
-import { ConstructorElement, CurrencyIcon, Button } from "@ya.praktikum/react-developer-burger-ui-components";
+import { CurrencyIcon, Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import Modal from "../modal/modal";
 import OrderDetails from "./order-details/order-details";
-import { ingredientType } from "../../utils/types";
 import styles from "./burger-constructor.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { getBun, getIngredients, getTotal } from "../../services/burger-constructor/reducer";
@@ -48,7 +46,6 @@ function BurgerConstructor() {
 	const createOrderHandler = () => {
 		let orderIngredients = [...ingredients.map((ingredient) => ingredient._id)];
 		if (bun) orderIngredients = [bun._id, ...orderIngredients, bun._id];
-		console.log(orderIngredients);
 		dispatch(createOrder({ingredients: orderIngredients}));
 	};
 

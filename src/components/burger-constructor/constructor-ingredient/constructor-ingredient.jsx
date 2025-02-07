@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import { ConstructorElement, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./constructor-ingredient.module.css";
 import { useDispatch, useSelector } from "react-redux";
@@ -5,6 +6,7 @@ import { addIngredient, removeIngredient, sortIngredients } from "../../../servi
 import { useDrag, useDrop } from "react-dnd";
 import { useRef } from "react";
 import { getBun } from "../../../services/burger-constructor/reducer";
+import { ingredientType } from "../../../utils/types";
 
 function ConstructorIngredient(props) {
 	const dispatch = useDispatch();
@@ -35,6 +37,7 @@ function ConstructorIngredient(props) {
 	dragRef(dropRef(ref));
 
 	const opacity = isDragging ? 0 : 1;
+
 	return (
 		<div
 			className={styles.item}
@@ -53,5 +56,10 @@ function ConstructorIngredient(props) {
 		</div>
 	);
 }
+
+ConstructorIngredient.propTypes = {
+	...ingredientType,
+	formType: PropTypes.string,
+};
 
 export default ConstructorIngredient;

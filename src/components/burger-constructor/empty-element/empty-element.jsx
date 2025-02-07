@@ -1,13 +1,12 @@
-import { useDispatch, useSelector } from "react-redux";
+import PropTypes from "prop-types";
+import { useDispatch } from "react-redux";
 import styles from "./empty-element.module.css";
 import { useDrop } from "react-dnd";
 import { addIngredient } from "../../../services/burger-constructor/actions";
-import { getBun } from "../../../services/burger-constructor/reducer";
 
 function EmptyElement(props) {
 	const { type, text } = props;
 	const dispatch = useDispatch();
-	const bun = useSelector(getBun);
 	const [, dropRef] = useDrop({
 		accept: "constructorIngredient",
 		hover: (item, monitor) => {
@@ -26,5 +25,10 @@ function EmptyElement(props) {
 		</div>
 	);
 }
+
+EmptyElement.propTypes = {
+	type: PropTypes.string,
+	text: PropTypes.string.isRequired,
+};
 
 export default EmptyElement;

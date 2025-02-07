@@ -1,11 +1,7 @@
 import React from "react";
-import PropTypes from "prop-types";
-
 import Tabs from "./tabs/tabs";
 import Ingredients from "./ingredients/ingredients";
-
 import styles from "./burger-ingredients.module.css";
-import { ingredientType } from "../../utils/types";
 import { useDispatch, useSelector } from "react-redux";
 import { getModalIngredient } from "../../services/ingredients/reducer";
 import { removeModalIngredient } from "../../services/ingredients/actions";
@@ -33,21 +29,11 @@ function BurgerIngredients() {
 					onClose={modalCloseHandler}
 					header="Детали ингридиента"
 				>
-					<IngredientDetails {...modal} />
+					<IngredientDetails />
 				</Modal>
 			)}
 		</section>
 	);
 }
-
-BurgerIngredients.propTypes = {
-	categories: PropTypes.arrayOf(
-		PropTypes.shape({
-			key: PropTypes.string.isRequired,
-			title: PropTypes.string.isRequired,
-		}),
-	),
-	ingredients: PropTypes.arrayOf(PropTypes.shape(ingredientType)),
-};
 
 export default BurgerIngredients;

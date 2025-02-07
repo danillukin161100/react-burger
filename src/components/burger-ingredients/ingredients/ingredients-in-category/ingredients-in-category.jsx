@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import Ingredient from "./ingredient/ingredient";
 import styles from "./ingredients-in-category.module.css";
 import { useSelector } from "react-redux";
@@ -23,5 +24,13 @@ function IngredientsInCategory(props) {
 		</div>
 	);
 }
+
+IngredientsInCategory.propTypes = {
+	category: PropTypes.shape({
+		key: PropTypes.string.isRequired,
+		title: PropTypes.string.isRequired,
+	}),
+	categoryRefs: PropTypes.oneOfType([PropTypes.func, PropTypes.shape({ current: PropTypes.instanceOf(Element) })]).isRequired,
+};
 
 export default IngredientsInCategory;
