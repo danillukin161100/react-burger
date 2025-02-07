@@ -4,6 +4,9 @@ export const createOrder = createAsyncThunk("orders/createOrder", async (ingredi
 	return fetch("https://norma.nomoreparties.space/api/orders", {
 		method: "POST",
 		body: JSON.stringify(ingredients),
+		headers: {
+			"Content-Type": "application/json",
+		},
 	})
 		.then((res) => (res.ok ? res.json() : Promise.reject(`Status ${res.status}`)))
 		.then((res) => res.order);

@@ -10,7 +10,7 @@ import { getBun, getIngredients, getTotal } from "../../services/burger-construc
 import EmptyElement from "./empty-element/empty-element";
 import ConstructorIngredient from "./constructor-ingredient/constructor-ingredient";
 import Loader from "../loader/loader";
-import { createOrder, openOrder } from "../../services/orders/actions";
+import { closeOrder, createOrder, openOrder } from "../../services/orders/actions";
 
 function BurgerConstructor() {
 	const dispatch = useDispatch();
@@ -57,7 +57,7 @@ function BurgerConstructor() {
 	};
 
 	const closeOrderHandler = () => {
-		dispatch(closeOrderHandler());
+		dispatch(closeOrder());
 	};
 
 	useEffect(() => {
@@ -150,7 +150,7 @@ function BurgerConstructor() {
 				)}
 
 				{modal && (
-					<Modal onClose={() => setOrderModalActive(false)}>
+					<Modal onClose={() => closeOrderHandler()}>
 						<OrderDetails />
 					</Modal>
 				)}
