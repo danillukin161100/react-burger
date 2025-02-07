@@ -12,7 +12,7 @@ export const categories = [
 		title: "Соусы",
 	},
 ];
-export const ingridients = [
+export const ingredients = [
 	{
 		_id: "60666c42cc7b410027a1a9b1",
 		name: "Краторная булка N-200i",
@@ -225,13 +225,13 @@ export const ingridients = [
 	},
 ];
 
-export const ingridientParams = {
+export const ingredientParams = {
 	calories: "Калории,ккал",
 	proteins: "Белки, г",
 	fat: "Жиры, г",
 	carbohydrates: "Углеводы, г",
 };
 
-export const INGRIDIENTS_API_URL = "https://norma.nomoreparties.space/api/ingredients";
+export const IngredientS_API_URL = "https://norma.nomoreparties.space/api/ingredients";
 
-export default { ingridients, categories, ingridientParams };
+export default { ingredients, categories, ingredientParams };

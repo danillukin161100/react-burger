@@ -1,8 +1,8 @@
 import PropTypes from "prop-types";
 
-import styles from "./ingridient-details-item.module.css";
+import styles from "./ingredient-details-item.module.css";
 
-function IngridientDetailsItem({ name, value }) {
+function IngredientDetailsItem({ name, value }) {
 	return (
 		<div className="text text_type_main-default text_color_inactive">
 			<span className="mb-2">{name}</span>
@@ -11,9 +11,9 @@ function IngridientDetailsItem({ name, value }) {
 	);
 }
 
-IngridientDetailsItem.propTypes = {
+IngredientDetailsItem.propTypes = {
 	name: PropTypes.string,
 	value: PropTypes.number,
 };
 
-export default IngridientDetailsItem;
+export default IngredientDetailsItem;

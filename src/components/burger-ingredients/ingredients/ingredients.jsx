@@ -1,15 +1,15 @@
 import { createRef, useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 
-import IngridientsInCategory from "./ingridients-in-category/ingridients-in-category";
+import IngredientsInCategory from "./ingredients-in-category/ingredients-in-category";
 
-import styles from "./ingridients.module.css";
-import { ingridientType } from "../../../utils/types";
+import styles from "./ingredients.module.css";
+import { ingredientType } from "../../../utils/types";
 import { categories } from "../../../utils/data";
 import { useDispatch } from "react-redux";
-import { setCurrentCategory } from "../../../services/ingridients/actions";
+import { setCurrentCategory } from "../../../services/ingredients/actions";
 
-function Ingridients(props) {
+function Ingredients(props) {
 	const ref = useRef();
 	const categoryRefs = new Map(categories.map((category) => [category.key, createRef()]));
 	const [maxHeight, setMaxHeight] = useState(0);
@@ -45,7 +45,7 @@ function Ingridients(props) {
 				const categoryBottom = categoryRef.current.getBoundingClientRect().bottom;
 
 				if (categoryBottom > parentTop) {
-					// диспач на currentIngridient
+					// диспач на currentIngredient
 					dispatch(setCurrentCategory(key));
 					break;
 				}
@@ -69,12 +69,12 @@ function Ingridients(props) {
 	return (
 		<div
 			ref={ref}
-			className={`${styles.ingridients}`}
+			className={`${styles.ingredients}`}
 			style={{ maxHeight }}
 		>
 			{categories.map((category, key) => {
 				return (
-					<IngridientsInCategory
+					<IngredientsInCategory
 						key={key}
 						category={category}
 						categoryRefs={categoryRefs}
@@ -85,14 +85,14 @@ function Ingridients(props) {
 	);
 }
 
-Ingridients.propTypes = {
+Ingredients.propTypes = {
 	categories: PropTypes.arrayOf(
 		PropTypes.shape({
 			key: PropTypes.string.isRequired,
 			title: PropTypes.string.isRequired,
 		}),
 	),
-	ingridients: PropTypes.arrayOf(PropTypes.shape(ingridientType)),
+	ingredients: PropTypes.arrayOf(PropTypes.shape(ingredientType)),
 };
 
-export default Ingridients;
+export default Ingredients;

@@ -3,7 +3,7 @@ import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./tabs.module.css";
 import { categories } from "../../../utils/data";
 import { useSelector } from "react-redux";
-import { getCurrentCategoryKey } from "../../../services/ingridients/reducer";
+import { getCurrentCategoryKey } from "../../../services/ingredients/reducer";
 
 function Tabs() {
 	const currentCategoryKey = useSelector(getCurrentCategoryKey);

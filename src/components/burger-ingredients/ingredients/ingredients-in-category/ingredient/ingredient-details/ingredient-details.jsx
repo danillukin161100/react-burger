@@ -1,11 +1,11 @@
 import PropTypes from "prop-types";
 
-import IngridientDetailsList from "./ingridient-details-list/ingridient-details-list";
+import IngredientDetailsList from "./ingredient-details-list/ingredient-details-list";
 
-import { ingridientType } from "../../../../../../utils/types";
-import styles from "./ingridient-details.module.css";
+import { ingredientType } from "../../../../../../utils/types";
+import styles from "./ingredient-details.module.css";
 
-function IngridientDetails(props) {
+function IngredientDetails(props) {
 	return (
 		<div className={styles.wrap}>
 			<img
@@ -14,7 +14,7 @@ function IngridientDetails(props) {
 				alt={props.name}
 			/>
 			<p className={`${styles.title} text text_type_main-medium`}>{props.name}</p>
-			<IngridientDetailsList
+			<IngredientDetailsList
 				calories={props.calories}
 				proteins={props.proteins}
 				carbohydrates={props.carbohydrates}
@@ -24,6 +24,6 @@ function IngridientDetails(props) {
 	);
 }
 
-IngridientDetails.propTypes = ingridientType;
+IngredientDetails.propTypes = ingredientType;
 
-export default IngridientDetails;
+export default IngredientDetails;

@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 
-export const ingridientType = {
+export const ingredientType = {
 	_id: PropTypes.string.isRequired,
 	name: PropTypes.string.isRequired,
 	type: PropTypes.string.isRequired,
@@ -15,4 +15,4 @@ export const ingridientType = {
 	__v: PropTypes.number,
 };
 
-export default { ingridientType };
+export default { ingredientType };

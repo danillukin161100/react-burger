@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import styles from "./empty-element.module.css";
 import { useDrop } from "react-dnd";
-import { addIngridient } from "../../../services/burger-constructor/actions";
+import { addIngredient } from "../../../services/burger-constructor/actions";
 import { getBun } from "../../../services/burger-constructor/reducer";
 
 function EmptyElement(props) {
@@ -9,9 +9,9 @@ function EmptyElement(props) {
 	const dispatch = useDispatch();
 	const bun = useSelector(getBun);
 	const [, dropRef] = useDrop({
-		accept: "constructorIngridient",
+		accept: "constructorIngredient",
 		hover: (item, monitor) => {
-			dispatch(addIngridient(item));
+			dispatch(addIngredient(item));
 		},
 	});
 	return (

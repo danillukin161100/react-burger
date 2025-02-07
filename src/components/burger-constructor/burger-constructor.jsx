@@ -3,27 +3,29 @@ import PropTypes from "prop-types";
 import { ConstructorElement, CurrencyIcon, Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import Modal from "../modal/modal";
 import OrderDetails from "./order-details/order-details";
-import { ingridientType } from "../../utils/types";
+import { ingredientType } from "../../utils/types";
 import styles from "./burger-constructor.module.css";
-import { useSelector } from "react-redux";
-import { getBun, getIngridients, getTotal } from "../../services/burger-constructor/reducer";
+import { useDispatch, useSelector } from "react-redux";
+import { getBun, getIngredients, getTotal } from "../../services/burger-constructor/reducer";
 import EmptyElement from "./empty-element/empty-element";
-import ConstructorIngridient from "./constructor-ingridient/constructor-ingridient";
+import ConstructorIngredient from "./constructor-ingredient/constructor-ingredient";
+import Loader from "../loader/loader";
+import { createOrder, openOrder } from "../../services/orders/actions";
 
 function BurgerConstructor() {
+	const dispatch = useDispatch();
+
 	const bun = useSelector(getBun);
 	const total = useSelector((state) => getTotal(state));
-	const ingridients = useSelector(getIngridients);
+	const ingredients = useSelector(getIngredients);
+
 	const listRef = useRef();
 	const constructorRef = useRef();
 
+	const { loading, modal, order } = useSelector((state) => state.orders);
+
 	const [maxHeight, setMaxHeight] = useState(100);
 	const [isScroll, setIsScroll] = useState(false);
-	const [orderModalActive, setOrderModalActive] = useState(false);
-	const openOrderModal = (e) => {
-		e.stopPropagation();
-		setOrderModalActive(true);
-	};
 
 	const updateHeight = useCallback(() => {
 		if (!listRef?.current || !constructorRef?.current) return;
@@ -42,6 +44,22 @@ function BurgerConstructor() {
 		const result = 100 - offsetBottom - offsetTop;
 		setMaxHeight(result);
 	});
+
+	const createOrderHandler = () => {
+		let orderIngredients = [...ingredients.map((ingredient) => ingredient._id)];
+		if (bun) orderIngredients = [bun._id, ...orderIngredients, bun._id];
+		console.log(orderIngredients);
+		dispatch(createOrder({ingredients: orderIngredients}));
+	};
+
+	const openOrderHandler = () => {
+		dispatch(openOrder());
+	};
+
+	const closeOrderHandler = () => {
+		dispatch(closeOrderHandler());
+	};
+
 	useEffect(() => {
 		updateHeight();
 		window.addEventListener("resize", updateHeight);
@@ -55,7 +73,7 @@ function BurgerConstructor() {
 		if (!listRef?.current) return;
 
 		setIsScroll(listRef.current.scrollHeight > listRef.current.clientHeight);
-	}, [ingridients?.length]);
+	}, [ingredients?.length]);
 
 	return (
 		<section
@@ -63,7 +81,7 @@ function BurgerConstructor() {
 			ref={constructorRef}
 		>
 			{bun ? (
-				<ConstructorIngridient
+				<ConstructorIngredient
 					{...bun}
 					formType="top"
 				/>
@@ -80,11 +98,11 @@ function BurgerConstructor() {
 				}}
 				ref={listRef}
 			>
-				{ingridients.length ? (
-					ingridients.map((ingridient) => (
-						<ConstructorIngridient
-							key={ingridient.id}
-							{...ingridient}
+				{ingredients.length ? (
+					ingredients.map((ingredient) => (
+						<ConstructorIngredient
+							key={ingredient.id}
+							{...ingredient}
 						/>
 					))
 				) : (
@@ -95,7 +113,7 @@ function BurgerConstructor() {
 				)}
 			</div>
 			{bun ? (
-				<ConstructorIngridient
+				<ConstructorIngredient
 					{...bun}
 					formType="bottom"
 				/>
@@ -110,15 +128,28 @@ function BurgerConstructor() {
 				<span className="text text_type_digits-medium mr-10">
 					{total} <CurrencyIcon />
 				</span>
-				<Button
-					onClick={openOrderModal}
-					htmlType="button"
-					size="large"
-				>
-					Оформить заказ
-				</Button>
 
-				{orderModalActive && (
+				{loading ? (
+					<Loader />
+				) : order ? (
+					<Button
+						onClick={openOrderHandler}
+						htmlType="button"
+						size="large"
+					>
+						Показать заказ
+					</Button>
+				) : (
+					<Button
+						onClick={createOrderHandler}
+						htmlType="button"
+						size="large"
+					>
+						Оформить заказ
+					</Button>
+				)}
+
+				{modal && (
 					<Modal onClose={() => setOrderModalActive(false)}>
 						<OrderDetails />
 					</Modal>
@@ -127,9 +158,5 @@ function BurgerConstructor() {
 		</section>
 	);
 }
-
-BurgerConstructor.propTypes = {
-	ingridients: PropTypes.arrayOf(PropTypes.shape(ingridientType)),
-};
 
 export default BurgerConstructor;

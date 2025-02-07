@@ -1,8 +1,8 @@
 import { createSelector, createSlice, nanoid } from "@reduxjs/toolkit";
-import { addIngridient, removeIngridient, sortIngridients } from "./actions";
+import { addIngredient, removeIngredient, sortIngredients } from "./actions";
 
 const initialState = {
-	ingridients: [],
+	ingredients: [],
 	bun: null,
 };
 
@@ -11,64 +11,64 @@ export const burgerConstructorSlice = createSlice({
 	reducers: {},
 	initialState,
 	selectors: {
-		getIngridients: (state) => state.ingridients,
+		getIngredients: (state) => state.ingredients,
 		getBun: (state) => state.bun,
 		getTotal: createSelector(
-			[(state) => burgerConstructorSlice.getSelectors().getIngridients(state), (state) => burgerConstructorSlice.getSelectors().getBun(state)],
-			(ingridients, bun) => {
-				const totalIngridients = ingridients.length
-					? ingridients.reduce((total, ingridient) => ingridient?.price && total + ingridient.price, 0)
+			[(state) => burgerConstructorSlice.getSelectors().getIngredients(state), (state) => burgerConstructorSlice.getSelectors().getBun(state)],
+			(ingredients, bun) => {
+				const totalIngredients = ingredients.length
+					? ingredients.reduce((total, ingredient) => ingredient?.price && total + ingredient.price, 0)
 					: 0;
 				const totalBun = bun ? bun.price * 2 : 0;
-				return totalIngridients + totalBun;
+				return totalIngredients + totalBun;
 			},
 		),
-		getIngridientCount: createSelector(
+		getIngredientCount: createSelector(
 			[
-				(state) => burgerConstructorSlice.getSelectors().getIngridients(state),
+				(state) => burgerConstructorSlice.getSelectors().getIngredients(state),
 				(state) => burgerConstructorSlice.getSelectors().getBun(state),
-				(state, currentIngridient) => currentIngridient,
+				(state, currentIngredient) => currentIngredient,
 			],
-			(ingridients, bun, currentIngridient) => {
-				if (!ingridients.length && !bun) return 0;
-				return currentIngridient.type === "bun" ? 2 : ingridients.reduce((count) => count++, 0);
+			(ingredients, bun, currentIngredient) => {
+				if (!ingredients.length && !bun) return 0;
+				return currentIngredient.type === "bun" ? 2 : ingredients.reduce((count) => count++, 0);
 			},
 		),
 	},
 	extraReducers: (builder) => {
 		builder
-			.addCase(addIngridient, (state, action) => {
-				const ingridient = action.payload;
+			.addCase(addIngredient, (state, action) => {
+				const ingredient = action.payload;
 				const bun = state.bun;
-				const ingridients = state.ingridients;
-				const current = ingridients.find((item) => ingridient.id === item.id);
+				const ingredients = state.ingredients;
+				const current = ingredients.find((item) => ingredient.id === item.id);
 
 				/* Обработчик булки */
-				if (ingridient.type === "bun") {
-					if (bun && ingridient._id === bun._id) return;
-					state.bun = ingridient;
+				if (ingredient.type === "bun") {
+					if (bun && ingredient._id === bun._id) return;
+					state.bun = ingredient;
 					return;
 				}
 
 				if (!!current) return;
-				state.ingridients.push(ingridient);
+				state.ingredients.push(ingredient);
 			})
-			.addCase(removeIngridient, (state, action) => {
-				state.ingridients = state.ingridients.filter((ingridient) => ingridient.id !== action.payload);
+			.addCase(removeIngredient, (state, action) => {
+				state.ingredients = state.ingredients.filter((ingredient) => ingredient.id !== action.payload);
 			})
-			.addCase(sortIngridients, (state, action) => {
+			.addCase(sortIngredients, (state, action) => {
 				const { item, props } = action.payload;
 
 				if (item.type === "bun") return;
 				if (item.id === props.id) return;
 
-				const currentIndex = state.ingridients.findIndex((ingridient) => ingridient.id === item.id);
-				const hoverIndex = state.ingridients.findIndex((ingridient) => ingridient.id === props.id);
+				const currentIndex = state.ingredients.findIndex((ingredient) => ingredient.id === item.id);
+				const hoverIndex = state.ingredients.findIndex((ingredient) => ingredient.id === props.id);
 
-				state.ingridients.splice(currentIndex, 1);
-				state.ingridients.splice(hoverIndex, 0, item);
+				state.ingredients.splice(currentIndex, 1);
+				state.ingredients.splice(hoverIndex, 0, item);
 			});
 	},
 });
 
-export const { getIngridients, getBun, getTotal, getIngridientCount } = burgerConstructorSlice.selectors;
+export const { getIngredients, getBun, getTotal, getIngredientCount } = burgerConstructorSlice.selectors;

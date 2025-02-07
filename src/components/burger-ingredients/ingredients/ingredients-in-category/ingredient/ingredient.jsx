@@ -2,33 +2,33 @@ import { useEffect, useState } from "react";
 
 import { Counter, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import styles from "./ingridient.module.css";
-import { ingridientType } from "../../../../../utils/types.js";
+import styles from "./ingredient.module.css";
+import { ingredientType } from "../../../../../utils/types.js";
 import { useDispatch, useSelector } from "react-redux";
-import { getIngridientCount } from "../../../../../services/burger-constructor/reducer.js";
+import { getIngredientCount } from "../../../../../services/burger-constructor/reducer.js";
 import { useDrag } from "react-dnd";
-import { addIngridient } from "../../../../../services/burger-constructor/actions.js";
+import { addIngredient } from "../../../../../services/burger-constructor/actions.js";
 import { nanoid } from "@reduxjs/toolkit";
-import { setModalIngridient } from "../../../../../services/ingridients/actions.js";
+import { setModalIngredient } from "../../../../../services/ingredients/actions.js";
 
-function Ingridient(props) {
+function Ingredient(props) {
 	const dispatch = useDispatch();
 	const [dragId, setDragId] = useState(null);
 	const count = useSelector((state) => {
-		getIngridientCount(state, props);
+		getIngredientCount(state, props);
 	});
 
-	const contextMenuHandler = (ingridient) => {
-		dispatch(addIngridient({ ...ingridient, id: nanoid() }));
+	const contextMenuHandler = (ingredient) => {
+		dispatch(addIngredient({ ...ingredient, id: nanoid() }));
 	};
 
 	const modalOpenHandler = (e) => {
 		e.stopPropagation();
-		dispatch(setModalIngridient(props));
+		dispatch(setModalIngredient(props));
 	};
 
 	const [isDragging, dragRef] = useDrag({
-		type: "constructorIngridient",
+		type: "constructorIngredient",
 		item: { ...props, id: dragId },
 		collect: (monitor) => ({
 			isDragging: monitor.isDragging(),
@@ -70,6 +70,6 @@ function Ingridient(props) {
 	);
 }
 
-Ingridient.propTypes = ingridientType;
+Ingredient.propTypes = ingredientType;
 
-export default Ingridient;
+export default Ingredient;
