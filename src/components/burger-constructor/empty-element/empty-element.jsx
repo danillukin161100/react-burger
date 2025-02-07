@@ -16,11 +16,7 @@ function EmptyElement(props) {
 	});
 	return (
 		<div
-			className={`${styles.element} constructor-element ${
-				type === "top" || type === "bottom"
-					? "constructor-element_pos_" + type
-					: ""
-			}`}
+			className={`${styles.element} constructor-element ${type === "top" || type === "bottom" ? "constructor-element_pos_" + type : ""}`}
 			ref={dropRef}
 		>
 			<span className="constructor-element__row">

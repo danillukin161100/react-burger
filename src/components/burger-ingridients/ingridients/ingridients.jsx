@@ -11,9 +11,7 @@ import { setCurrentCategory } from "../../../services/ingridients/actions";
 
 function Ingridients(props) {
 	const ref = useRef();
-	const categoryRefs = new Map(
-		categories.map((category) => [category.key, createRef()])
-	);
+	const categoryRefs = new Map(categories.map((category) => [category.key, createRef()]));
 	const [maxHeight, setMaxHeight] = useState(0);
 	const dispatch = useDispatch();
 
@@ -21,9 +19,7 @@ function Ingridients(props) {
 		if (!ref.current) return;
 
 		const calcHeight = (element) => {
-			return (
-				window.innerHeight - element.getBoundingClientRect().top - 40
-			);
+			return window.innerHeight - element.getBoundingClientRect().top - 40;
 		};
 
 		const updateHeight = () => {
@@ -46,8 +42,7 @@ function Ingridients(props) {
 			for (const [key, categoryRef] of categoryRefs) {
 				if (!categoryRef.current) return;
 
-				const categoryBottom =
-					categoryRef.current.getBoundingClientRect().bottom;
+				const categoryBottom = categoryRef.current.getBoundingClientRect().bottom;
 
 				if (categoryBottom > parentTop) {
 					// диспач на currentIngridient
@@ -95,7 +90,7 @@ Ingridients.propTypes = {
 		PropTypes.shape({
 			key: PropTypes.string.isRequired,
 			title: PropTypes.string.isRequired,
-		})
+		}),
 	),
 	ingridients: PropTypes.arrayOf(PropTypes.shape(ingridientType)),
 };

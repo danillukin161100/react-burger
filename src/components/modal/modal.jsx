@@ -27,19 +27,12 @@ function Modal({ onClose, header, children }) {
 
 	return createPortal(
 		<div className={`${styles.modal}`}>
-			<ModalOverlay onClick={onClose} isActive={isActive} />
-			<div
-				className={`${styles.modalWindow} ${
-					isActive && styles.modalWindowActive
-				} p-10 ${header ? "pt-10" : "pt-30"} pb-15`}
-			>
-				{header && (
-					<div
-						className={`text text_type_main-large ${styles.header}`}
-					>
-						{header}
-					</div>
-				)}
+			<ModalOverlay
+				onClick={onClose}
+				isActive={isActive}
+			/>
+			<div className={`${styles.modalWindow} ${isActive && styles.modalWindowActive} p-10 ${header ? "pt-10" : "pt-30"} pb-15`}>
+				{header && <div className={`text text_type_main-large ${styles.header}`}>{header}</div>}
 				<button
 					type="button"
 					className={styles.close}
@@ -50,15 +43,12 @@ function Modal({ onClose, header, children }) {
 				{children}
 			</div>
 		</div>,
-		document.getElementById("modals")
+		document.getElementById("modals"),
 	);
 }
 
 Modal.propTypes = {
-	children: PropTypes.oneOfType([
-		PropTypes.arrayOf(PropTypes.node),
-		PropTypes.node,
-	]).isRequired,
+	children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
 	header: PropTypes.string,
 	onClose: PropTypes.func,
 };

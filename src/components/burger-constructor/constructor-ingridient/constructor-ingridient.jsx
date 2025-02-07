@@ -1,14 +1,7 @@
-import {
-	ConstructorElement,
-	DragIcon,
-} from "@ya.praktikum/react-developer-burger-ui-components";
+import { ConstructorElement, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./constructor-ingridient.module.css";
 import { useDispatch, useSelector } from "react-redux";
-import {
-	addIngridient,
-	removeIngridient,
-	sortIngridients,
-} from "../../../services/burger-constructor/actions";
+import { addIngridient, removeIngridient, sortIngridients } from "../../../services/burger-constructor/actions";
 import { useDrag, useDrop } from "react-dnd";
 import { useRef } from "react";
 import { getBun } from "../../../services/burger-constructor/reducer";
@@ -43,7 +36,11 @@ function ConstructorIngridient(props) {
 
 	const opacity = isDragging ? 0 : 1;
 	return (
-		<div className={styles.item} ref={ref} style={{ opacity }}>
+		<div
+			className={styles.item}
+			ref={ref}
+			style={{ opacity }}
+		>
 			<DragIcon />
 			<ConstructorElement
 				type={props.type}

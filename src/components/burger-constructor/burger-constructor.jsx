@@ -1,20 +1,12 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
-import {
-	ConstructorElement,
-	CurrencyIcon,
-	Button,
-} from "@ya.praktikum/react-developer-burger-ui-components";
+import { ConstructorElement, CurrencyIcon, Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import Modal from "../modal/modal";
 import OrderDetails from "./order-details/order-details";
 import { ingridientType } from "../../utils/types";
 import styles from "./burger-constructor.module.css";
 import { useSelector } from "react-redux";
-import {
-	getBun,
-	getIngridients,
-	getTotal,
-} from "../../services/burger-constructor/reducer";
+import { getBun, getIngridients, getTotal } from "../../services/burger-constructor/reducer";
 import EmptyElement from "./empty-element/empty-element";
 import ConstructorIngridient from "./constructor-ingridient/constructor-ingridient";
 
@@ -41,20 +33,12 @@ function BurgerConstructor() {
 		const constructorRect = constructorRef.current?.getBoundingClientRect();
 		const body = document.body;
 		const html = document.documentElement;
-		const documentHeight = Math.max(
-			body.scrollHeight,
-			body.offsetHeight,
-			html.clientHeight,
-			html.scrollHeight,
-			html.offsetHeight
-		);
+		const documentHeight = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight);
 
 		const offsetTop = (listRect.top / windowHeight) * 100;
 		const listOffsetBottom = documentHeight - listRect.y - listRect.height;
-		const constructorOffsetBottom =
-			documentHeight - constructorRect.y - constructorRect.height;
-		const offsetBottom =
-			((listOffsetBottom - constructorOffsetBottom) / windowHeight) * 100;
+		const constructorOffsetBottom = documentHeight - constructorRect.y - constructorRect.height;
+		const offsetBottom = ((listOffsetBottom - constructorOffsetBottom) / windowHeight) * 100;
 		const result = 100 - offsetBottom - offsetTop;
 		setMaxHeight(result);
 	});
@@ -70,9 +54,7 @@ function BurgerConstructor() {
 	useEffect(() => {
 		if (!listRef?.current) return;
 
-		setIsScroll(
-			listRef.current.scrollHeight > listRef.current.clientHeight
-		);
+		setIsScroll(listRef.current.scrollHeight > listRef.current.clientHeight);
 	}, [ingridients?.length]);
 
 	return (
@@ -81,9 +63,15 @@ function BurgerConstructor() {
 			ref={constructorRef}
 		>
 			{bun ? (
-				<ConstructorIngridient {...bun} formType="top" />
+				<ConstructorIngridient
+					{...bun}
+					formType="top"
+				/>
 			) : (
-				<EmptyElement type="top" text="Выбирете булку" />
+				<EmptyElement
+					type="top"
+					text="Выбирете булку"
+				/>
 			)}
 			<div
 				className={`${styles.list} ${isScroll && styles.hasScroll}`}
@@ -100,20 +88,33 @@ function BurgerConstructor() {
 						/>
 					))
 				) : (
-					<EmptyElement type="middle" text="Выбирете ингридиент" />
+					<EmptyElement
+						type="middle"
+						text="Выбирете ингридиент"
+					/>
 				)}
 			</div>
 			{bun ? (
-				<ConstructorIngridient {...bun} formType="bottom" />
+				<ConstructorIngridient
+					{...bun}
+					formType="bottom"
+				/>
 			) : (
-				<EmptyElement type="bottom" text="Выбирете булку" />
+				<EmptyElement
+					type="bottom"
+					text="Выбирете булку"
+				/>
 			)}
 
 			<div className={`${styles.footer} pt-6`}>
 				<span className="text text_type_digits-medium mr-10">
 					{total} <CurrencyIcon />
 				</span>
-				<Button onClick={openOrderModal} htmlType="button" size="large">
+				<Button
+					onClick={openOrderModal}
+					htmlType="button"
+					size="large"
+				>
 					Оформить заказ
 				</Button>
 

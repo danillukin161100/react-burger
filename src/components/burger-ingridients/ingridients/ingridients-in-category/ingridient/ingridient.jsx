@@ -1,9 +1,6 @@
 import { useEffect, useState } from "react";
 
-import {
-	Counter,
-	CurrencyIcon,
-} from "@ya.praktikum/react-developer-burger-ui-components";
+import { Counter, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import styles from "./ingridient.module.css";
 import { ingridientType } from "../../../../../utils/types.js";
@@ -54,20 +51,21 @@ function Ingridient(props) {
 			}}
 			ref={dragRef}
 		>
-			{count > 0 && <Counter count={count} size="default" />}
+			{count > 0 && (
+				<Counter
+					count={count}
+					size="default"
+				/>
+			)}
 			<img
 				src={props.image}
 				alt={props.name}
 				className="pl-4 pr-4 mb-1"
 			/>
-			<span
-				className={`${styles.price} text text_type_digits-default mb-1`}
-			>
+			<span className={`${styles.price} text text_type_digits-default mb-1`}>
 				{props.price} <CurrencyIcon className="ml-1" />
 			</span>
-			<p className={`${styles.title} text text_type_main-default`}>
-				{props.name}
-			</p>
+			<p className={`${styles.title} text text_type_main-default`}>{props.name}</p>
 		</div>
 	);
 }
