@@ -7,7 +7,7 @@ import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import styles from "./modal.module.css";
 
-function Modal({ onClose, header, children, ...props }) {
+function Modal({ onClose, header, children }) {
 	const [isActive, setActive] = useState(false);
 
 	useEffect(() => {

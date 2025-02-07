@@ -1,11 +1,12 @@
 import { createSelector, createSlice } from "@reduxjs/toolkit"
-import { loadIngridients, setCurrentCategory } from "./actions"
+import { loadIngridients, removeModalIngridient, setCurrentCategory, setModalIngridient } from "./actions"
 
 const initialState = {
     ingridients: [],
     currentCategoryKey: 'bun',
     loading: false,
     error: null,
+    modal: null,
 }
 
 export const ingridientsSlice = createSlice({
@@ -22,6 +23,7 @@ export const ingridientsSlice = createSlice({
             (ingridients, categoryKey) => ingridients.filter(ingridient => ingridient.type === categoryKey),
         ),
         getCurrentCategoryKey: state => state.currentCategoryKey,
+        getModalIngridient: state => state.modal,
     },
     extraReducers: builder => {
         builder
@@ -39,7 +41,18 @@ export const ingridientsSlice = createSlice({
             .addCase(setCurrentCategory, (state, action) => {
                 state.currentCategoryKey = action.payload
             })
+            .addCase(setModalIngridient, (state, action) => {
+                state.modal = action.payload;
+            })
+            .addCase(removeModalIngridient, state => {
+                state.modal = null;
+            })
     }
 })
 
-export const { getAllIngridients, getIngridientsByCategory, getCurrentCategoryKey } = ingridientsSlice.selectors
+export const {
+    getAllIngridients,
+    getIngridientsByCategory,
+    getCurrentCategoryKey,
+    getModalIngridient
+} = ingridientsSlice.selectors

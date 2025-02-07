@@ -11,3 +11,5 @@ export const loadIngridients = createAsyncThunk(
 );
 
 export const setCurrentCategory = createAction('ingridients/setCurrentCategory')
+export const setModalIngridient = createAction('ingridients/setModalIngridient')
+export const removeModalIngridient = createAction('ingridients/removeModalIngridient')

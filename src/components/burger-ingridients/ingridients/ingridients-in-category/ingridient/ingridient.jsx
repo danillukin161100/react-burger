@@ -4,8 +4,6 @@ import {
 	Counter,
 	CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import Modal from "../../../../modal/modal.jsx";
-import IngridientDetails from "./ingridient-details/ingridient-details.jsx";
 
 import styles from "./ingridient.module.css";
 import { ingridientType } from "../../../../../utils/types.js";
@@ -14,14 +12,23 @@ import { getIngridientCount } from "../../../../../services/burger-constructor/r
 import { useDrag } from "react-dnd";
 import { addIngridient } from "../../../../../services/burger-constructor/actions.js";
 import { nanoid } from "@reduxjs/toolkit";
+import { setModalIngridient } from "../../../../../services/ingridients/actions.js";
 
 function Ingridient(props) {
 	const dispatch = useDispatch();
+	const [dragId, setDragId] = useState(null);
 	const count = useSelector((state) => {
 		getIngridientCount(state, props);
 	});
-	const [dragId, setDragId] = useState(null);
-	const [currentIngridient, setCurrentIngridient] = useState(null);
+
+	const contextMenuHandler = (ingridient) => {
+		dispatch(addIngridient({ ...ingridient, id: nanoid() }));
+	};
+
+	const modalOpenHandler = (e) => {
+		e.stopPropagation();
+		dispatch(setModalIngridient(props));
+	};
 
 	const [isDragging, dragRef] = useDrag({
 		type: "constructorIngridient",
@@ -35,19 +42,12 @@ function Ingridient(props) {
 		setDragId(nanoid());
 	}, [isDragging]);
 
-	const onClose = (e) => {
-		e.stopPropagation();
-		setCurrentIngridient(null);
-	};
-
-	const contextMenuHandler = (ingridient) => {
-		dispatch(addIngridient({ ...ingridient, id: nanoid() }));
-	};
-
 	return (
 		<div
 			className={styles.card}
-			onClick={() => setCurrentIngridient(props)}
+			onClick={(e) => {
+				modalOpenHandler(e);
+			}}
 			onContextMenu={(e) => {
 				e.preventDefault();
 				contextMenuHandler(props);
@@ -68,12 +68,6 @@ function Ingridient(props) {
 			<p className={`${styles.title} text text_type_main-default`}>
 				{props.name}
 			</p>
-
-			{currentIngridient && (
-				<Modal onClose={onClose} header="Детали ингридиента">
-					<IngridientDetails {...props} />
-				</Modal>
-			)}
 		</div>
 	);
 }
