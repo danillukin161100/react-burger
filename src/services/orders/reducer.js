@@ -38,3 +38,4 @@ export const orderSlice = createSlice({
 });
 
 export const { getOrderNumber } = orderSlice.selectors;
+// export const {createOrder, openOrder, closeOrder} = orderSlice.extraReducers;

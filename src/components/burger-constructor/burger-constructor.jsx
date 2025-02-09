@@ -20,7 +20,7 @@ function BurgerConstructor() {
 	const listRef = useRef();
 	const constructorRef = useRef();
 
-	const { loading, modal, order } = useSelector((state) => state.orders);
+	const { loading, modal } = useSelector((state) => state.orders);
 
 	const [maxHeight, setMaxHeight] = useState(100);
 	const [isScroll, setIsScroll] = useState(false);
@@ -32,9 +32,9 @@ function BurgerConstructor() {
 		const listRect = listRef.current.getBoundingClientRect();
 		const constructoRect = constructorRef.current.getBoundingClientRect();
 
-		const bottomElementsHeight = windowHeight - listRect.bottom - (windowHeight - constructoRect.bottom) ;
-		const res = windowHeight - listRect.top - bottomElementsHeight
-		
+		const bottomElementsHeight = windowHeight - listRect.bottom - (windowHeight - constructoRect.bottom);
+		const res = windowHeight - listRect.top - bottomElementsHeight;
+
 		setMaxHeight(res);
 	});
 
@@ -124,14 +124,6 @@ function BurgerConstructor() {
 
 				{loading ? (
 					<Loader />
-				) : order ? (
-					<Button
-						onClick={openOrderHandler}
-						htmlType="button"
-						size="large"
-					>
-						Показать заказ
-					</Button>
 				) : (
 					<Button
 						onClick={createOrderHandler}

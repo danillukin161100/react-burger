@@ -1,5 +1,6 @@
-import { createSelector, createSlice, nanoid } from "@reduxjs/toolkit";
-import { addIngredient, removeIngredient, sortIngredients } from "./actions";
+import { createSelector, createSlice } from "@reduxjs/toolkit";
+import { addIngredient, clearConstructor, removeIngredient, sortIngredients } from "./actions";
+import { createOrder } from "../orders/actions";
 
 const initialState = {
 	ingredients: [],
@@ -69,7 +70,11 @@ export const burgerConstructorSlice = createSlice({
 
 				state.ingredients.splice(currentIndex, 1);
 				state.ingredients.splice(hoverIndex, 0, item);
-			});
+			})
+			// .addCase(clearConstructor, (state) => {
+			// 	state = initialState;
+			// })
+			.addCase(createOrder.fulfilled, (state) => initialState);
 	},
 });
 
