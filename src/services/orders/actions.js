@@ -1,15 +1,8 @@
 import { createAction, createAsyncThunk } from "@reduxjs/toolkit";
+import { createOrderRequest } from "../../utils/norma-api";
 
 export const createOrder = createAsyncThunk("orders/createOrder", async (ingredients) => {
-	return fetch("https://norma.nomoreparties.space/api/orders", {
-		method: "POST",
-		body: JSON.stringify(ingredients),
-		headers: {
-			"Content-Type": "application/json",
-		},
-	})
-		.then((res) => (res.ok ? res.json() : Promise.reject(`Status ${res.status}`)))
-		.then((res) => res.order);
+	return createOrderRequest(ingredients);
 });
 
 export const openOrder = createAction("orders/openOrder");

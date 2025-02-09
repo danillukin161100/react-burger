@@ -1,10 +1,8 @@
 import { createAction, createAsyncThunk } from "@reduxjs/toolkit";
-import { IngredientS_API_URL } from "../../utils/data";
+import { getIngredientsRequest } from "../../utils/norma-api";
 
 export const loadIngredients = createAsyncThunk("ingredients/loadIngredients", async () => {
-	return fetch(IngredientS_API_URL)
-		.then((res) => (res.ok ? res.json() : Promise.reject(`Error ${res.status}`)))
-		.then((res) => res.data);
+	return getIngredientsRequest()
 });
 
 export const setCurrentCategory = createAction("ingredients/setCurrentCategory");

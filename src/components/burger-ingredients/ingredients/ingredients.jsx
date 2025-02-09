@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 import IngredientsInCategory from "./ingredients-in-category/ingredients-in-category";
 
 import styles from "./ingredients.module.css";
-import { ingredientType } from "../../../utils/types";
 import { categories } from "../../../utils/data";
 import { useDispatch } from "react-redux";
 import { setCurrentCategory } from "../../../services/ingredients/actions";
