@@ -30,23 +30,19 @@ function BurgerConstructor() {
 
 		const windowHeight = window.innerHeight;
 		const listRect = listRef.current.getBoundingClientRect();
-		const constructorRect = constructorRef.current?.getBoundingClientRect();
-		const body = document.body;
-		const html = document.documentElement;
-		const documentHeight = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight);
+		const constructoRect = constructorRef.current.getBoundingClientRect();
 
-		const offsetTop = (listRect.top / windowHeight) * 100;
-		const listOffsetBottom = documentHeight - listRect.y - listRect.height;
-		const constructorOffsetBottom = documentHeight - constructorRect.y - constructorRect.height;
-		const offsetBottom = ((listOffsetBottom - constructorOffsetBottom) / windowHeight) * 100;
-		const result = 100 - offsetBottom - offsetTop;
-		setMaxHeight(result);
+		const bottomElementsHeight = windowHeight - listRect.bottom - (windowHeight - constructoRect.bottom) ;
+		const res = windowHeight - listRect.top - bottomElementsHeight
+		
+		setMaxHeight(res);
 	});
 
 	const createOrderHandler = () => {
+		if (!bun || !ingredients.length) return false;
 		let orderIngredients = [...ingredients.map((ingredient) => ingredient._id)];
 		if (bun) orderIngredients = [bun._id, ...orderIngredients, bun._id];
-		dispatch(createOrder({ingredients: orderIngredients}));
+		dispatch(createOrder({ ingredients: orderIngredients }));
 	};
 
 	const openOrderHandler = () => {
@@ -64,7 +60,7 @@ function BurgerConstructor() {
 		return () => {
 			window.removeEventListener("resize", updateHeight);
 		};
-	}, []);
+	}, [ingredients]);
 
 	useEffect(() => {
 		if (!listRef?.current) return;
@@ -91,7 +87,7 @@ function BurgerConstructor() {
 			<div
 				className={`${styles.list} ${isScroll && styles.hasScroll}`}
 				style={{
-					maxHeight: `${maxHeight}vh`,
+					maxHeight: maxHeight,
 				}}
 				ref={listRef}
 			>

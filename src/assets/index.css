@@ -3,6 +3,9 @@ body {
 	scrollbar-color: #8585AD #2F2F37 ; */
 	scrollbar-width: initial;
 	scrollbar-color: initial;
+	width: 100vw;
+	height: 100vh;
+	overflow: hidden;
 }
 
 *::-webkit-scrollbar {

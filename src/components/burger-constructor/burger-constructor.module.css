@@ -4,6 +4,8 @@
 	row-gap: 16px;
 	align-content: flex-start;
 	justify-items: flex-end;
+	position: relative;
+	max-height: fit-content;
 }
 
 .list {
