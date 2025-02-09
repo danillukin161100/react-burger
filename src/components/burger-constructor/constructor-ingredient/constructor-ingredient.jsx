@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { addIngredient, removeIngredient, sortIngredients } from "../../../services/burger-constructor/actions";
 import { useDrag, useDrop } from "react-dnd";
 import { useRef } from "react";
-import { getBun } from "../../../services/burger-constructor/reducer";
 import { ingredientType } from "../../../utils/types";
 
 function ConstructorIngredient(props) {
@@ -23,8 +22,6 @@ function ConstructorIngredient(props) {
 			isDragging: monitor.isDragging(),
 		}),
 	});
-
-	const bun = useSelector(getBun);
 
 	const [, dropRef] = useDrop({
 		accept: "constructorIngredient",
@@ -44,9 +41,9 @@ function ConstructorIngredient(props) {
 			ref={ref}
 			style={{ opacity }}
 		>
-			<DragIcon />
+			{props.type !== 'bun' && <DragIcon />}
 			<ConstructorElement
-				type={props.type}
+				type={props.formType}
 				isLocked={!!props.formType}
 				text={props.name}
 				price={props.price}

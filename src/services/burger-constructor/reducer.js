@@ -21,7 +21,7 @@ export const burgerConstructorSlice = createSlice({
 					: 0;
 				const totalBun = bun ? bun.price * 2 : 0;
 				return totalIngredients + totalBun;
-			},
+			}
 		),
 		getIngredientCount: createSelector(
 			[
@@ -30,9 +30,11 @@ export const burgerConstructorSlice = createSlice({
 				(state, currentIngredient) => currentIngredient,
 			],
 			(ingredients, bun, currentIngredient) => {
-				if (!ingredients.length && !bun) return 0;
-				return currentIngredient.type === "bun" ? 2 : ingredients.reduce((count) => count++, 0);
-			},
+				if (currentIngredient.type === "bun" && bun?._id === currentIngredient._id) return 1;
+
+				if (!ingredients.length) return 0;
+				return ingredients.filter((ingredient) => ingredient._id === currentIngredient._id).length;
+			}
 		),
 	},
 	extraReducers: (builder) => {

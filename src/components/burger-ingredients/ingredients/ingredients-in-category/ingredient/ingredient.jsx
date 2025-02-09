@@ -14,9 +14,8 @@ import { setModalIngredient } from "../../../../../services/ingredients/actions.
 function Ingredient(props) {
 	const dispatch = useDispatch();
 	const [dragId, setDragId] = useState(null);
-	const count = useSelector((state) => {
-		getIngredientCount(state, props);
-	});
+
+	const count = useSelector((state) => getIngredientCount(state, props));
 
 	const contextMenuHandler = (ingredient) => {
 		dispatch(addIngredient({ ...ingredient, id: nanoid() }));
