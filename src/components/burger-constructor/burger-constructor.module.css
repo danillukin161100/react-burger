@@ -4,6 +4,8 @@
 	row-gap: 16px;
 	align-content: flex-start;
 	justify-items: flex-end;
+	position: relative;
+	max-height: fit-content;
 }
 
 .list {
@@ -14,14 +16,11 @@
 	overflow-y: auto;
 	margin-right: calc(var(--offset-base-size) * -4);
 	width: calc(100% + var(--offset-base-size) * 5);
-	padding-right: calc(var(--offset-base-size) * 2);
+	padding-right: calc(var(--offset-base-size) * 4);
 }
 
-.item {
-	display: flex;
-	align-items: center;
-	column-gap: 8px;
-	justify-content: flex-end;
+.hasScroll {
+	padding-right: calc(var(--offset-base-size) * 2);
 }
 
 .footer {

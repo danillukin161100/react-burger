@@ -1,60 +1,56 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import PropTypes from "prop-types";
-
-import {
-	ConstructorElement,
-	CurrencyIcon,
-	Button,
-	DragIcon,
-} from "@ya.praktikum/react-developer-burger-ui-components";
+import { CurrencyIcon, Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import Modal from "../modal/modal";
 import OrderDetails from "./order-details/order-details";
-
-import { ingridientType } from "../../utils/types";
 import styles from "./burger-constructor.module.css";
+import { useDispatch, useSelector } from "react-redux";
+import { getBun, getIngredients, getTotal } from "../../services/burger-constructor/reducer";
+import EmptyElement from "./empty-element/empty-element";
+import ConstructorIngredient from "./constructor-ingredient/constructor-ingredient";
+import Loader from "../loader/loader";
+import { closeOrder, createOrder, openOrder } from "../../services/orders/actions";
 
-function BurgerConstructor({ ingridients }) {
-	const bun = ingridients.find((ingridient) => ingridient.type === "bun");
+function BurgerConstructor() {
+	const dispatch = useDispatch();
+
+	const bun = useSelector(getBun);
+	const total = useSelector((state) => getTotal(state));
+	const ingredients = useSelector(getIngredients);
+
 	const listRef = useRef();
 	const constructorRef = useRef();
-	const [maxHeight, setMaxHeight] = useState(0);
-	const [orderModalActive, setOrderModalActive] = useState(false);
+
+	const { loading, modal } = useSelector((state) => state.orders);
+
+	const [maxHeight, setMaxHeight] = useState(100);
+	const [isScroll, setIsScroll] = useState(false);
 
 	const updateHeight = useCallback(() => {
+		if (!listRef?.current || !constructorRef?.current) return;
+
 		const windowHeight = window.innerHeight;
 		const listRect = listRef.current.getBoundingClientRect();
-		const constructorRect = constructorRef.current.getBoundingClientRect();
-		const body = document.body;
-		const html = document.documentElement;
-		const documentHeight = Math.max(
-			body.scrollHeight,
-			body.offsetHeight,
-			html.clientHeight,
-			html.scrollHeight,
-			html.offsetHeight
-		);
+		const constructoRect = constructorRef.current.getBoundingClientRect();
 
-		const offsetTop = (listRect.top / windowHeight) * 100;
-		const listOffsetBottom = documentHeight - listRect.y - listRect.height;
-		const constructorOffsetBottom =
-			documentHeight - constructorRect.y - constructorRect.height;
-		const offsetBottom =
-			((listOffsetBottom - constructorOffsetBottom) / windowHeight) * 100;
-		const result = 100 - offsetBottom - offsetTop;
+		const bottomElementsHeight = windowHeight - listRect.bottom - (windowHeight - constructoRect.bottom);
+		const res = windowHeight - listRect.top - bottomElementsHeight;
 
-		setMaxHeight(result);
+		setMaxHeight(res);
 	});
 
-	const getIngridientSum = () => {
-		return ingridients.reduce(
-			(sum, ingridient) => sum + ingridient.price,
-			0
-		);
+	const createOrderHandler = () => {
+		if (!bun || !ingredients.length) return false;
+		let orderIngredients = [...ingredients.map((ingredient) => ingredient._id)];
+		if (bun) orderIngredients = [bun._id, ...orderIngredients, bun._id];
+		dispatch(createOrder({ ingredients: orderIngredients }));
 	};
 
-	const openOrderModal = (e) => {
-		e.stopPropagation();
-		setOrderModalActive(true);
+	const openOrderHandler = () => {
+		dispatch(openOrder());
+	};
+
+	const closeOrderHandler = () => {
+		dispatch(closeOrder());
 	};
 
 	useEffect(() => {
@@ -64,63 +60,82 @@ function BurgerConstructor({ ingridients }) {
 		return () => {
 			window.removeEventListener("resize", updateHeight);
 		};
-	}, []);
+	}, [ingredients]);
+
+	useEffect(() => {
+		if (!listRef?.current) return;
+
+		setIsScroll(listRef.current.scrollHeight > listRef.current.clientHeight);
+	}, [ingredients?.length]);
 
 	return (
 		<section
 			className={`${styles.wrap} burger-constructor pt-25 pl-5 pr-9 pb-10`}
 			ref={constructorRef}
 		>
-			<ConstructorElement
-				type={"top"}
-				isLocked={true}
-				text={`${bun.name} (верх)`}
-				price={bun.price}
-				thumbnail={bun.image}
-			/>
+			{bun ? (
+				<ConstructorIngredient
+					{...bun}
+					formType="top"
+				/>
+			) : (
+				<EmptyElement
+					type="top"
+					text="Выбирете булку"
+				/>
+			)}
 			<div
-				className={styles.list}
+				className={`${styles.list} ${isScroll && styles.hasScroll}`}
 				style={{
-					maxHeight: `${maxHeight}vh`,
+					maxHeight: maxHeight,
 				}}
 				ref={listRef}
 			>
-				{ingridients?.map((ingridient, index) => {
-					if (ingridient.type === "bun") {
-						return;
-					}
-
-					return (
-						<div key={`${ingridient._id}`} className={styles.item}>
-							<DragIcon />
-							<ConstructorElement
-								isLocked={false}
-								text={ingridient.name}
-								price={ingridient.price}
-								thumbnail={ingridient.image}
-							/>
-						</div>
-					);
-				})}
+				{ingredients.length ? (
+					ingredients.map((ingredient) => (
+						<ConstructorIngredient
+							key={ingredient.id}
+							{...ingredient}
+						/>
+					))
+				) : (
+					<EmptyElement
+						type="middle"
+						text="Выбирете ингридиент"
+					/>
+				)}
 			</div>
-			<ConstructorElement
-				type={"bottom"}
-				isLocked={true}
-				text={`${bun.name} (низ)`}
-				price={bun.price}
-				thumbnail={bun.image}
-			/>
+			{bun ? (
+				<ConstructorIngredient
+					{...bun}
+					formType="bottom"
+				/>
+			) : (
+				<EmptyElement
+					type="bottom"
+					text="Выбирете булку"
+				/>
+			)}
 
 			<div className={`${styles.footer} pt-6`}>
 				<span className="text text_type_digits-medium mr-10">
-					{getIngridientSum()} <CurrencyIcon />
+					{total} <CurrencyIcon />
 				</span>
-				<Button onClick={openOrderModal} htmlType="button" size="large">
-					Оформить заказ
-				</Button>
 
-				{orderModalActive && (
-					<Modal onClose={() => setOrderModalActive(false)}>
+				{loading ? (
+					<Loader />
+				) : (
+					<Button
+						onClick={createOrderHandler}
+						htmlType="button"
+						size="large"
+					>
+						Оформить заказ
+					</Button>
+				)}
+
+				{modal && (
+					<Modal onClose={() => closeOrderHandler()}>
 						<OrderDetails />
 					</Modal>
 				)}
@@ -128,11 +143,5 @@ function BurgerConstructor({ ingridients }) {
 		</section>
 	);
 }
-
-BurgerConstructor.propTypes = {
-	ingridients: PropTypes.arrayOf(
-		PropTypes.shape(ingridientType)
-	),
-};
 
 export default BurgerConstructor;

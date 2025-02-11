@@ -8,7 +8,12 @@ function MenuItem(props) {
 
 	return (
 		<li className={`${styles.item}`}>
-			<a className={`${styles.link} ${isActiveClass} p-5`} href={link}>{props.children}</a>
+			<a
+				className={`${styles.link} ${isActiveClass} p-5`}
+				href={link}
+			>
+				{props.children}
+			</a>
 		</li>
 	);
 }
@@ -16,10 +21,7 @@ function MenuItem(props) {
 MenuItem.propTypes = {
 	active: PropTypes.bool,
 	link: PropTypes.string,
-	children: PropTypes.oneOfType([
-		PropTypes.arrayOf(PropTypes.node),
-		PropTypes.node,
-	]).isRequired,
+	children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
 };
 
 export default MenuItem;

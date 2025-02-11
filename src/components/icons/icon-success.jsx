@@ -46,8 +46,14 @@ function IconSuccess(props) {
 					gradientUnits="userSpaceOnUse"
 					gradientTransform="translate(53 51) rotate(-46.1458) scale(70.7248 53.2019)"
 				>
-					<stop stopColor="#801AB3" stopOpacity="0" />
-					<stop offset="1" stopColor="#4C4CFF" />
+					<stop
+						stopColor="#801AB3"
+						stopOpacity="0"
+					/>
+					<stop
+						offset="1"
+						stopColor="#4C4CFF"
+					/>
 				</radialGradient>
 				<radialGradient
 					id="paint1_radial_311_23"
@@ -57,8 +63,14 @@ function IconSuccess(props) {
 					gradientUnits="userSpaceOnUse"
 					gradientTransform="translate(53.5 51) rotate(-43.0632) scale(73.2274 55.0025)"
 				>
-					<stop stopColor="#801AB3" stopOpacity="0" />
-					<stop offset="1" stopColor="#4C4CFF" />
+					<stop
+						stopColor="#801AB3"
+						stopOpacity="0"
+					/>
+					<stop
+						offset="1"
+						stopColor="#4C4CFF"
+					/>
 				</radialGradient>
 				<radialGradient
 					id="paint2_radial_311_23"
@@ -68,8 +80,15 @@ function IconSuccess(props) {
 					gradientUnits="userSpaceOnUse"
 					gradientTransform="translate(53 50.6667) rotate(136.146) scale(47.1499 35.4679)"
 				>
-					<stop stopColor="#801AB3" stopOpacity="0" />
-					<stop offset="1" stopColor="#4C4CFF" stopOpacity="0.5" />
+					<stop
+						stopColor="#801AB3"
+						stopOpacity="0"
+					/>
+					<stop
+						offset="1"
+						stopColor="#4C4CFF"
+						stopOpacity="0.5"
+					/>
 				</radialGradient>
 			</defs>
 		</svg>
@@ -78,6 +97,6 @@ function IconSuccess(props) {
 
 IconSuccess.propTypes = {
 	className: PropTypes.string,
-}
+};
 
 export default IconSuccess;
