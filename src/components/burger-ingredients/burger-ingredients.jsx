@@ -41,8 +41,6 @@ function BurgerIngredients() {
 	}, [ref.current]);
 
 	useEffect(() => {
-		if (!ref.current) return;
-
 		const scrollHandler = () => {
 			const parentTop = ref.current.scrollTop;
 
@@ -63,7 +61,7 @@ function BurgerIngredients() {
 		return () => {
 			ref.current?.removeEventListener("scroll", scrollHandler);
 		};
-	}, [categoryRefs]);
+	}, [categoryRefs, ref]);
 
 	return (
 		<section className={`text text_type_main-default ${styles.burgerIngredients} pt-10 pl-5 pr-5`}>
