@@ -3,13 +3,13 @@ import { useEffect, useState } from "react";
 import { Counter, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import styles from "./ingredient.module.css";
-import { ingredientType } from "../../../../../utils/types.js";
+import { ingredientType } from "../../../utils/types.js";
 import { useDispatch, useSelector } from "react-redux";
-import { getIngredientCount } from "../../../../../services/burger-constructor/reducer.js";
+import { getIngredientCount } from "../../../services/burger-constructor/reducer.js";
 import { useDrag } from "react-dnd";
-import { addIngredient } from "../../../../../services/burger-constructor/actions.js";
+import { addIngredient } from "../../../services/burger-constructor/actions.js";
 import { nanoid } from "@reduxjs/toolkit";
-import { setModalIngredient } from "../../../../../services/ingredients/actions.js";
+import { setModalIngredient } from "../../../services/ingredients/actions.js";
 
 function Ingredient(props) {
 	const dispatch = useDispatch();

@@ -9,3 +9,14 @@
 .title {
 	text-align: center;
 }
+
+.list {
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	column-gap: 20px;
+	text-align: center;
+}
+
+.value {
+	display: block;
+}

@@ -1,8 +1,8 @@
 import PropTypes from "prop-types";
-import Ingredient from "./ingredient/ingredient";
+import Ingredient from "../ingredient/ingredient";
 import styles from "./ingredients-in-category.module.css";
 import { useSelector } from "react-redux";
-import { getIngredientsByCategory } from "../../../../services/ingredients/reducer";
+import { getIngredientsByCategory } from "../../../services/ingredients/reducer";
 
 function IngredientsInCategory(props) {
 	const { category, categoryRefs } = props;

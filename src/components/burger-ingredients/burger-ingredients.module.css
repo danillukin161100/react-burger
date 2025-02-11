@@ -1,0 +1,27 @@
+.card {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	position: relative;
+}
+
+.price {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.title {
+	text-align: center;
+}
+
+.ingredients {
+	overflow: hidden;
+	overflow-y: auto;
+	margin-right: calc(var(--offset-base-size) * -2);
+	padding-right: calc(var(--offset-base-size) * -4);
+}
+
+.tabs {
+	display: flex;
+}
