@@ -10,9 +10,11 @@ import { useDrag } from "react-dnd";
 import { addIngredient } from "../../../services/burger-constructor/actions.js";
 import { nanoid } from "@reduxjs/toolkit";
 import { setModalIngredient } from "../../../services/ingredients/actions.js";
+import { Link, useLocation } from "react-router";
 
 function Ingredient(props) {
 	const dispatch = useDispatch();
+	const location = useLocation();
 	const [dragId, setDragId] = useState(null);
 
 	const count = useSelector((state) => getIngredientCount(state, props));
@@ -22,8 +24,8 @@ function Ingredient(props) {
 	};
 
 	const modalOpenHandler = (e) => {
-		e.stopPropagation();
-		dispatch(setModalIngredient(props));
+		// e.stopPropagation();
+		// dispatch(setModalIngredient(props));
 	};
 
 	const [isDragging, dragRef] = useDrag({
@@ -39,7 +41,9 @@ function Ingredient(props) {
 	}, [isDragging]);
 
 	return (
-		<div
+		<Link
+			to={`/ingredients/${props._id}`}
+			state={{ backgroundLocation: location }}
 			className={styles.card}
 			onClick={(e) => {
 				modalOpenHandler(e);
@@ -50,22 +54,13 @@ function Ingredient(props) {
 			}}
 			ref={dragRef}
 		>
-			{count > 0 && (
-				<Counter
-					count={count}
-					size="default"
-				/>
-			)}
-			<img
-				src={props.image}
-				alt={props.name}
-				className="pl-4 pr-4 mb-1"
-			/>
+			{count > 0 && <Counter count={count} size="default" />}
+			<img src={props.image} alt={props.name} className="pl-4 pr-4 mb-1" />
 			<span className={`${styles.price} text text_type_digits-default mb-1`}>
 				{props.price} <CurrencyIcon className="ml-1" />
 			</span>
 			<p className={`${styles.title} text text_type_main-default`}>{props.name}</p>
-		</div>
+		</Link>
 	);
 }
 

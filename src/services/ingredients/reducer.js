@@ -4,7 +4,7 @@ import { loadIngredients, removeModalIngredient, setCurrentCategory, setModalIng
 const initialState = {
 	ingredients: [],
 	currentCategoryKey: "bun",
-	loading: false,
+	loading: true,
 	error: null,
 	modal: null,
 };
@@ -17,7 +17,11 @@ export const ingredientsSlice = createSlice({
 		getAllIngredients: (state) => state.ingredients,
 		getIngredientsByCategory: createSelector(
 			[(state) => ingredientsSlice.getSelectors().getAllIngredients(state), (state, categoryKey) => categoryKey],
-			(ingredients, categoryKey) => ingredients.filter((ingredient) => ingredient.type === categoryKey),
+			(ingredients, categoryKey) => ingredients.filter((ingredient) => ingredient.type === categoryKey)
+		),
+		getIngredientById: createSelector(
+			[(state) => ingredientsSlice.getSelectors().getAllIngredients(state), (state, id) => id],
+			(ingredients, id) => ingredients.find((ingredient) => ingredient._id === id)
 		),
 		getCurrentCategoryKey: (state) => state.currentCategoryKey,
 		getModalIngredient: (state) => state.modal,
@@ -47,4 +51,5 @@ export const ingredientsSlice = createSlice({
 	},
 });
 
-export const { getAllIngredients, getIngredientsByCategory, getCurrentCategoryKey, getModalIngredient } = ingredientsSlice.selectors;
+export const { getAllIngredients, getIngredientsByCategory, getCurrentCategoryKey, getModalIngredient, getIngredientById } =
+	ingredientsSlice.selectors;

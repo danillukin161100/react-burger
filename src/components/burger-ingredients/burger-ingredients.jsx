@@ -15,13 +15,7 @@ function BurgerIngredients() {
 	const categoryRefs = new Map(categories.map((category) => [category.key, createRef()]));
 	const [maxHeight, setMaxHeight] = useState(0);
 	const dispatch = useDispatch();
-	const modal = useSelector(getModalIngredient);
 	const currentCategoryKey = useSelector(getCurrentCategoryKey);
-
-	const modalCloseHandler = (e) => {
-		e.stopPropagation();
-		dispatch(removeModalIngredient());
-	};
 
 	useEffect(() => {
 		if (!ref.current) return;
@@ -96,15 +90,6 @@ function BurgerIngredients() {
 					);
 				})}
 			</div>
-
-			{modal && (
-				<Modal
-					onClose={modalCloseHandler}
-					header="Детали ингридиента"
-				>
-					<IngredientDetails />
-				</Modal>
-			)}
 		</section>
 	);
 }
