@@ -50,10 +50,6 @@
 	-o-transform: translateY(0);
 }
 
-.header {
-	line-height: 64px;
-}
-
 .close {
 	position: absolute;
 	top: 60px;

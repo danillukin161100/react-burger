@@ -3,7 +3,16 @@
 	margin-left: auto;
 	margin-right: auto;
 	flex-direction: column;
-	max-width: 520px;
+	max-width: calc(var(--offset-base-size) * 130);
+}
+
+.header {
+	line-height: calc(var(--offset-base-size) * 16) ;
+}
+
+.headerPage {
+	text-align: center;
+	margin-top: calc(var(--offset-base-size) * 30);
 }
 
 .title {
@@ -13,8 +22,13 @@
 .list {
 	display: grid;
 	grid-template-columns: repeat(4, 1fr);
-	column-gap: 20px;
+	column-gap: calc(var(--offset-base-size) * 5);
 	text-align: center;
+}
+
+.propsTitle {
+	display: block;
+	margin-bottom: calc(var(--offset-base-size) * 2);
 }
 
 .value {
