@@ -4,8 +4,6 @@ import { NavLink, useLocation } from "react-router";
 
 function AppHeader() {
 	const { pathname } = useLocation();
-
-	console.log(pathname);
 	return (
 		<header className={`text text_type_main-default ${styles.header}`}>
 			<div className="container">
