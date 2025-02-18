@@ -1,0 +1,12 @@
+.wrap {
+    margin-top: calc(var(--offset-base-size) * 45);
+    position: relative;
+    max-width: calc(var(--offset-base-size) * 120);
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+.link {
+    color: var(--colors-interface-accent);
+}

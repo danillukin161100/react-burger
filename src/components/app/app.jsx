@@ -1,7 +1,6 @@
-import { BrowserRouter, Route, Routes, useLocation, useNavigate } from "react-router-dom";
-import { HomePage, NotFoundPage } from "../../pages/";
+import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
+import { HomePage, NotFoundPage, ProfilePage, ResetPasswordPage, ForgotPasswordPage, RegisterPage, LoginPage } from "../../pages/";
 import AppHeader from "../app-header/app-header.jsx";
-
 import IngredientDetails from "../burger-ingredients/ingredient-details/ingredient-details.jsx";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
@@ -25,14 +24,14 @@ function App() {
 	return (
 		<>
 			<AppHeader />
-			<main className={`container`}>
+			<main className="container text text_type_main-default">
 				{state?.backgroundLocation && (
 					<Routes>
 						<Route
 							path="/ingredients/:id"
 							element={
 								<Modal
-									header="Детали ингридиента"
+									header={true}
 									onClose={() => {
 										navigate(-1);
 									}}
@@ -45,6 +44,11 @@ function App() {
 				)}
 				<Routes location={state?.backgroundLocation || location}>
 					<Route path="/" element={<HomePage />} />
+					<Route path="/login" element={<LoginPage />} />
+					<Route path="/register" element={<RegisterPage />} />
+					<Route path="/forgot-password" element={<ForgotPasswordPage />} />
+					<Route path="/reset-password" element={<ResetPasswordPage />} />
+					<Route path="/profile" element={<ProfilePage />} />
 					<Route path="/ingredients/:id" element={<IngredientDetails />} />
 					<Route path="*" element={<NotFoundPage />} />
 				</Routes>
