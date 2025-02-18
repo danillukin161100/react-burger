@@ -9,14 +9,14 @@ function AppHeader() {
 			<div className="container">
 				<div className={styles.inner}>
 					<MenuList>
-						<MenuItem active={true}>
+						<MenuItem link="/">
 							<BurgerIcon
 								type="primary"
 								className="mr-2"
 							/>
 							Конструктор
 						</MenuItem>
-						<MenuItem>
+						<MenuItem link="/orders">
 							<ListIcon
 								type="secondary"
 								className="mr-2"
@@ -26,7 +26,7 @@ function AppHeader() {
 					</MenuList>
 					<Logo className={styles.logo} />
 					<MenuList justify="right">
-						<MenuItem>
+						<MenuItem link="/profile">
 							<ProfileIcon
 								type="secondary"
 								className="mr-2"

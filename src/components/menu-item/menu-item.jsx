@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 
 import styles from "./menu-item.module.css";
+import { Link, NavLink } from "react-router";
 
 function MenuItem(props) {
 	const isActiveClass = props.active ? styles.active : "";
@@ -8,12 +9,9 @@ function MenuItem(props) {
 
 	return (
 		<li className={`${styles.item}`}>
-			<a
-				className={`${styles.link} ${isActiveClass} p-5`}
-				href={link}
-			>
+			<NavLink to={props.link} className={({ isActive }) => (`${isActive ? styles.active : ""} ${styles.link} p-5`)}>
 				{props.children}
-			</a>
+			</NavLink>
 		</li>
 	);
 }

@@ -1,7 +1,7 @@
 export function ProfilePage() {
-    return (
-        <section>
-            <h1>ProfilePage</h1>
-        </section>
-    );
+	return (
+		<section>
+			<h1>Профиль</h1>
+		</section>
+	);
 }

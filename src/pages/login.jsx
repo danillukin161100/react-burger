@@ -1,4 +1,4 @@
-import { Button, Input } from "@ya.praktikum/react-developer-burger-ui-components";
+import { Button, EmailInput, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./form-page.module.css";
 import { Link } from "react-router";
 import { useState } from "react";
@@ -12,24 +12,11 @@ export function LoginPage() {
 		setFormData({ ...formData, [e.target.name]: e.target.value });
 	};
 
-	const onPasswordIconClick = () => {
-		setPasswordType(passwordType === "password" ? "text" : "password");
-	};
-
 	return (
 		<form className={styles.wrap}>
 			<h1>Вход</h1>
-			<Input type="email" placeholder="E-mail" name="login" value={formData.login} onChange={changeHandler} extraClass="mb-6" />
-			<Input
-				type={passwordType}
-				placeholder="Пароль"
-				name="password"
-				value={formData.password}
-				onChange={changeHandler}
-				onIconClick={onPasswordIconClick}
-				icon={passwordType === 'password' ? 'ShowIcon' : 'HideIcon'}
-				extraClass="mb-6"
-			/>
+			<EmailInput type="email" placeholder="E-mail" name="login" value={formData.login} onChange={changeHandler} extraClass="mb-6" />
+			<PasswordInput onChange={changeHandler} value={formData.password} name="password" extraClass="mb-6" />
 			<Button htmlType="submit">Войти</Button>
 
 			<div className="mt-20 text_color_inactive">
