@@ -1,0 +1,21 @@
+.wrap {
+    display: flex;
+    column-gap: calc(var(--offset-base-size) * 15);
+    margin-top: calc(var(--offset-base-size) * 30);
+}
+
+.sidebar {
+    flex: 0 0 auto;
+    width: calc(var(--offset-base-size) * 80);
+}
+
+.menu {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: calc(var(--offset-base-size) * 20);
+}
+
+.description {
+    color: var(--text-inactive-color);
+    opacity: .5;
+}
