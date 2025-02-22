@@ -1,15 +1,14 @@
 import { Button, EmailInput, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./form-page.module.css";
 import { Link, useNavigate } from "react-router";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { loginUser } from "../services/user/actions";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 export function LoginPage() {
 	const initialFormData = { email: "", password: "" };
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
-	const user = useSelector((state) => state.user);
 	const [formData, setFormData] = useState(initialFormData);
 
 	const changeHandler = (e) => {

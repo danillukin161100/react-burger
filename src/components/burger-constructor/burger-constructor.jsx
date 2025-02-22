@@ -9,9 +9,12 @@ import EmptyElement from "./empty-element/empty-element";
 import ConstructorIngredient from "./constructor-ingredient/constructor-ingredient";
 import Loader from "../loader/loader";
 import { closeOrder, createOrder, openOrder } from "../../services/orders/actions";
+import { useNavigate } from "react-router";
+import { getCookie } from "../../utils/cookies";
 
 function BurgerConstructor() {
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
 
 	const bun = useSelector(getBun);
 	const total = useSelector((state) => getTotal(state));
@@ -42,11 +45,9 @@ function BurgerConstructor() {
 		if (!bun || !ingredients.length) return false;
 		let orderIngredients = [...ingredients.map((ingredient) => ingredient._id)];
 		if (bun) orderIngredients = [bun._id, ...orderIngredients, bun._id];
-		dispatch(createOrder({ ingredients: orderIngredients }));
-	};
 
-	const openOrderHandler = () => {
-		dispatch(openOrder());
+		if (+getCookie("isAuth")) dispatch(createOrder({ ingredients: orderIngredients }));
+		else navigate("/login");
 	};
 
 	const closeOrderHandler = () => {
@@ -69,21 +70,8 @@ function BurgerConstructor() {
 	}, [ingredients?.length]);
 
 	return (
-		<section
-			className={`${styles.wrap} burger-constructor pt-25 pl-5 pr-9 pb-10`}
-			ref={constructorRef}
-		>
-			{bun ? (
-				<ConstructorIngredient
-					{...bun}
-					formType="top"
-				/>
-			) : (
-				<EmptyElement
-					type="top"
-					text="Выбирете булку"
-				/>
-			)}
+		<section className={`${styles.wrap} burger-constructor pt-25 pl-5 pr-9 pb-10`} ref={constructorRef}>
+			{bun ? <ConstructorIngredient {...bun} formType="top" /> : <EmptyElement type="top" text="Выбирете булку" />}
 			<div
 				className={`${styles.list} ${isScroll && styles.hasScroll}`}
 				style={{
@@ -92,30 +80,12 @@ function BurgerConstructor() {
 				ref={listRef}
 			>
 				{ingredients.length ? (
-					ingredients.map((ingredient) => (
-						<ConstructorIngredient
-							key={ingredient.id}
-							{...ingredient}
-						/>
-					))
+					ingredients.map((ingredient) => <ConstructorIngredient key={ingredient.id} {...ingredient} />)
 				) : (
-					<EmptyElement
-						type="middle"
-						text="Выбирете ингридиент"
-					/>
+					<EmptyElement type="middle" text="Выбирете ингридиент" />
 				)}
 			</div>
-			{bun ? (
-				<ConstructorIngredient
-					{...bun}
-					formType="bottom"
-				/>
-			) : (
-				<EmptyElement
-					type="bottom"
-					text="Выбирете булку"
-				/>
-			)}
+			{bun ? <ConstructorIngredient {...bun} formType="bottom" /> : <EmptyElement type="bottom" text="Выбирете булку" />}
 
 			<div className={`${styles.footer} pt-6`}>
 				<span className="text text_type_digits-medium mr-10">
@@ -125,11 +95,7 @@ function BurgerConstructor() {
 				{loading ? (
 					<Loader />
 				) : (
-					<Button
-						onClick={createOrderHandler}
-						htmlType="button"
-						size="large"
-					>
+					<Button onClick={createOrderHandler} htmlType="button" size="large">
 						Оформить заказ
 					</Button>
 				)}

@@ -29,6 +29,7 @@ export const createOrderRequest = (ingredients) => {
 		body: JSON.stringify(ingredients),
 		headers: {
 			"Content-Type": "application/json",
+			authorization: getCookie("accessToken"),
 		},
 	})
 		.then(checkResponse)

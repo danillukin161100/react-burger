@@ -25,7 +25,7 @@ export function ProfilePage() {
 	const logoutHandler = (e) => {
 		e.preventDefault();
 		dispatch(logoutUser());
-		navigate("/");
+		navigate("/login");
 	};
 
 	const submitHandler = (e) => {
