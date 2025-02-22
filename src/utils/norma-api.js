@@ -87,8 +87,8 @@ export const logoutUserRequest = () => {
 };
 
 export const getUserRequest = () => {
-	const isAuth = +getCookie("isAuth");
-	if (!isAuth) return false;
+	// const isAuth = +getCookie("isAuth");
+	// if (!isAuth) return false;
 	const token = getCookie("accessToken");
 	return fetch(`${BASE_URL}/auth/user`, {
 		method: "GET",
@@ -102,6 +102,32 @@ export const getUserRequest = () => {
 			if (res === false) {
 				setCookie("isAuth", 0);
 			}
+			return res;
+		});
+};
+
+export const updateUserRequest = (data) => {
+	const isAuth = +getCookie("isAuth");
+	if (!isAuth) return false;
+	const token = getCookie("accessToken");
+
+	const filteredData = {};
+	for (let key in data) {
+		const item = data[key];
+
+		if (item !== "") filteredData[key] = item;
+	}
+
+	return fetch(`${BASE_URL}/auth/user`, {
+		method: "PATCH",
+		headers: {
+			"Content-Type": "application/json",
+			authorization: token,
+		},
+		body: JSON.stringify(filteredData),
+	})
+		.then(checkResponse)
+		.then((res) => {
 			return res;
 		});
 };

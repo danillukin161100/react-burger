@@ -1,41 +1,25 @@
-import { EmailInput, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
+import { Button, EmailInput, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useEffect, useRef, useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router";
 import styles from "./profile.module.css";
 import { useDispatch, useSelector } from "react-redux";
-import { logoutUser } from "../services/user/actions";
+import { logoutUser, updateUser } from "../services/user/actions";
 
 export function ProfilePage() {
 	const { email, name } = useSelector((state) => state.user);
-	// const [formData, setFormData] = useState({
-	// 	password: { value: "", disabled: true },
-	// 	email: { value: "", disabled: true },
-	// 	name: { value: "", disabled: true },
-	// });
-	const [formData, setFormData] = useState({ password: "", email, name });
+	const initialFormData = { password: "", email, name };
+	const [formData, setFormData] = useState(initialFormData);
+	const [isChanged, setIsChanged] = useState(false);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
-	const nameRef = useRef();
-	const passRef = useRef();
 
-	// useEffect(() => {
-	// 	setFormData({ ...formData, email, name });
-	// }, [email, name]);
+	useEffect(() => {
+		setFormData({ ...formData, email, name });
+	}, [email, name]);
 
 	const changeHandler = (e) => {
 		setFormData({ ...formData, [e.target.name]: e.target.value });
-	};
-
-	const onIconClick = (e, key) => {
-		// setFormData({ ...formData, [key]: { ...formData[key], disabled: false } });
-		e.target.closest(".input__icon").previousElementSibling.focus();
-		// e.target.closest(".input__icon").previousElementSibling.focus();
-		// switch (key) {
-		// 	case "name":
-		// 		nameRef.current.focus();
-		// 	case "password":
-		// 		passRef.current.focus();
-		// }
+		setIsChanged(true);
 	};
 
 	const logoutHandler = (e) => {
@@ -44,8 +28,14 @@ export function ProfilePage() {
 		navigate("/");
 	};
 
-	const focusHandler = (e) => {
-		console.log(e.target.name);
+	const submitHandler = (e) => {
+		e.preventDefault();
+		dispatch(updateUser(formData));
+	};
+
+	const resetHandler = () => {
+		setFormData(initialFormData);
+		setIsChanged(false);
 	};
 
 	return (
@@ -66,46 +56,22 @@ export function ProfilePage() {
 				<p className={styles.description}>В этом разделе вы можете изменить&nbsp;свои персональные данные</p>
 			</div>
 
-			<div>
-				<Input
-					type="text"
-					disabled={formData.name?.disabled}
-					placeholder="Имя"
-					name="name"
-					onIconClick={(e) => {
-						onIconClick(e, "name");
-					}}
-					value={formData.name?.value || ""}
-					onChange={changeHandler}
-					extraClass="mb-6"
-					icon="EditIcon"
-					ref={nameRef}
-					onFocus={focusHandler}
-				/>
-				<EmailInput
-					type="email"
-					placeholder="Логин"
-					name="email"
-					value={formData.email?.value || ""}
-					onChange={changeHandler}
-					isIcon={true}
-					extraClass="mb-6"
-				/>
-				<Input
-					placeholder="Пароль"
-					disabled={formData.password?.disabled}
-					type="password"
-					onChange={changeHandler}
-					onIconClick={(e) => {
-						onIconClick(e, "password");
-					}}
-					value={formData.password?.value || ""}
-					name="password"
-					icon="EditIcon"
-					ref={passRef}
-					onFocus={focusHandler}
-				/>
-			</div>
+			<form onSubmit={submitHandler}>
+				<Input type="text" placeholder="Имя" name="name" value={formData.name || ""} onChange={changeHandler} extraClass="mb-6" />
+				<EmailInput name="email" placeholder="Логин" value={formData.email || ""} onChange={changeHandler} extraClass="mb-6" />
+				<PasswordInput name="password" value={formData.password || ""} onChange={changeHandler} />
+
+				{isChanged && (
+					<div className={styles.footer}>
+						<Button htmlType="button" type="secondary" onClick={resetHandler}>
+							Отменить
+						</Button>
+						<Button htmlType="submit" type="primary">
+							Сохранить
+						</Button>
+					</div>
+				)}
+			</form>
 		</section>
 	);
 }
