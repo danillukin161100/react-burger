@@ -1,11 +1,16 @@
-import { getCookie, setCookie } from "./cookies";
+import { deleteCookie, getCookie, setCookie } from "./cookies";
 import { BASE_URL } from "./data";
 
 const checkResponse = async (res, cb = null) => {
-	if (res.status === 401 && res.url.indexOf("token") < 0 && typeof cb === "function") {
-		const isUpdate = await updateTokenRequest();
-		if (!isUpdate) return false;
-		return cb();
+	if (res.status === 401) {
+		if (res.url.indexOf("token") < 0 && typeof cb === "function") {
+			const isUpdate = await updateTokenRequest();
+			if (!isUpdate) return false;
+			return cb();
+		}
+
+		setCookie("isAuth", 0);
+		return false;
 	}
 	if (res.ok) return res.json();
 
@@ -63,6 +68,24 @@ export const loginUserRequest = (user) => {
 		});
 };
 
+export const logoutUserRequest = () => {
+	const token = getCookie("refreshToken");
+	return fetch(`${BASE_URL}/auth/logout`, {
+		method: "POST",
+		body: JSON.stringify({ token }),
+		headers: {
+			"Content-Type": "application/json",
+		},
+	})
+		.then(checkResponse)
+		.then((res) => {
+			deleteCookie("accessToken");
+			deleteCookie("refreshToken");
+			deleteCookie("isAuth");
+			return res;
+		});
+};
+
 export const getUserRequest = () => {
 	const isAuth = +getCookie("isAuth");
 	if (!isAuth) return false;
@@ -104,6 +127,15 @@ export const updateTokenRequest = () => {
 
 export const forgotPasswordRequest = (formData) => {
 	return fetch(`${BASE_URL}/password-reset`, {
+		method: "POST",
+		body: JSON.stringify(formData),
+	})
+		.then(checkResponse)
+		.then((res) => res);
+};
+
+export const resetPasswordRequest = (formData) => {
+	return fetch(`${BASE_URL}/password-reset/reset`, {
 		method: "POST",
 		body: JSON.stringify(formData),
 	})

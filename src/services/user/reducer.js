@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getUser, loginUser, registerUser } from "./actions";
+import { getUser, loginUser, logoutUser, registerUser } from "./actions";
 import { setCookie } from "../../utils/cookies";
 
 const initialState = {
@@ -41,6 +41,10 @@ export const userSlice = createSlice({
 			.addCase(loginUser.rejected, (state, action) => {
 				state.loading = false;
 				state.error = action.error?.message || "Unknown error";
+			})
+			.addCase(logoutUser.fulfilled, (state) => {
+				state.email = null;
+				state.name = null;
 			})
 			.addCase(getUser.pending, (state, action) => {
 				state.loading = true;

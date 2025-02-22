@@ -2,27 +2,28 @@ import { Button, Input, PasswordInput } from "@ya.praktikum/react-developer-burg
 import styles from "./form-page.module.css";
 import { Link } from "react-router";
 import { useState } from "react";
+import { resetPasswordRequest } from "../utils/norma-api";
 
 export function ResetPasswordPage() {
-	const initialFormData = { password: "", emailCode: "" };
+	const initialFormData = { password: "", token: "" };
 	const [formData, setFormData] = useState(initialFormData);
 
 	const changeHandler = (e) => {
 		setFormData({ ...formData, [e.target.name]: e.target.value });
 	};
 
+	const submitHandler = (e) => {
+		e.preventDefault();
+		resetPasswordRequest(formData).then((res) => {
+			if (res.success) navigate("/login");
+		});
+	};
+
 	return (
-		<form className={styles.wrap}>
+		<form className={styles.wrap} onSubmit={submitHandler}>
 			<h1>Восстановление пароля</h1>
 			<PasswordInput placeholder="Введите новый пароль" onChange={changeHandler} value={formData.password} name="password" extraClass="mb-6" />
-			<Input
-				type="text"
-				placeholder="Введите код из письма"
-				name="emailCode"
-				value={formData.emailCode}
-				onChange={changeHandler}
-				extraClass="mb-6"
-			/>
+			<Input type="text" placeholder="Введите код из письма" name="token" value={formData.token} onChange={changeHandler} extraClass="mb-6" />
 			<Button htmlType="submit">Сохранить</Button>
 
 			<div className="mt-20 text_color_inactive">

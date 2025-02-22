@@ -19,9 +19,11 @@ export function RegisterPage() {
 
 	const submitHandler = (e) => {
 		e.preventDefault();
-		dispatch(registerUser(formData));
+		dispatch(registerUser(formData).then(res => {
+			if (res.success) navigate('/')
+		}));
 
-		if (user.email) navigate("/");
+		// if (user.email) navigate("/");
 	};
 
 	return (
