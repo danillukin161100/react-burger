@@ -7,6 +7,8 @@ import { useEffect } from "react";
 import { loadIngredients } from "../../services/ingredients/actions.js";
 import Loader from "../loader/loader.jsx";
 import Modal from "../modal/modal.jsx";
+import { getUser } from "../../services/user/actions.js";
+import ProtectedRoute from "../protected-route/protected-route.jsx";
 
 function App() {
 	const dispatch = useDispatch();
@@ -17,6 +19,7 @@ function App() {
 
 	useEffect(() => {
 		dispatch(loadIngredients());
+		dispatch(getUser());
 	}, []);
 
 	if (loading) return <Loader fullscreen={true} />;
@@ -48,7 +51,7 @@ function App() {
 					<Route path="/register" element={<RegisterPage />} />
 					<Route path="/forgot-password" element={<ForgotPasswordPage />} />
 					<Route path="/reset-password" element={<ResetPasswordPage />} />
-					<Route path="/profile" element={<ProfilePage />} />
+					<Route path="/profile" element={<ProtectedRoute element={<ProfilePage />} />} />
 					<Route path="/ingredients/:id" element={<IngredientDetails />} />
 					<Route path="*" element={<NotFoundPage />} />
 				</Routes>

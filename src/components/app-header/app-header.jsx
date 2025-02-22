@@ -1,9 +1,12 @@
 import styles from "./app-header.module.css";
 import { BurgerIcon, ListIcon, Logo, ProfileIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import { NavLink, useLocation } from "react-router";
+import { useSelector } from "react-redux";
+import { Link, NavLink, useLocation } from "react-router";
 
 function AppHeader() {
 	const { pathname } = useLocation();
+	const user = useSelector((state) => state.user);
+
 	return (
 		<header className={`text text_type_main-default ${styles.header}`}>
 			<div className="container">
@@ -18,11 +21,13 @@ function AppHeader() {
 							Лента заказов
 						</NavLink>
 					</nav>
-					<Logo className={styles.logo} />
+					<Link to="/" className={styles.logo}>
+						<Logo />
+					</Link>
 					<nav className={`${styles.menu} ${styles.right}`}>
 						<NavLink to="/profile" className={({ isActive }) => `${isActive && styles.active} ${styles.link} p-5`}>
 							<ProfileIcon type={pathname === "/profile" ? "primary" : "secondary"} className="mr-2" />
-							Личный кабинет
+							{user.name ? user.name : "Личный кабинет"}
 						</NavLink>
 					</nav>
 				</div>
