@@ -21,10 +21,6 @@ export function LoginPage() {
 		navigate("/");
 	};
 
-	// useEffect(() => {
-	// 	if (user.email) navigate("/");
-	// }, [user]);
-
 	return (
 		<form className={styles.wrap} onSubmit={submitHandler}>
 			<h1>Вход</h1>
