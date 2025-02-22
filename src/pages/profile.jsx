@@ -1,5 +1,5 @@
 import { EmailInput, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router";
 import styles from "./profile.module.css";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,30 +7,45 @@ import { logoutUser } from "../services/user/actions";
 
 export function ProfilePage() {
 	const { email, name } = useSelector((state) => state.user);
-	const initialFormData = { email, password: "", name };
-	// {
-	// 	email: { value: email, disabled: true },
+	// const [formData, setFormData] = useState({
 	// 	password: { value: "", disabled: true },
-	// 	name: { value: name, disabled: true },
-	// }
-	const [formData, setFormData] = useState(initialFormData);
+	// 	email: { value: "", disabled: true },
+	// 	name: { value: "", disabled: true },
+	// });
+	const [formData, setFormData] = useState({ password: "", email, name });
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
+	const nameRef = useRef();
+	const passRef = useRef();
 
-	useEffect(() => {
-		setFormData({ ...formData, email, name });
-	}, [email, name]);
+	// useEffect(() => {
+	// 	setFormData({ ...formData, email, name });
+	// }, [email, name]);
 
 	const changeHandler = (e) => {
 		setFormData({ ...formData, [e.target.name]: e.target.value });
 	};
 
-	const onIconClick = (e) => {};
+	const onIconClick = (e, key) => {
+		// setFormData({ ...formData, [key]: { ...formData[key], disabled: false } });
+		e.target.closest(".input__icon").previousElementSibling.focus();
+		// e.target.closest(".input__icon").previousElementSibling.focus();
+		// switch (key) {
+		// 	case "name":
+		// 		nameRef.current.focus();
+		// 	case "password":
+		// 		passRef.current.focus();
+		// }
+	};
 
 	const logoutHandler = (e) => {
 		e.preventDefault();
 		dispatch(logoutUser());
 		navigate("/");
+	};
+
+	const focusHandler = (e) => {
+		console.log(e.target.name);
 	};
 
 	return (
@@ -54,33 +69,41 @@ export function ProfilePage() {
 			<div>
 				<Input
 					type="text"
-					disabled={true}
+					disabled={formData.name?.disabled}
 					placeholder="Имя"
 					name="name"
-					value={formData.name || ""}
+					onIconClick={(e) => {
+						onIconClick(e, "name");
+					}}
+					value={formData.name?.value || ""}
 					onChange={changeHandler}
-					onIconClick={onIconClick}
 					extraClass="mb-6"
 					icon="EditIcon"
+					ref={nameRef}
+					onFocus={focusHandler}
 				/>
 				<EmailInput
 					type="email"
 					placeholder="Логин"
 					name="email"
-					value={formData.email || ""}
+					value={formData.email?.value || ""}
 					onChange={changeHandler}
 					isIcon={true}
 					extraClass="mb-6"
 				/>
 				<Input
 					placeholder="Пароль"
-					disabled={true}
+					disabled={formData.password?.disabled}
 					type="password"
 					onChange={changeHandler}
-					onIconClick={onIconClick}
-					value={formData.password}
+					onIconClick={(e) => {
+						onIconClick(e, "password");
+					}}
+					value={formData.password?.value || ""}
 					name="password"
 					icon="EditIcon"
+					ref={passRef}
+					onFocus={focusHandler}
 				/>
 			</div>
 		</section>
