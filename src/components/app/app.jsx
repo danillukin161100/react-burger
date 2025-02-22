@@ -47,10 +47,10 @@ function App() {
 				)}
 				<Routes location={state?.backgroundLocation || location}>
 					<Route path="/" element={<HomePage />} />
-					<Route path="/login" element={<LoginPage />} />
-					<Route path="/register" element={<RegisterPage />} />
-					<Route path="/forgot-password" element={<ForgotPasswordPage />} />
-					<Route path="/reset-password" element={<ResetPasswordPage />} />
+					<Route path="/login" element={<ProtectedRoute element={<LoginPage />} />} />
+					<Route path="/register" element={<ProtectedRoute element={<RegisterPage />} />} />
+					<Route path="/forgot-password" element={<ProtectedRoute element={<ForgotPasswordPage />} />} />
+					<Route path="/reset-password" element={<ProtectedRoute element={<ResetPasswordPage />} />} />
 					<Route path="/profile" element={<ProtectedRoute element={<ProfilePage />} />} />
 					<Route path="/ingredients/:id" element={<IngredientDetails />} />
 					<Route path="*" element={<NotFoundPage />} />

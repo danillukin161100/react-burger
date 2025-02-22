@@ -19,11 +19,12 @@ export function LoginPage() {
 	const submitHandler = (e) => {
 		e.preventDefault();
 		dispatch(loginUser(formData));
+		navigate("/");
 	};
 
-	useEffect(() => {
-		if (user.email) navigate("/");
-	}, [user]);
+	// useEffect(() => {
+	// 	if (user.email) navigate("/");
+	// }, [user]);
 
 	return (
 		<form className={styles.wrap} onSubmit={submitHandler}>

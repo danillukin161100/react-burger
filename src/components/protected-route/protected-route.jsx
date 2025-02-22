@@ -4,10 +4,11 @@ import { getCookie } from "../../utils/cookies";
 
 function ProtectedRoute({ element, to }) {
 	const navigate = useNavigate();
-	const isAuth = +getCookie('isAuth');
-	if (!to) to = "/login";
+	const isAuth = +getCookie("isAuth");
+	// if (!to) to = isAuth ? "/profile" : "/login";
 	useEffect(() => {
-		if (!isAuth) navigate(to);
+		if (isAuth) navigate('/profile');
+		else navigate('/login');
 	}, []);
 	return element;
 }

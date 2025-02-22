@@ -87,8 +87,8 @@ export const logoutUserRequest = () => {
 };
 
 export const getUserRequest = () => {
-	// const isAuth = +getCookie("isAuth");
-	// if (!isAuth) return false;
+	const isAuth = +getCookie("isAuth");
+	if (!isAuth) return false;
 	const token = getCookie("accessToken");
 	return fetch(`${BASE_URL}/auth/user`, {
 		method: "GET",
