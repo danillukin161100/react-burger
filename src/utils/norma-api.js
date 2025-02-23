@@ -17,94 +17,86 @@ const checkResponse = async (res, cb = null) => {
 	return Promise.reject(`Error ${res.status}`);
 };
 
+const request = (endpoint, options, cb = null) => {
+	return fetch(`${BASE_URL}/${endpoint}`, options).then((res) => checkResponse(res, cb));
+};
+
 export const getIngredientsRequest = () => {
-	return fetch(`${BASE_URL}/ingredients`)
-		.then(checkResponse)
-		.then((res) => res.data);
+	return request(`ingredients`).then((res) => res.data);
 };
 
 export const createOrderRequest = (ingredients) => {
-	return fetch(`${BASE_URL}/orders`, {
+	return request(`orders`, {
 		method: "POST",
 		body: JSON.stringify(ingredients),
 		headers: {
 			"Content-Type": "application/json",
 			authorization: getCookie("accessToken"),
 		},
-	})
-		.then(checkResponse)
-		.then((res) => res.order);
+	}).then((res) => res.order);
 };
 
 export const registerUserRequest = (user) => {
-	return fetch(`${BASE_URL}/auth/register`, {
+	return request(`auth/register`, {
 		method: "POST",
 		body: JSON.stringify(user),
 		headers: {
 			"Content-Type": "application/json",
 		},
-	})
-		.then(checkResponse)
-		.then((res) => {
-			setCookie("accessToken", res.accessToken);
-			setCookie("refreshToken", res.refreshToken);
-			return res;
-		});
+	}).then((res) => {
+		setCookie("accessToken", res.accessToken);
+		setCookie("refreshToken", res.refreshToken);
+		return res;
+	});
 };
 
 export const loginUserRequest = (user) => {
-	return fetch(`${BASE_URL}/auth/login`, {
+	return request(`auth/login`, {
 		method: "POST",
 		body: JSON.stringify(user),
 		headers: {
 			"Content-Type": "application/json",
 		},
-	})
-		.then(checkResponse)
-		.then((res) => {
-			setCookie("accessToken", res.accessToken, { expires: 1200 });
-			setCookie("refreshToken", res.refreshToken);
-			setCookie("isAuth", 1);
-			return res;
-		});
+	}).then((res) => {
+		setCookie("accessToken", res.accessToken, { expires: 1200 });
+		setCookie("refreshToken", res.refreshToken);
+		setCookie("isAuth", 1);
+		return res;
+	});
 };
 
 export const logoutUserRequest = () => {
 	const token = getCookie("refreshToken");
-	return fetch(`${BASE_URL}/auth/logout`, {
+	return request(`auth/logout`, {
 		method: "POST",
 		body: JSON.stringify({ token }),
 		headers: {
 			"Content-Type": "application/json",
 		},
-	})
-		.then(checkResponse)
-		.then((res) => {
-			deleteCookie("accessToken");
-			deleteCookie("refreshToken");
-			deleteCookie("isAuth");
-			return res;
-		});
+	}).then((res) => {
+		deleteCookie("accessToken");
+		deleteCookie("refreshToken");
+		deleteCookie("isAuth");
+		return res;
+	});
 };
 
 export const getUserRequest = () => {
 	const isAuth = +getCookie("isAuth");
 	if (!isAuth) return false;
 	const token = getCookie("accessToken");
-	return fetch(`${BASE_URL}/auth/user`, {
+	return request(`auth/user`, {
 		method: "GET",
 		headers: {
 			"Content-Type": "application/json",
 			authorization: token,
 		},
-	})
-		.then((res) => checkResponse(res, getUserRequest))
-		.then((res) => {
-			if (res === false) {
-				setCookie("isAuth", 0);
-			}
-			return res;
-		});
+	}).then((res) => {
+		if (res === false) {
+			setCookie("isAuth", 0);
+		}
+		return res;
+	});
 };
 
 export const updateUserRequest = (data) => {
@@ -119,53 +111,45 @@ export const updateUserRequest = (data) => {
 		if (item !== "") filteredData[key] = item;
 	}
 
-	return fetch(`${BASE_URL}/auth/user`, {
+	return request(`auth/user`, {
 		method: "PATCH",
 		headers: {
 			"Content-Type": "application/json",
 			authorization: token,
 		},
 		body: JSON.stringify(filteredData),
-	})
-		.then(checkResponse)
-		.then((res) => {
-			return res;
-		});
+	}).then((res) => {
+		return res;
+	});
 };
 
 export const updateTokenRequest = () => {
 	const refreshToken = getCookie("refreshToken");
 	if (!refreshToken) return false;
 
-	return fetch(`${BASE_URL}/auth/token`, {
+	return request(`auth/token`, {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
 		},
 		body: JSON.stringify({ token: refreshToken }),
-	})
-		.then(checkResponse)
-		.then((res) => {
-			setCookie("accessToken", res.accessToken, { expires: 1200 });
-			setCookie("refreshToken", res.refreshToken);
-			return res;
-		});
+	}).then((res) => {
+		setCookie("accessToken", res.accessToken, { expires: 1200 });
+		setCookie("refreshToken", res.refreshToken);
+		return res;
+	});
 };
 
 export const forgotPasswordRequest = (formData) => {
-	return fetch(`${BASE_URL}/password-reset`, {
+	return request(`password-reset`, {
 		method: "POST",
 		body: JSON.stringify(formData),
-	})
-		.then(checkResponse)
-		.then((res) => res);
+	}).then((res) => res);
 };
 
 export const resetPasswordRequest = (formData) => {
-	return fetch(`${BASE_URL}/password-reset/reset`, {
+	return request(`password-reset/reset`, {
 		method: "POST",
 		body: JSON.stringify(formData),
-	})
-		.then(checkResponse)
-		.then((res) => res);
+	}).then((res) => res);
 };
