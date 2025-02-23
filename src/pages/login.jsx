@@ -1,7 +1,6 @@
 import { Button, EmailInput, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./form-page.module.css";
-import { Link, useLocation, useNavigate } from "react-router";
-import { useState } from "react";
+import { Link } from "react-router";
 import { loginUser } from "../services/user/actions";
 import { useDispatch } from "react-redux";
 import { useForm } from "../hooks/useForm";
@@ -9,14 +8,11 @@ import { useForm } from "../hooks/useForm";
 export function LoginPage() {
 	const initialFormData = { email: "", password: "" };
 	const dispatch = useDispatch();
-	const navigate = useNavigate();
-	const location = useLocation();
 	const { formData, changeHandler } = useForm(initialFormData);
 
 	const submitHandler = (e) => {
 		e.preventDefault();
 		dispatch(loginUser(formData));
-		navigate(location.state?.backlink || "/");
 	};
 
 	return (

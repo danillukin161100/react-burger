@@ -9,13 +9,12 @@ const initialState = {
 	// refreshToken: null,
 	loading: false,
 	error: null,
+	isLoggedIn: false,
 };
 
 export const userSlice = createSlice({
 	name: "user",
 	initialState,
-	// reducers: {},
-	// selectors: {},
 	extraReducers: (builder) => {
 		builder
 			.addCase(registerUser.pending, (state) => {
@@ -37,6 +36,7 @@ export const userSlice = createSlice({
 				state.loading = false;
 				state.email = action.payload.user.email;
 				state.name = action.payload.user.name;
+				state.isLoggedIn = true;
 			})
 			.addCase(loginUser.rejected, (state, action) => {
 				state.loading = false;
@@ -45,16 +45,17 @@ export const userSlice = createSlice({
 			.addCase(logoutUser.fulfilled, (state) => {
 				state.email = null;
 				state.name = null;
+				state.isLoggedIn = false;
 			})
-			.addCase(getUser.pending, (state, action) => {
+			.addCase(getUser.pending, (state) => {
 				state.loading = true;
 			})
 			.addCase(getUser.fulfilled, (state, action) => {
 				state.loading = false;
-				// console.log(action.payload);
 				if (action.payload) {
 					state.email = action.payload.user.email;
 					state.name = action.payload.user.name;
+					state.isLoggedIn = true;
 				}
 			})
 			.addCase(getUser.rejected, (state, action) => {
