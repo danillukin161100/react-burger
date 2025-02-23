@@ -45,7 +45,7 @@ function ConstructorIngredient(props) {
 			<ConstructorElement
 				type={props.formType}
 				isLocked={!!props.formType}
-				text={props.name}
+				text={`${props.name} ${props.formType === 'top' ? '(верх)' : props.formType === 'bottom' && '(низ)'}`}
 				price={props.price}
 				thumbnail={props.image}
 				handleClose={() => removeHandler(props.id)}
