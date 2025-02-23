@@ -1,29 +1,23 @@
 import { Button, EmailInput, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./form-page.module.css";
 import { Link, useNavigate } from "react-router";
-import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { registerUser } from "../services/user/actions";
-import { getCookie } from "../utils/cookies";
+import { useForm } from "../hooks/useForm";
 
 export function RegisterPage() {
 	const initialFormData = { email: "", password: "", name: "" };
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
-	const user = useSelector((state) => state.user);
-	const [formData, setFormData] = useState(initialFormData);
-
-	const changeHandler = (e) => {
-		setFormData({ ...formData, [e.target.name]: e.target.value });
-	};
+	const { formData, changeHandler } = useForm(initialFormData);
 
 	const submitHandler = (e) => {
 		e.preventDefault();
-		dispatch(registerUser(formData).then(res => {
-			if (res.success) navigate('/')
-		}));
-
-		// if (user.email) navigate("/");
+		dispatch(
+			registerUser(formData).then((res) => {
+				if (res.success) navigate("/");
+			})
+		);
 	};
 
 	return (

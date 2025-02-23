@@ -1,16 +1,12 @@
 import { Button, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./form-page.module.css";
 import { Link } from "react-router";
-import { useState } from "react";
 import { resetPasswordRequest } from "../utils/norma-api";
+import { useForm } from "../hooks/useForm";
 
 export function ResetPasswordPage() {
 	const initialFormData = { password: "", token: "" };
-	const [formData, setFormData] = useState(initialFormData);
-
-	const changeHandler = (e) => {
-		setFormData({ ...formData, [e.target.name]: e.target.value });
-	};
+	const { formData, changeHandler } = useForm(initialFormData);
 
 	const submitHandler = (e) => {
 		e.preventDefault();

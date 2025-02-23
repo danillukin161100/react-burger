@@ -4,17 +4,14 @@ import { Link, useLocation, useNavigate } from "react-router";
 import { useState } from "react";
 import { loginUser } from "../services/user/actions";
 import { useDispatch } from "react-redux";
+import { useForm } from "../hooks/useForm";
 
 export function LoginPage() {
 	const initialFormData = { email: "", password: "" };
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
-	const [formData, setFormData] = useState(initialFormData);
 	const location = useLocation();
-
-	const changeHandler = (e) => {
-		setFormData({ ...formData, [e.target.name]: e.target.value });
-	};
+	const { formData, changeHandler } = useForm(initialFormData);
 
 	const submitHandler = (e) => {
 		e.preventDefault();

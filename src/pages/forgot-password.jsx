@@ -1,17 +1,12 @@
 import { Button, EmailInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./form-page.module.css";
-import { Link, useNavigate } from "react-router";
-import { useState } from "react";
+import { Link } from "react-router";
 import { forgotPasswordRequest } from "../utils/norma-api";
+import { useForm } from "../hooks/useForm";
 
 export function ForgotPasswordPage() {
 	const initialFormData = { email: "" };
-	const [formData, setFormData] = useState(initialFormData);
-	const navigate = useNavigate();
-
-	const changeHandler = (e) => {
-		setFormData({ ...formData, [e.target.name]: e.target.value });
-	};
+	const { formData, changeHandler } = useForm(initialFormData);
 
 	const submitHandler = (e) => {
 		e.preventDefault();

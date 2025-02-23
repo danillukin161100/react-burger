@@ -1,26 +1,24 @@
 import { Button, EmailInput, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router";
 import styles from "./profile.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser, updateUser } from "../services/user/actions";
+import { useForm } from "../hooks/useForm";
 
 export function ProfilePage() {
 	const { email, name } = useSelector((state) => state.user);
 	const initialFormData = { password: "", email, name };
-	const [formData, setFormData] = useState(initialFormData);
 	const [isChanged, setIsChanged] = useState(false);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
+	const { formData, changeHandler, setFormData } = useForm(initialFormData, () => {
+		setIsChanged(true);
+	});
 
 	useEffect(() => {
 		setFormData({ ...formData, email, name });
 	}, [email, name]);
-
-	const changeHandler = (e) => {
-		setFormData({ ...formData, [e.target.name]: e.target.value });
-		setIsChanged(true);
-	};
 
 	const logoutHandler = (e) => {
 		e.preventDefault();
@@ -31,6 +29,7 @@ export function ProfilePage() {
 	const submitHandler = (e) => {
 		e.preventDefault();
 		dispatch(updateUser(formData));
+		setIsChanged(false);
 	};
 
 	const resetHandler = () => {
