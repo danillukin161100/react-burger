@@ -1,61 +1,60 @@
-import { useEffect, useState } from "react";
+import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
+import { HomePage, NotFoundPage, ProfilePage, ResetPasswordPage, ForgotPasswordPage, RegisterPage, LoginPage } from "../../pages/";
 import AppHeader from "../app-header/app-header.jsx";
-import BurgerConstructor from "../burger-constructor/burger-constructor.jsx";
-import BurgerIngridients from "../burger-ingridients/burger-ingridients.jsx";
-
-import styles from "./app.module.css";
-import { INGRIDIENTS_API_URL, categories } from "../../utils/data.js";
+import IngredientDetails from "../burger-ingredients/ingredient-details/ingredient-details.jsx";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { loadIngredients } from "../../services/ingredients/actions.js";
+import Loader from "../loader/loader.jsx";
+import Modal from "../modal/modal.jsx";
+import { getUser } from "../../services/user/actions.js";
+import ProtectedRoute from "../protected-route/protected-route.jsx";
 
 function App() {
-	const [ingridientsData, setIngridientsData] = useState([]);
-	const [isLoading, setIsLoading] = useState(true);
+	const dispatch = useDispatch();
+	const location = useLocation();
+	const navigate = useNavigate();
+	const { state } = location;
+	const { loading } = useSelector((store) => store.ingredients);
 
 	useEffect(() => {
-		getData();
+		dispatch(loadIngredients());
+		dispatch(getUser());
 	}, []);
 
-	const getData = async () => {
-		try {
-			setIsLoading(true);
-			await fetch(INGRIDIENTS_API_URL)
-				.then((res) =>
-					res.ok ? res.json() : Promise.reject(`Error ${res.status}`)
-				)
-				.then((res) => {
-					setIngridientsData(res.data);
-
-					/**
-					 * Пока не реализован функционал добавления в конструктор
-					 * реализовал через localStorage в качестве временного решения
-					 */
-					localStorage.setItem(
-						"constructorIngridients",
-						JSON.stringify(res.data)
-					);
-
-					setIsLoading(false);
-				});
-		} catch (error) {
-			setIsLoading(false);
-			console.error("Error get Data from API", error);
-		}
-	};
+	if (loading) return <Loader fullscreen={true} />;
 
 	return (
 		<>
 			<AppHeader />
-			<main className={`${styles.wrap} container`}>
-				{isLoading ? (
-					"Загрузка..."
-				) : (
-					<>
-						<BurgerIngridients
-							categories={categories}
-							ingridients={ingridientsData}
+			<main className="container text text_type_main-default">
+				{state?.backgroundLocation && (
+					<Routes>
+						<Route
+							path="/ingredients/:id"
+							element={
+								<Modal
+									header={true}
+									onClose={() => {
+										navigate(-1);
+									}}
+								>
+									<IngredientDetails />
+								</Modal>
+							}
 						/>
-						<BurgerConstructor ingridients={ingridientsData} />
-					</>
+					</Routes>
 				)}
+				<Routes location={state?.backgroundLocation || location}>
+					<Route path="/" element={<HomePage />} />
+					<Route path="/login" element={<ProtectedRoute element={<LoginPage />} anonymous={true} />} />
+					<Route path="/register" element={<ProtectedRoute element={<RegisterPage />} anonymous={true} />} />
+					<Route path="/forgot-password" element={<ProtectedRoute element={<ForgotPasswordPage />} anonymous={true} />} />
+					<Route path="/reset-password" element={<ProtectedRoute element={<ResetPasswordPage />} anonymous={true} />} />
+					<Route path="/profile" element={<ProtectedRoute element={<ProfilePage />} />} />
+					<Route path="/ingredients/:id" element={<IngredientDetails />} />
+					<Route path="*" element={<NotFoundPage />} />
+				</Routes>
 			</main>
 		</>
 	);

@@ -7,7 +7,7 @@ import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import styles from "./modal.module.css";
 
-function Modal({ onClose, header, children, ...props }) {
+function Modal({ onClose, header, children }) {
 	const [isActive, setActive] = useState(false);
 
 	useEffect(() => {
@@ -28,23 +28,8 @@ function Modal({ onClose, header, children, ...props }) {
 	return createPortal(
 		<div className={`${styles.modal}`}>
 			<ModalOverlay onClick={onClose} isActive={isActive} />
-			<div
-				className={`${styles.modalWindow} ${
-					isActive && styles.modalWindowActive
-				} p-10 ${header ? "pt-10" : "pt-30"} pb-15`}
-			>
-				{header && (
-					<div
-						className={`text text_type_main-large ${styles.header}`}
-					>
-						{header}
-					</div>
-				)}
-				<button
-					type="button"
-					className={styles.close}
-					onClick={onClose}
-				>
+			<div className={`${styles.modalWindow} ${isActive && styles.modalWindowActive} p-10 ${header ? "pt-10" : "pt-30"} pb-15`}>
+				<button type="button" className={styles.close} onClick={onClose}>
 					<CloseIcon />
 				</button>
 				{children}
@@ -55,11 +40,8 @@ function Modal({ onClose, header, children, ...props }) {
 }
 
 Modal.propTypes = {
-	children: PropTypes.oneOfType([
-		PropTypes.arrayOf(PropTypes.node),
-		PropTypes.node,
-	]).isRequired,
-	header: PropTypes.string,
+	children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
+	header: PropTypes.bool,
 	onClose: PropTypes.func,
 };
 
