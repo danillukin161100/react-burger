@@ -2,7 +2,7 @@ import { Button, Input, PasswordInput } from "@ya.praktikum/react-developer-burg
 import styles from "./form-page.module.css";
 import { Link } from "react-router";
 import { resetPasswordRequest } from "../utils/norma-api";
-import { useForm } from "../hooks/useForm";
+import { useForm } from "../hooks";
 
 export function ResetPasswordPage() {
 	const initialFormData = { password: "", token: "" };

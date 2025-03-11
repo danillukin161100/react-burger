@@ -3,7 +3,7 @@ import styles from "./form-page.module.css";
 import { Link } from "react-router";
 import { loginUser } from "../services/user/actions";
 import { useDispatch } from "react-redux";
-import { useForm } from "../hooks/useForm";
+import { useForm } from "../hooks";
 
 export function LoginPage() {
 	const initialFormData = { email: "", password: "" };

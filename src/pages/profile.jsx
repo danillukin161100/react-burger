@@ -4,7 +4,7 @@ import { Link, NavLink, useNavigate } from "react-router";
 import styles from "./profile.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser, updateUser } from "../services/user/actions";
-import { useForm } from "../hooks/useForm";
+import { useForm } from "../hooks";
 
 export function ProfilePage() {
 	const { email, name } = useSelector((state) => state.user);

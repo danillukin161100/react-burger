@@ -3,7 +3,7 @@ import styles from "./form-page.module.css";
 import { Link, useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
 import { registerUser } from "../services/user/actions";
-import { useForm } from "../hooks/useForm";
+import { useForm } from "../hooks";
 
 export function RegisterPage() {
 	const initialFormData = { email: "", password: "", name: "" };

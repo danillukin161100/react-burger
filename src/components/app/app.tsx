@@ -1,21 +1,22 @@
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
-import { HomePage, NotFoundPage, ProfilePage, ResetPasswordPage, ForgotPasswordPage, RegisterPage, LoginPage } from "../../pages/";
+import { HomePage, NotFoundPage, ProfilePage, ResetPasswordPage, ForgotPasswordPage, RegisterPage, LoginPage } from "../../pages/index.js";
 import AppHeader from "../app-header/app-header.jsx";
 import IngredientDetails from "../burger-ingredients/ingredient-details/ingredient-details.jsx";
-import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { loadIngredients } from "../../services/ingredients/actions.js";
 import Loader from "../loader/loader.jsx";
 import Modal from "../modal/modal.jsx";
 import { getUser } from "../../services/user/actions.js";
 import ProtectedRoute from "../protected-route/protected-route.jsx";
+import { useAppDispatch, useAppSelector } from "../../hooks/index.js";
+import React from "react";
 
 function App() {
-	const dispatch = useDispatch();
+	const dispatch = useAppDispatch();
 	const location = useLocation();
 	const navigate = useNavigate();
 	const { state } = location;
-	const { loading } = useSelector((store) => store.ingredients);
+	const { loading } = useAppSelector((store) => store.ingredients);
 
 	useEffect(() => {
 		dispatch(loadIngredients());

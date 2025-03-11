@@ -2,7 +2,7 @@ import { Button, EmailInput } from "@ya.praktikum/react-developer-burger-ui-comp
 import styles from "./form-page.module.css";
 import { Link } from "react-router";
 import { forgotPasswordRequest } from "../utils/norma-api";
-import { useForm } from "../hooks/useForm";
+import { useForm } from "../hooks";
 
 export function ForgotPasswordPage() {
 	const initialFormData = { email: "" };
