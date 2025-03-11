@@ -1,4 +1,5 @@
 import PropTypes from "prop-types";
+import { store } from "../services/store";
 
 export const ingredientType = {
 	_id: PropTypes.string.isRequired,
@@ -16,4 +17,11 @@ export const ingredientType = {
 	__v: PropTypes.number,
 };
 
-export default { ingredientType };
+export interface ApiResponse extends Response {
+	data?: object[];
+	order?: object;
+	accessToken?: string;
+	refreshToken?: string;
+}
+
+export type RootStore = ReturnType<typeof store.getState>;
