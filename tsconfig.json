@@ -1,0 +1,9 @@
+{
+	"include": ["src", "global.d.ts"],
+	"compilerOptions": {
+		"module": "ESNext",
+		"moduleResolution": "Node",
+		"esModuleInterop": true,
+		"jsx": "react-jsx"
+	}
+}

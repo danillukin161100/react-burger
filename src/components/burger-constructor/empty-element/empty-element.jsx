@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import styles from "./empty-element.module.css";
 import { useDrop } from "react-dnd";
-import { addIngredient } from "../../../services/burger-constructor/actions";
+import { addIngredient } from "../../../services/burger-constructor/actions.ts";
 
 function EmptyElement(props) {
 	const { type, text } = props;

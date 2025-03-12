@@ -1,8 +1,14 @@
-import { createSelector, createSlice } from "@reduxjs/toolkit";
-import { addIngredient, clearConstructor, removeIngredient, sortIngredients } from "./actions";
+import { createSelector, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { addIngredient, removeIngredient, sortIngredients } from "./actions";
 import { createOrder } from "../orders/actions";
+import { Ingredient, RootState } from "../../utils/types";
 
-const initialState = {
+interface BurgerConstructorState {
+	ingredients: Ingredient[],
+	bun: null | Ingredient,
+}
+
+const initialState: BurgerConstructorState = {
 	ingredients: [],
 	bun: null,
 };
@@ -40,10 +46,12 @@ export const burgerConstructorSlice = createSlice({
 	},
 	extraReducers: (builder) => {
 		builder
-			.addCase(addIngredient, (state, action) => {
+			.addCase(addIngredient, (state:BurgerConstructorState, action:PayloadAction<Ingredient>) => {
 				const ingredient = action.payload;
 				const bun = state.bun;
 				const ingredients = state.ingredients;
+
+				if (typeof ingredients !== 'object') return;
 				const current = ingredients.find((item) => ingredient.id === item.id);
 
 				/* Обработчик булки */

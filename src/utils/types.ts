@@ -24,9 +24,22 @@ export interface ApiResponse extends Response {
 	refreshToken?: string;
 }
 
-// Get the type of our store variable
-export type AppStore = typeof store
-// Infer the `RootState` and `AppDispatch` types from the store itself
-export type RootState = ReturnType<AppStore['getState']>
-// Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
-export type AppDispatch = AppStore['dispatch']
+export type AppStore = typeof store;
+export type RootState = ReturnType<AppStore["getState"]>;
+export type AppDispatch = AppStore["dispatch"];
+
+export interface Ingredient {
+	_id?: string;
+	id?: string;
+	name: string;
+	type: string;
+	proteins: number;
+	fat: number;
+	carbohydrates: number;
+	calories: number;
+	price: number;
+	image: string;
+	image_mobile: string;
+	image_large: string;
+	__v: number;
+}

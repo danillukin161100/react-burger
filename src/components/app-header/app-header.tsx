@@ -1,11 +1,12 @@
+// import styles from "./app-header.module.css";
 import styles from "./app-header.module.css";
 import { BurgerIcon, ListIcon, Logo, ProfileIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useSelector } from "react-redux";
 import { Link, NavLink, useLocation } from "react-router";
+import { useAppSelector } from "../../hooks";
 
 function AppHeader() {
 	const { pathname } = useLocation();
-	const user = useSelector((state) => state.user);
+	const user = useAppSelector((state) => state.user);
 
 	return (
 		<header className={`text text_type_main-default ${styles.header}`}>

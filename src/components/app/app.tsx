@@ -9,7 +9,6 @@ import Modal from "../modal/modal.jsx";
 import { getUser } from "../../services/user/actions.js";
 import ProtectedRoute from "../protected-route/protected-route.jsx";
 import { useAppDispatch, useAppSelector } from "../../hooks/index.js";
-import React from "react";
 
 function App() {
 	const dispatch = useAppDispatch();
