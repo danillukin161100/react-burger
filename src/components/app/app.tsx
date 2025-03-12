@@ -1,7 +1,7 @@
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import { HomePage, NotFoundPage, ProfilePage, ResetPasswordPage, ForgotPasswordPage, RegisterPage, LoginPage } from "../../pages/index.js";
 import AppHeader from "../app-header/app-header.jsx";
-import IngredientDetails from "../burger-ingredients/ingredient-details/ingredient-details.jsx";
+import IngredientDetails from "../burger-ingredients/ingredient-details/ingredient-details.tsx";
 import { useEffect } from "react";
 import { loadIngredients } from "../../services/ingredients/actions.js";
 import Loader from "../loader/loader.jsx";
