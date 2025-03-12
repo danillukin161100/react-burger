@@ -5,7 +5,7 @@ import IngredientDetails from "../burger-ingredients/ingredient-details/ingredie
 import { useEffect } from "react";
 import { loadIngredients } from "../../services/ingredients/actions.js";
 import Loader from "../loader/loader.jsx";
-import Modal from "../modal/modal.jsx";
+import Modal from "../modal/modal.tsx";
 import { getUser } from "../../services/user/actions.js";
 import ProtectedRoute from "../protected-route/protected-route.jsx";
 import { useAppDispatch, useAppSelector } from "../../hooks/index.js";
