@@ -30,7 +30,7 @@ function Modal({ onClose, header, children }) {
 			<ModalOverlay onClick={onClose} isActive={isActive} />
 			<div className={`${styles.modalWindow} ${isActive && styles.modalWindowActive} p-10 ${header ? "pt-10" : "pt-30"} pb-15`}>
 				<button type="button" className={styles.close} onClick={onClose}>
-					<CloseIcon />
+					<CloseIcon type={"primary"} />
 				</button>
 				{children}
 			</div>
