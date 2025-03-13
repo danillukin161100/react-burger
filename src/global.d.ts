@@ -11,10 +11,10 @@ declare module "react" {
 	}
 }
 
-// declare module "*.module.css" {
-// 	const classes: { [key: string]: string };
-// 	export default classes;
-// }
+declare module "*.module.css" {
+	const classes: { [key: string]: string };
+	export default classes;
+}
 
 // declare module "*.css" {
 // 	interface IClassNames {
@@ -24,4 +24,4 @@ declare module "react" {
 // 	export = classNames;
 // }
 
-declare module "*.module.css";
+// declare module "*.module.css";
