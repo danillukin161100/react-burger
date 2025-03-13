@@ -1,9 +1,10 @@
 import PropTypes from "prop-types";
 import { Navigate, useLocation } from "react-router";
-import { useSelector } from "react-redux";
+import { useAppSelector } from "../../hooks";
+import { ReactElement } from "react";
 
-function ProtectedRoute({ element, anonymous = false }) {
-	const isLoggedIn = useSelector((store) => store.user.isLoggedIn);
+function ProtectedRoute({ element, anonymous = false }: { element: ReactElement; anonymous?: boolean }) {
+	const isLoggedIn = useAppSelector((store) => store.user.isLoggedIn);
 	const location = useLocation();
 	const from = location.state?.from || "/";
 	// Если разрешен неавторизованный доступ, а пользователь авторизован...

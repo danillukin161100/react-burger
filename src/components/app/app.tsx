@@ -6,9 +6,9 @@ import { useEffect } from "react";
 import { loadIngredients } from "../../services/ingredients/actions.ts";
 import Loader from "../loader/loader.tsx";
 import Modal from "../modal/modal.tsx";
-import { getUser } from "../../services/user/actions.js";
-import ProtectedRoute from "../protected-route/protected-route.jsx";
-import { useAppDispatch, useAppSelector } from "../../hooks/index.js";
+import { getUser } from "../../services/user/actions.ts";
+import ProtectedRoute from "../protected-route/protected-route.tsx";
+import { useAppDispatch, useAppSelector } from "../../hooks/index.ts";
 
 function App() {
 	const dispatch = useAppDispatch();

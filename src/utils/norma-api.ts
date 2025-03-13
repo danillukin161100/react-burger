@@ -1,6 +1,6 @@
 import { deleteCookie, getCookie, setCookie } from "./cookies";
 import { BASE_URL } from "./data";
-import { ApiResponse } from "./types";
+import { ApiResponse, Ingredient, User } from "./types";
 
 const checkResponse = async (res: Response, cb: null | Function = null): Promise<ApiResponse | boolean> => {
 	if (res.status === 401) {
@@ -18,18 +18,18 @@ const checkResponse = async (res: Response, cb: null | Function = null): Promise
 	return Promise.reject(`Error ${res.status}`);
 };
 
-const request = (endpoint: string, options: RequestInit | undefined = undefined, cb: Function | null = null) => {
-	return fetch(`${BASE_URL}/${endpoint}`, options).then((res) => checkResponse(res, cb));
+const request = async (endpoint: string, options: RequestInit | undefined = undefined, cb: Function | null = null) => {
+	const res = await fetch(`${BASE_URL}/${endpoint}`, options);
+	return await checkResponse(res, cb);
 };
 
-export const getIngredientsRequest = (): Promise<object[] | boolean> => {
-	return request(`ingredients`).then((res) => {
-		if (typeof res === "boolean") return res;
-		return res.data as object[];
-	});
+export const getIngredientsRequest = async (): Promise<object[] | boolean> => {
+	const res = await request(`ingredients`);
+	if (typeof res === "boolean") return res;
+	return res.data as object[];
 };
 
-export const createOrderRequest = (ingredients) => {
+export const createOrderRequest = (ingredients: Ingredient[]) => {
 	const accessToken = getCookie("accessToken");
 	if (typeof accessToken !== "string") return false;
 	return request(`orders`, {
@@ -45,51 +45,48 @@ export const createOrderRequest = (ingredients) => {
 	});
 };
 
-export const registerUserRequest = (user) => {
-	return request(`auth/register`, {
+export const registerUserRequest = async (user: User) => {
+	const res = await request(`auth/register`, {
 		method: "POST",
 		body: JSON.stringify(user),
 		headers: {
 			"Content-Type": "application/json",
 		},
-	}).then((res) => {
-		if (typeof res === "boolean") return res;
-		setCookie("accessToken", res.accessToken);
-		setCookie("refreshToken", res.refreshToken);
-		return res;
 	});
+	if (typeof res === "boolean") return res;
+	if (res.accessToken) setCookie("accessToken", res.accessToken);
+	if (res.refreshToken) setCookie("refreshToken", res.refreshToken);
+	return res;
 };
 
-export const loginUserRequest = (user) => {
-	return request(`auth/login`, {
+export const loginUserRequest = async (user: User) => {
+	const res = await request(`auth/login`, {
 		method: "POST",
 		body: JSON.stringify(user),
 		headers: {
 			"Content-Type": "application/json",
 		},
-	}).then((res) => {
-		if (typeof res === "boolean") return res;
-		setCookie("accessToken", res.accessToken, { expires: 1200 });
-		setCookie("refreshToken", res.refreshToken);
-		setCookie("isAuth", 1);
-		return res;
 	});
+	if (typeof res === "boolean") return res;
+	if (res.accessToken) setCookie("accessToken", res.accessToken, { expires: 1200 });
+	if (res.refreshToken) setCookie("refreshToken", res.refreshToken);
+	setCookie("isAuth", 1);
+	return res;
 };
 
-export const logoutUserRequest = () => {
+export const logoutUserRequest = async () => {
 	const token = getCookie("refreshToken");
-	return request(`auth/logout`, {
+	const res = await request(`auth/logout`, {
 		method: "POST",
 		body: JSON.stringify({ token }),
 		headers: {
 			"Content-Type": "application/json",
 		},
-	}).then((res) => {
-		deleteCookie("accessToken");
-		deleteCookie("refreshToken");
-		deleteCookie("isAuth");
-		return res;
 	});
+	deleteCookie("accessToken");
+	deleteCookie("refreshToken");
+	deleteCookie("isAuth");
+	return res;
 };
 
 export const getUserRequest = () => {
@@ -113,18 +110,18 @@ export const getUserRequest = () => {
 	});
 };
 
-export const updateUserRequest = (data) => {
+export const updateUserRequest = (data: User) => {
 	const isAuth = getCookie("isAuth");
 	if (isAuth === undefined) return false;
 
 	const token = getCookie("accessToken");
 	if (typeof token !== "string") return false;
 
-	const filteredData = {};
+	const filteredData: User = {};
 	for (let key in data) {
-		const item = data[key];
+		const item = data[key as keyof User];
 
-		if (item !== "") filteredData[key] = item;
+		if (item !== "") filteredData[key as keyof User] = item;
 	}
 
 	return request(`auth/user`, {
@@ -151,22 +148,24 @@ export const updateTokenRequest = () => {
 		body: JSON.stringify({ token: refreshToken }),
 	}).then((res) => {
 		if (typeof res === "boolean") return res;
-		setCookie("accessToken", res.accessToken, { expires: 1200 });
-		setCookie("refreshToken", res.refreshToken);
+		if (res.accessToken) setCookie("accessToken", res.accessToken, { expires: 1200 });
+		if (res.refreshToken) setCookie("refreshToken", res.refreshToken);
 		return res;
 	});
 };
 
-export const forgotPasswordRequest = (formData) => {
-	return request(`password-reset`, {
+export const forgotPasswordRequest = async (formData: User) => {
+	const res = await request(`password-reset`, {
 		method: "POST",
 		body: JSON.stringify(formData),
-	}).then((res) => res);
+	});
+	return res;
 };
 
-export const resetPasswordRequest = (formData) => {
-	return request(`password-reset/reset`, {
+export const resetPasswordRequest = async (formData: User) => {
+	const res = await request(`password-reset/reset`, {
 		method: "POST",
 		body: JSON.stringify(formData),
-	}).then((res) => res);
+	});
+	return res;
 };

@@ -1,16 +1,19 @@
 import { Button, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./form-page.module.css";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { resetPasswordRequest } from "../utils/norma-api";
 import { useForm } from "../hooks";
+import { FormEvent } from "react";
 
 export function ResetPasswordPage() {
 	const initialFormData = { password: "", token: "" };
 	const { formData, changeHandler } = useForm(initialFormData);
+	const navigate = useNavigate();
 
-	const submitHandler = (e) => {
+	const submitHandler = (e:FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		resetPasswordRequest(formData).then((res) => {
+			if (typeof res === "boolean") return res;
 			if (res.success) navigate("/login");
 		});
 	};

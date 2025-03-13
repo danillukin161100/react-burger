@@ -1,16 +1,16 @@
-import { Button, EmailInput, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
+import { Button, EmailInput, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./form-page.module.css";
 import { Link } from "react-router";
 import { loginUser } from "../services/user/actions";
-import { useDispatch } from "react-redux";
-import { useForm } from "../hooks";
+import { useAppDispatch, useForm } from "../hooks";
+import { FormEvent } from "react";
 
 export function LoginPage() {
 	const initialFormData = { email: "", password: "" };
-	const dispatch = useDispatch();
+	const dispatch = useAppDispatch();
 	const { formData, changeHandler } = useForm(initialFormData);
 
-	const submitHandler = (e) => {
+	const submitHandler = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		dispatch(loginUser(formData));
 	};
@@ -18,7 +18,7 @@ export function LoginPage() {
 	return (
 		<form className={styles.wrap} onSubmit={submitHandler}>
 			<h1>Вход</h1>
-			<EmailInput type="email" placeholder="E-mail" name="email" value={formData.email} onChange={changeHandler} extraClass="mb-6" />
+			<EmailInput placeholder="E-mail" name="email" value={formData.email} onChange={changeHandler} extraClass="mb-6" />
 			<PasswordInput onChange={changeHandler} value={formData.password} name="password" extraClass="mb-6" />
 			<Button htmlType="submit">Войти</Button>
 

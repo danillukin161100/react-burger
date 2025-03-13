@@ -20,6 +20,7 @@ export const ingredientType = {
 export interface ApiResponse extends Response {
 	data?: object[];
 	order?: object;
+	success?: object | boolean;
 	accessToken?: string;
 	refreshToken?: string;
 }
@@ -42,4 +43,11 @@ export interface Ingredient {
 	image_mobile: string;
 	image_large: string;
 	__v: number;
+}
+
+export interface User {
+	login?: string,
+	email?: string,
+	paswword?: string,
+	name?: string,
 }
