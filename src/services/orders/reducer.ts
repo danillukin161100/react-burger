@@ -1,18 +1,27 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { closeOrder, createOrder, openOrder } from "./actions";
+import { createSlice, Slice, SliceSelectors } from "@reduxjs/toolkit";
+import { closeOrder, createOrder, openOrder } from "./actions.ts";
+import { Order } from "../../utils/types.ts";
 
-const initialState = {
+type OrderState = {
+	order: null | Order;
+	loading: boolean;
+	error: null | string;
+	modal: boolean;
+};
+
+const initialState: OrderState = {
 	order: null,
 	loading: false,
 	error: null,
 	modal: false,
 };
 
-export const orderSlice = createSlice({
+export const orderSlice: Slice<OrderState> = createSlice({
 	name: "orders",
+	reducers: {},
 	initialState,
 	selectors: {
-		getOrderNumber: (state) => state.order.number,
+		getOrderNumber: (state) => state.order?.number,
 	},
 	extraReducers: (builder) => {
 		builder
@@ -22,6 +31,7 @@ export const orderSlice = createSlice({
 			.addCase(createOrder.fulfilled, (state, action) => {
 				state.loading = false;
 				state.modal = true;
+				if (typeof action.payload === 'boolean') return;
 				state.order = action.payload;
 			})
 			.addCase(createOrder.rejected, (state, action) => {
@@ -37,5 +47,4 @@ export const orderSlice = createSlice({
 	},
 });
 
-export const { getOrderNumber } = orderSlice.selectors;
-// export const {createOrder, openOrder, closeOrder} = orderSlice.extraReducers;
+export const { getOrderNumber } = orderSlice.selectors as SliceSelectors<OrderState>;

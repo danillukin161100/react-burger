@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import styles from "./ingredient-details.module.css";
-import { getIngredientById, getModalIngredient } from "../../../services/ingredients/reducer";
+import { getIngredientById } from "../../../services/ingredients/reducer.ts";
 import { useLocation, useParams } from "react-router";
 import { NotFoundPage } from "../../../pages";
 

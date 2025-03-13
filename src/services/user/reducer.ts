@@ -1,19 +1,24 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, Slice } from "@reduxjs/toolkit";
 import { getUser, loginUser, logoutUser, registerUser, updateUser } from "./actions";
-import { setCookie } from "../../utils/cookies";
+import { User } from "../../utils/types";
 
-const initialState = {
-	email: null,
-	name: null,
-	// accessToken: null,
-	// refreshToken: null,
+type UserState = User & {
+	loading: boolean;
+	error: null | string;
+	isLoggedIn: boolean;
+};
+
+const initialState: UserState = {
+	email: undefined,
+	name: undefined,
 	loading: false,
 	error: null,
 	isLoggedIn: false,
 };
 
-export const userSlice = createSlice({
+export const userSlice: Slice<UserState> = createSlice({
 	name: "user",
+	reducers: {},
 	initialState,
 	extraReducers: (builder) => {
 		builder
@@ -22,6 +27,7 @@ export const userSlice = createSlice({
 			})
 			.addCase(registerUser.fulfilled, (state, action) => {
 				state.loading = false;
+				if (typeof action.payload === "boolean" || typeof action.payload.user === "undefined") return;
 				state.email = action.payload.user.email;
 				state.name = action.payload.user.name;
 			})
@@ -34,6 +40,7 @@ export const userSlice = createSlice({
 			})
 			.addCase(loginUser.fulfilled, (state, action) => {
 				state.loading = false;
+				if (typeof action.payload === "boolean" || typeof action.payload.user === "undefined") return;
 				state.email = action.payload.user.email;
 				state.name = action.payload.user.name;
 				state.isLoggedIn = true;
@@ -43,8 +50,8 @@ export const userSlice = createSlice({
 				state.error = action.error?.message || "Unknown error";
 			})
 			.addCase(logoutUser.fulfilled, (state) => {
-				state.email = null;
-				state.name = null;
+				state.email = undefined;
+				state.name = undefined;
 				state.isLoggedIn = false;
 			})
 			.addCase(getUser.pending, (state) => {
@@ -52,17 +59,17 @@ export const userSlice = createSlice({
 			})
 			.addCase(getUser.fulfilled, (state, action) => {
 				state.loading = false;
-				if (action.payload) {
-					state.email = action.payload.user.email;
-					state.name = action.payload.user.name;
-					state.isLoggedIn = true;
-				}
+				if (typeof action.payload === "boolean" || typeof action.payload.user === "undefined") return;
+				state.email = action.payload.user.email;
+				state.name = action.payload.user.name;
+				state.isLoggedIn = true;
 			})
 			.addCase(getUser.rejected, (state, action) => {
 				state.loading = false;
 				state.error = action.error?.message || "Unknown error";
 			})
 			.addCase(updateUser.fulfilled, (state, action) => {
+				if (typeof action.payload === "boolean" || typeof action.payload.user === "undefined") return;
 				state.email = action.payload.user.email;
 				state.name = action.payload.user.name;
 			});

@@ -1,7 +1,16 @@
-import { createSelector, createSlice } from "@reduxjs/toolkit";
+import { createSelector, createSlice, Slice, SliceSelectors } from "@reduxjs/toolkit";
 import { loadIngredients, removeModalIngredient, setCurrentCategory, setModalIngredient } from "./actions";
+import { Ingredient } from "../../utils/types";
 
-const initialState = {
+type IngredientsState = {
+	ingredients: Ingredient[];
+	currentCategoryKey: string;
+	loading: boolean;
+	error: string | null;
+	modal: Ingredient | null;
+};
+
+const initialState: IngredientsState = {
 	ingredients: [],
 	currentCategoryKey: "bun",
 	loading: true,
@@ -9,19 +18,18 @@ const initialState = {
 	modal: null,
 };
 
-export const ingredientsSlice = createSlice({
+export const ingredientsSlice: Slice<IngredientsState> = createSlice({
 	name: "ingredients",
 	reducers: {},
 	initialState,
 	selectors: {
-		getAllIngredients: (state) => state.ingredients,
-		getIngredientsByCategory: createSelector(
-			[(state) => ingredientsSlice.getSelectors().getAllIngredients(state), (state, categoryKey) => categoryKey],
-			(ingredients, categoryKey) => ingredients.filter((ingredient) => ingredient.type === categoryKey)
+		getAllIngredients: (state): Ingredient[] => state.ingredients,
+		getIngredientsByCategory: createSelector([(state: IngredientsState) => state.ingredients, (_state: IngredientsState, categoryKey: string) => categoryKey],
+		(ingredients, categoryKey) =>
+			ingredients.filter((ingredient: Ingredient) => ingredient.type === categoryKey)
 		),
-		getIngredientById: createSelector(
-			[(state) => ingredientsSlice.getSelectors().getAllIngredients(state), (state, id) => id],
-			(ingredients, id) => ingredients.find((ingredient) => ingredient._id === id)
+		getIngredientById: createSelector([(state) => state.ingredients, (_state, id) => id], (ingredients, id) =>
+			ingredients.find((ingredient: Ingredient) => ingredient._id === id)
 		),
 		getCurrentCategoryKey: (state) => state.currentCategoryKey,
 		getModalIngredient: (state) => state.modal,
@@ -33,6 +41,7 @@ export const ingredientsSlice = createSlice({
 			})
 			.addCase(loadIngredients.fulfilled, (state, action) => {
 				state.loading = false;
+				if (typeof action.payload === 'boolean') return;
 				state.ingredients = action.payload;
 			})
 			.addCase(loadIngredients.rejected, (state, action) => {
@@ -40,9 +49,11 @@ export const ingredientsSlice = createSlice({
 				state.error = action.error?.message || "Unknown error";
 			})
 			.addCase(setCurrentCategory, (state, action) => {
+				if (typeof action.payload === 'undefined') return;
 				state.currentCategoryKey = action.payload;
 			})
 			.addCase(setModalIngredient, (state, action) => {
+				if (typeof action.payload === 'undefined') return;
 				state.modal = action.payload;
 			})
 			.addCase(removeModalIngredient, (state) => {
@@ -52,4 +63,4 @@ export const ingredientsSlice = createSlice({
 });
 
 export const { getAllIngredients, getIngredientsByCategory, getCurrentCategoryKey, getModalIngredient, getIngredientById } =
-	ingredientsSlice.selectors;
+	ingredientsSlice.selectors as SliceSelectors<IngredientsState>;

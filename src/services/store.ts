@@ -1,8 +1,8 @@
 import { combineSlices, configureStore } from "@reduxjs/toolkit";
-import { ingredientsSlice } from "./ingredients/reducer";
+import { ingredientsSlice } from "./ingredients/reducer.ts";
 import { burgerConstructorSlice } from "./burger-constructor/reducer.ts";
-import { orderSlice } from "./orders/reducer";
-import { userSlice } from "./user/reducer";
+import { orderSlice } from "./orders/reducer.ts";
+import { userSlice } from "./user/reducer.ts";
 
 export const reducer = combineSlices(ingredientsSlice, burgerConstructorSlice, orderSlice, userSlice);
 

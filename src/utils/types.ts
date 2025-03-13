@@ -21,6 +21,7 @@ export interface ApiResponse extends Response {
 	data?: object[];
 	order?: object;
 	success?: object | boolean;
+	user?: User;
 	accessToken?: string;
 	refreshToken?: string;
 }
@@ -46,8 +47,23 @@ export interface Ingredient {
 }
 
 export interface User {
-	login?: string,
-	email?: string,
-	paswword?: string,
-	name?: string,
+	login?: string;
+	email?: string;
+	paswword?: string;
+	name?: string;
+}
+
+export interface Order {
+	ingredients: Ingredient[];
+	_id: string;
+	owner: User & {
+		createdAt: string;
+		updatedAt: string;
+	};
+	status: string;
+	name: string;
+	createdAt: string;
+	updatedAt: string;
+	number: number;
+	price: number;
 }

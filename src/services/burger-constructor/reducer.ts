@@ -1,11 +1,11 @@
-import { createSelector, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSelector, createSlice, Slice, SliceSelectors } from "@reduxjs/toolkit";
 import { addIngredient, removeIngredient, sortIngredients } from "./actions";
-import { createOrder } from "../orders/actions";
-import { Ingredient, RootState } from "../../utils/types";
+import { createOrder } from "../orders/actions.ts";
+import { Ingredient } from "../../utils/types";
 
 interface BurgerConstructorState {
-	ingredients: Ingredient[],
-	bun: null | Ingredient,
+	ingredients: Ingredient[];
+	bun: null | Ingredient;
 }
 
 const initialState: BurgerConstructorState = {
@@ -13,7 +13,7 @@ const initialState: BurgerConstructorState = {
 	bun: null,
 };
 
-export const burgerConstructorSlice = createSlice({
+export const burgerConstructorSlice: Slice<BurgerConstructorState> = createSlice({
 	name: "burgerConstructor",
 	reducers: {},
 	initialState,
@@ -21,21 +21,16 @@ export const burgerConstructorSlice = createSlice({
 		getIngredients: (state) => state.ingredients,
 		getBun: (state) => state.bun,
 		getTotal: createSelector(
-			[(state) => burgerConstructorSlice.getSelectors().getIngredients(state), (state) => burgerConstructorSlice.getSelectors().getBun(state)],
-			(ingredients, bun) => {
-				const totalIngredients = ingredients.length
-					? ingredients.reduce((total, ingredient) => ingredient?.price && total + ingredient.price, 0)
-					: 0;
+			[(state: BurgerConstructorState) => state.bun, (state: BurgerConstructorState) => state.ingredients],
+			(bun, ingredients) => {
+				const totalIngredients =
+					ingredients !== null ? ingredients.reduce((total, ingredient) => ingredient?.price && total + ingredient.price, 0) : 0;
 				const totalBun = bun ? bun.price * 2 : 0;
 				return totalIngredients + totalBun;
 			}
 		),
 		getIngredientCount: createSelector(
-			[
-				(state) => burgerConstructorSlice.getSelectors().getIngredients(state),
-				(state) => burgerConstructorSlice.getSelectors().getBun(state),
-				(state, currentIngredient) => currentIngredient,
-			],
+			[(state: BurgerConstructorState) => state.ingredients, (state) => state.bun, (_state, currentIngredient) => currentIngredient],
 			(ingredients, bun, currentIngredient) => {
 				if (currentIngredient.type === "bun" && bun?._id === currentIngredient._id) return 1;
 
@@ -46,16 +41,17 @@ export const burgerConstructorSlice = createSlice({
 	},
 	extraReducers: (builder) => {
 		builder
-			.addCase(addIngredient, (state:BurgerConstructorState, action:PayloadAction<Ingredient>) => {
-				const ingredient = action.payload;
+			.addCase(addIngredient, (state: BurgerConstructorState, action) => {
+				if (action.payload === undefined) return;
+				const ingredient: Ingredient = action.payload;
 				const bun = state.bun;
 				const ingredients = state.ingredients;
 
-				if (typeof ingredients !== 'object') return;
+				if (ingredient === undefined) return;
 				const current = ingredients.find((item) => ingredient.id === item.id);
 
 				/* Обработчик булки */
-				if (ingredient.type === "bun") {
+				if (ingredient !== undefined && ingredient.type === "bun") {
 					if (bun && ingredient._id === bun._id) return;
 					state.bun = ingredient;
 					return;
@@ -68,7 +64,8 @@ export const burgerConstructorSlice = createSlice({
 				state.ingredients = state.ingredients.filter((ingredient) => ingredient.id !== action.payload);
 			})
 			.addCase(sortIngredients, (state, action) => {
-				const { item, props } = action.payload;
+				if (action.payload === undefined) return;
+				const { item, props } = action.payload as { item: Ingredient; props: Ingredient };
 
 				if (item.type === "bun") return;
 				if (item.id === props.id) return;
@@ -79,11 +76,8 @@ export const burgerConstructorSlice = createSlice({
 				state.ingredients.splice(currentIndex, 1);
 				state.ingredients.splice(hoverIndex, 0, item);
 			})
-			// .addCase(clearConstructor, (state) => {
-			// 	state = initialState;
-			// })
-			.addCase(createOrder.fulfilled, (state) => initialState);
+			.addCase(createOrder.fulfilled, (_state) => initialState);
 	},
 });
 
-export const { getIngredients, getBun, getTotal, getIngredientCount } = burgerConstructorSlice.selectors;
+export const { getIngredients, getBun, getTotal, getIngredientCount } = burgerConstructorSlice.selectors as SliceSelectors<BurgerConstructorState>;

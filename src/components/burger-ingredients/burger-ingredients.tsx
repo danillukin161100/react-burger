@@ -1,7 +1,7 @@
-import React, { createRef, useEffect, useRef, useState } from "react";
+import { createRef, useEffect, useRef, useState } from "react";
 import styles from "./burger-ingredients.module.css";
 import { useDispatch, useSelector } from "react-redux";
-import { getCurrentCategoryKey, getModalIngredient } from "../../services/ingredients/reducer";
+import { getCurrentCategoryKey } from "../../services/ingredients/reducer";
 import { categories } from "../../utils/data";
 import { setCurrentCategory } from "../../services/ingredients/actions";
 import IngredientsInCategory from "./ingredients-in-category/ingredients-in-category";
