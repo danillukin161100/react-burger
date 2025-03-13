@@ -1,10 +1,10 @@
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
-import { HomePage, NotFoundPage, ProfilePage, ResetPasswordPage, ForgotPasswordPage, RegisterPage, LoginPage } from "../../pages/index.js";
+import { HomePage, NotFoundPage, ProfilePage, ResetPasswordPage, ForgotPasswordPage, RegisterPage, LoginPage } from "../../pages/index.ts";
 import AppHeader from "../app-header/app-header.jsx";
 import IngredientDetails from "../burger-ingredients/ingredient-details/ingredient-details.tsx";
 import { useEffect } from "react";
-import { loadIngredients } from "../../services/ingredients/actions.js";
-import Loader from "../loader/loader.jsx";
+import { loadIngredients } from "../../services/ingredients/actions.ts";
+import Loader from "../loader/loader.tsx";
 import Modal from "../modal/modal.tsx";
 import { getUser } from "../../services/user/actions.js";
 import ProtectedRoute from "../protected-route/protected-route.jsx";

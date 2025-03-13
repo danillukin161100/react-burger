@@ -2,22 +2,25 @@ import { Button, EmailInput, Input, PasswordInput } from "@ya.praktikum/react-de
 import { useEffect, useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router";
 import styles from "./profile.module.css";
-import { useDispatch, useSelector } from "react-redux";
 import { logoutUser, updateUser } from "../services/user/actions";
-import { useForm } from "../hooks";
+import { useAppDispatch, useAppSelector, useForm } from "../hooks";
 
 export function ProfilePage() {
-	const { email, name } = useSelector((state) => state.user);
-	const initialFormData = { password: "", email, name };
+	const { email, name } = useAppSelector((state) => state.user);
+	const initialFormData = {
+		password: "",
+		email: typeof email === "string" ? email : "",
+		name: typeof name === "string" ? name : "",
+	};
 	const [isChanged, setIsChanged] = useState(false);
-	const dispatch = useDispatch();
+	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 	const { formData, changeHandler, setFormData } = useForm(initialFormData, () => {
 		setIsChanged(true);
 	});
 
 	useEffect(() => {
-		setFormData({ ...formData, email, name });
+		if (typeof formData === "object") setFormData({ ...formData, email, name });
 	}, [email, name]);
 
 	const logoutHandler = (e) => {
@@ -47,7 +50,7 @@ export function ProfilePage() {
 					<NavLink to="/profile/order" className={({ isActive }) => `${!isActive && "text_color_inactive"} pt-4 pb-4`}>
 						История заказов
 					</NavLink>
-					<Link onClick={logoutHandler} className="pt-4 pb-4 text_color_inactive">
+					<Link onClick={logoutHandler} className="pt-4 pb-4 text_color_inactive" to={""}>
 						Выход
 					</Link>
 				</nav>
@@ -57,8 +60,18 @@ export function ProfilePage() {
 
 			<form onSubmit={submitHandler}>
 				<Input type="text" placeholder="Имя" name="name" value={formData.name || ""} onChange={changeHandler} extraClass="mb-6" />
-				<EmailInput name="email" placeholder="Логин" value={formData.email || ""} onChange={changeHandler} extraClass="mb-6" />
-				<PasswordInput name="password" value={formData.password || ""} onChange={changeHandler} />
+				<EmailInput
+					name="email"
+					placeholder="Логин"
+					value={formData.email || ""}
+					onChange={changeHandler}
+					extraClass="mb-6"
+				/>
+				<PasswordInput
+					name="password"
+					value={formData.password || ""}
+					onChange={changeHandler}
+				/>
 
 				{isChanged && (
 					<div className={styles.footer}>

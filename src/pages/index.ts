@@ -1,6 +1,6 @@
-import { HomePage } from "./home";
-import { NotFoundPage } from "./404";
-import { ProfilePage } from "./profile";
+import { HomePage } from "./home.tsx";
+import { NotFoundPage } from "./404.tsx";
+import { ProfilePage } from "./profile.tsx";
 import { ResetPasswordPage } from "./reset-password";
 import { ForgotPasswordPage } from "./forgot-password";
 import { RegisterPage } from "./register";

@@ -2,10 +2,11 @@ import { useState } from "react";
 import { AppDispatch, AppStore, RootState } from "../utils/types";
 import { useDispatch, useSelector, useStore } from "react-redux";
 
-export function useForm(inputValues = {}, afterChangeHandler: null | Function = null) {
+export function useForm<T>(inputValues: T, afterChangeHandler: null | Function = null) {
 	const [formData, setFormData] = useState(inputValues);
 
 	const changeHandler = (event) => {
+		if (typeof formData !== "object") return;
 		const { value, name } = event.target;
 		setFormData({ ...formData, [name]: value });
 
