@@ -2,7 +2,7 @@ import App from "./components/app/app.jsx";
 import { store } from "./services/store.js";
 import "./assets/index.css";
 import { BrowserRouter } from "react-router";
-import React, { StrictMode } from "react";
+import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { Provider } from "react-redux";
 
