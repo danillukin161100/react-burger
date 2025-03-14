@@ -3,7 +3,7 @@ import { addIngredient, removeIngredient, sortIngredients } from "./actions";
 import { createOrder } from "../orders/actions.ts";
 import { Ingredient } from "../../utils/types";
 
-interface BurgerConstructorState {
+export interface BurgerConstructorState {
 	ingredients: Ingredient[];
 	bun: null | Ingredient;
 }
@@ -30,7 +30,7 @@ export const burgerConstructorSlice: Slice<BurgerConstructorState> = createSlice
 			}
 		),
 		getIngredientCount: createSelector(
-			[(state: BurgerConstructorState) => state.ingredients, (state) => state.bun, (_state, currentIngredient) => currentIngredient],
+			[(state): Ingredient[] => state.ingredients, (state) => state.bun, (_state: BurgerConstructorState, currentIngredient: Ingredient) => currentIngredient],
 			(ingredients, bun, currentIngredient) => {
 				if (currentIngredient.type === "bun" && bun?._id === currentIngredient._id) return 1;
 

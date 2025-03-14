@@ -1,18 +1,18 @@
-import { createRef, useEffect, useRef, useState } from "react";
+import { createRef, MutableRefObject, useEffect, useRef, useState } from "react";
 import styles from "./burger-ingredients.module.css";
-import { useDispatch, useSelector } from "react-redux";
 import { getCurrentCategoryKey } from "../../services/ingredients/reducer";
 import { categories } from "../../utils/data";
 import { setCurrentCategory } from "../../services/ingredients/actions";
 import IngredientsInCategory from "./ingredients-in-category/ingredients-in-category";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
+import { useAppDispatch, useAppSelector } from "../../hooks";
 
 function BurgerIngredients() {
-	const ref = useRef();
+	const ref: MutableRefObject<HTMLElement | undefined> = useRef();
 	const categoryRefs = new Map(categories.map((category) => [category.key, createRef()]));
 	const [maxHeight, setMaxHeight] = useState(0);
-	const dispatch = useDispatch();
-	const currentCategoryKey = useSelector(getCurrentCategoryKey);
+	const dispatch = useAppDispatch();
+	const currentCategoryKey = useAppSelector(getCurrentCategoryKey);
 
 	useEffect(() => {
 		if (!ref.current) return;
@@ -33,6 +33,7 @@ function BurgerIngredients() {
 
 	useEffect(() => {
 		const scrollHandler = () => {
+			if (ref.current === undefined) return;
 			const parentTop = ref.current.scrollTop;
 
 			for (const [key, categoryRef] of categoryRefs) {
@@ -61,30 +62,16 @@ function BurgerIngredients() {
 			<div className={`${styles.tabs} mb-10`}>
 				{categories.map((category) => {
 					return (
-						<Tab
-							key={category.key}
-							value={category.key}
-							active={currentCategoryKey === category.key}
-						>
+						<Tab key={category.key} value={category.key} active={currentCategoryKey === category.key}>
 							{category.title}
 						</Tab>
 					);
 				})}
 			</div>
 
-			<div
-				ref={ref}
-				className={`${styles.ingredients}`}
-				style={{ maxHeight }}
-			>
+			<div ref={ref} className={`${styles.ingredients}`} style={{ maxHeight }}>
 				{categories.map((category, key) => {
-					return (
-						<IngredientsInCategory
-							key={key}
-							category={category}
-							categoryRefs={categoryRefs}
-						/>
-					);
+					return <IngredientsInCategory key={key} category={category} categoryRefs={categoryRefs} />;
 				})}
 			</div>
 		</section>
