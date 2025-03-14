@@ -2,7 +2,7 @@ import { createSelector, createSlice, Slice, SliceSelectors } from "@reduxjs/too
 import { loadIngredients, removeModalIngredient, setCurrentCategory, setModalIngredient } from "./actions";
 import { Ingredient } from "../../utils/types";
 
-type IngredientsState = {
+export type IngredientsState = {
 	ingredients: Ingredient[];
 	currentCategoryKey: string;
 	loading: boolean;
@@ -25,7 +25,7 @@ export const ingredientsSlice: Slice<IngredientsState> = createSlice({
 	selectors: {
 		getAllIngredients: (state): Ingredient[] => state.ingredients,
 		getIngredientsByCategory: createSelector([(state: IngredientsState) => state.ingredients, (_state: IngredientsState, categoryKey: string) => categoryKey],
-		(ingredients, categoryKey) =>
+		(ingredients, categoryKey): Ingredient[] =>
 			ingredients.filter((ingredient: Ingredient) => ingredient.type === categoryKey)
 		),
 		getIngredientById: createSelector([(state) => state.ingredients, (_state, id) => id], (ingredients, id) =>

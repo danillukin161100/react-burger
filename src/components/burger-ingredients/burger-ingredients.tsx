@@ -3,7 +3,7 @@ import styles from "./burger-ingredients.module.css";
 import { getCurrentCategoryKey } from "../../services/ingredients/reducer";
 import { categories } from "../../utils/data";
 import { setCurrentCategory } from "../../services/ingredients/actions";
-import IngredientsInCategory from "./ingredients-in-category/ingredients-in-category";
+import IngredientsInCategory from "./ingredients-in-category/ingredients-in-category.tsx";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 

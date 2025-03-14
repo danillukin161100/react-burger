@@ -46,6 +46,11 @@ export interface Ingredient {
 	__v: number;
 }
 
+export interface Category {
+	key: string;
+	title: string;
+}
+
 export interface User {
 	login?: string;
 	email?: string;
