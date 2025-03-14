@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 
-function IconSuccess(props) {
+function IconSuccess(props: { className: string | undefined; }) {
 	return (
 		<svg
 			width="107"

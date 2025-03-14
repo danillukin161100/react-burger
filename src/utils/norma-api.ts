@@ -30,7 +30,7 @@ export const getIngredientsRequest = async (): Promise<Ingredient[] | boolean> =
 	});
 };
 
-export const createOrderRequest = (ingredients: Ingredient[]): Promise<Order | boolean> | boolean => {
+export const createOrderRequest = (ingredients: {ingredients: string[]}): Promise<Order | boolean> | boolean => {
 	const accessToken = getCookie("accessToken");
 	if (typeof accessToken !== "string") return false;
 	return request(`orders`, {

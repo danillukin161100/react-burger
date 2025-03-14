@@ -1,18 +1,18 @@
 import PropTypes from "prop-types";
 import { ConstructorElement, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./constructor-ingredient.module.css";
-import { useDispatch, useSelector } from "react-redux";
-import { addIngredient, removeIngredient, sortIngredients } from "../../../services/burger-constructor/actions";
+import { addIngredient, removeIngredient, sortIngredients } from "../../../services/burger-constructor/actions.ts";
 import { useDrag, useDrop } from "react-dnd";
 import { useRef } from "react";
-import { ingredientType } from "../../../utils/types";
+import { Ingredient, ingredientType } from "../../../utils/types.ts";
+import { useAppDispatch } from "../../../hooks/index.ts";
 
-function ConstructorIngredient(props) {
-	const dispatch = useDispatch();
-	const ref = useRef();
+function ConstructorIngredient(props: Ingredient & { formType: "top" | "bottom" | undefined }) {
+	const dispatch = useAppDispatch();
+	const ref = useRef<HTMLDivElement | null>(null);
 
-	const removeHandler = (id) => {
-		dispatch(removeIngredient(id));
+	const removeHandler = (id: string | undefined) => {
+		if (id !== undefined) dispatch(removeIngredient(id));
 	};
 
 	const [{ isDragging }, dragRef] = useDrag({
@@ -25,7 +25,7 @@ function ConstructorIngredient(props) {
 
 	const [, dropRef] = useDrop({
 		accept: "constructorIngredient",
-		hover: (item, monitor) => {
+		hover: (item: Ingredient) => {
 			dispatch(addIngredient(item));
 			dispatch(sortIngredients({ item, props }));
 		},
@@ -36,16 +36,12 @@ function ConstructorIngredient(props) {
 	const opacity = isDragging ? 0 : 1;
 
 	return (
-		<div
-			className={styles.item}
-			ref={ref}
-			style={{ opacity }}
-		>
-			{props.type !== 'bun' && <DragIcon />}
+		<div className={styles.item} ref={ref} style={{ opacity }}>
+			{props.type !== "bun" && <DragIcon type={"primary"} />}
 			<ConstructorElement
 				type={props.formType}
 				isLocked={!!props.formType}
-				text={`${props.name} ${props.formType === 'top' ? '(верх)' : props.formType === 'bottom' && '(низ)'}`}
+				text={`${props.name} ${props.formType === "top" ? "(верх)" : props.formType === "bottom" && "(низ)"}`}
 				price={props.price}
 				thumbnail={props.image}
 				handleClose={() => removeHandler(props.id)}

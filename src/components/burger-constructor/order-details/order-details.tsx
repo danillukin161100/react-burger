@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import IconSuccess from "../../icons/icon-success";
+import IconSuccess from "../../icons/icon-success.tsx";
 
 import styles from "./order-details.module.css";
 import { getOrderNumber } from "../../../services/orders/reducer";
