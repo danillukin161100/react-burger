@@ -1,23 +1,23 @@
-import { createRef, MutableRefObject, useEffect, useRef, useState } from "react";
+import { createRef, RefObject, useEffect, useRef, useState } from "react";
 import styles from "./burger-ingredients.module.css";
 import { getCurrentCategoryKey } from "../../services/ingredients/reducer";
 import { categories } from "../../utils/data";
 import { setCurrentCategory } from "../../services/ingredients/actions";
 import IngredientsInCategory from "./ingredients-in-category/ingredients-in-category.tsx";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useAppDispatch, useAppSelector } from "../../hooks";
+import { useAppDispatch } from "../../hooks";
+import { useSelector } from "react-redux";
 
 function BurgerIngredients() {
-	const ref: MutableRefObject<HTMLElement | undefined> = useRef();
-	const categoryRefs = new Map(categories.map((category) => [category.key, createRef()]));
+	const ref = useRef<HTMLDivElement | null>(null);
+	const categoryRefs = new Map<string, RefObject<HTMLDivElement>>(categories.map((category) => [category.key, createRef()]));
 	const [maxHeight, setMaxHeight] = useState(0);
 	const dispatch = useAppDispatch();
-	const currentCategoryKey = useAppSelector(getCurrentCategoryKey);
+	const currentCategoryKey = useSelector(getCurrentCategoryKey);
 
 	useEffect(() => {
-		if (!ref.current) return;
-
 		const updateHeight = () => {
+			if (ref.current === null) return;
 			const newHeight = window.innerHeight - ref.current.getBoundingClientRect().top - 40;
 			setMaxHeight(newHeight);
 		};
@@ -33,7 +33,7 @@ function BurgerIngredients() {
 
 	useEffect(() => {
 		const scrollHandler = () => {
-			if (ref.current === undefined) return;
+			if (ref.current === null) return;
 			const parentTop = ref.current.scrollTop;
 
 			for (const [key, categoryRef] of categoryRefs) {
@@ -62,6 +62,7 @@ function BurgerIngredients() {
 			<div className={`${styles.tabs} mb-10`}>
 				{categories.map((category) => {
 					return (
+						// @ts-ignore: error message
 						<Tab key={category.key} value={category.key} active={currentCategoryKey === category.key}>
 							{category.title}
 						</Tab>
