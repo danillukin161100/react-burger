@@ -1,19 +1,8 @@
-import PropTypes from "prop-types";
-
 import styles from "./modal-overlay.module.css";
+import { FC } from "react";
 
-function ModalOverlay({ onClick, isActive }) {
-	return (
-		<div
-			onClick={onClick}
-			className={`${styles.overlay} ${isActive && styles.overlayActive}`}
-		/>
-	);
-}
-
-ModalOverlay.propTypes = {
-	isActive: PropTypes.bool,
-	onClick: PropTypes.func,
+const ModalOverlay: FC<{ onClick<event>(event: event): void; isActive: boolean }> = ({ onClick, isActive }) => {
+	return <div onClick={onClick} className={`${styles.overlay} ${isActive && styles.overlayActive}`} />;
 };
 
 export default ModalOverlay;

@@ -1,9 +1,8 @@
-import PropTypes from "prop-types";
 import { Navigate, useLocation } from "react-router";
 import { useAppSelector } from "../../hooks";
-import { ReactElement } from "react";
+import { FC, ReactElement } from "react";
 
-function ProtectedRoute({ element, anonymous = false }: { element: ReactElement; anonymous?: boolean }) {
+const ProtectedRoute: FC<{ element: ReactElement; anonymous?: boolean }> = ({ element, anonymous = false }) => {
 	const isLoggedIn = useAppSelector((store) => store.user.isLoggedIn);
 	const location = useLocation();
 	const from = location.state?.from || "/";
@@ -22,10 +21,5 @@ function ProtectedRoute({ element, anonymous = false }: { element: ReactElement;
 	// Если все ок, то рендерим внутреннее содержимое
 	return element;
 }
-
-ProtectedRoute.propTypes = {
-	element: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
-	to: PropTypes.string,
-};
 
 export default ProtectedRoute;

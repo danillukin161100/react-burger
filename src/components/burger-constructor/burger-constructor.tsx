@@ -4,7 +4,7 @@ import Modal from "../modal/modal.tsx";
 import OrderDetails from "./order-details/order-details.tsx";
 import styles from "./burger-constructor.module.css";
 import { useSelector } from "react-redux";
-import { BurgerConstructorState, getBun, getIngredients, getTotal } from "../../services/burger-constructor/reducer.ts";
+import { getBun, getIngredients, getTotal } from "../../services/burger-constructor/reducer.ts";
 import EmptyElement from "./empty-element/empty-element.tsx";
 import ConstructorIngredient from "./constructor-ingredient/constructor-ingredient.tsx";
 import Loader from "../loader/loader.tsx";
@@ -19,7 +19,7 @@ function BurgerConstructor() {
 	const navigate = useNavigate();
 
 	const bun = useSelector(getBun);
-	const total = useSelector((state: BurgerConstructorState) => getTotal(state));
+	const total = useSelector(getTotal);
 	const ingredients: Ingredient[] = useSelector(getIngredients);
 
 	const listRef = useRef<HTMLDivElement | null>(null);

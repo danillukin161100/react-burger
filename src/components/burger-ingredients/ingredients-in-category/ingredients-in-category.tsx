@@ -1,12 +1,11 @@
-import PropTypes from "prop-types";
 import Ingredient from "../ingredient/ingredient.tsx";
 import styles from "./ingredients-in-category.module.css";
 import { useSelector } from "react-redux";
 import { getIngredientsByCategory, IngredientsState } from "../../../services/ingredients/reducer";
 import { Category, Ingredient as IngredientInterface } from "../../../utils/types.ts";
-import { RefObject } from "react";
+import { FC, RefObject } from "react";
 
-function IngredientsInCategory(props: { category: Category; categoryRefs: Map<string, RefObject<HTMLDivElement>> }) {
+const IngredientsInCategory: FC<{ category: Category; categoryRefs: Map<string, RefObject<HTMLDivElement>> }> = (props) => {
 	const { category, categoryRefs } = props;
 	const ingredients: IngredientInterface[] = useSelector((state) => getIngredientsByCategory(state as IngredientsState, category.key));
 	const categoryRef = categoryRefs.get(category.key);
@@ -22,14 +21,6 @@ function IngredientsInCategory(props: { category: Category; categoryRefs: Map<st
 			</div>
 		</div>
 	);
-}
-
-IngredientsInCategory.propTypes = {
-	category: PropTypes.shape({
-		key: PropTypes.string.isRequired,
-		title: PropTypes.string.isRequired,
-	}),
-	categoryRefs: PropTypes.oneOfType([PropTypes.func, PropTypes.shape({ current: PropTypes.instanceOf(Element) })]).isRequired,
 };
 
 export default IngredientsInCategory;

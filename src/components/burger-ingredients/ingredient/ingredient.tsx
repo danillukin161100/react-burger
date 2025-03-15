@@ -1,9 +1,7 @@
-import { useEffect, useState } from "react";
-
+import { FC, useEffect, useState } from "react";
 import { Counter, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-
 import styles from "./ingredient.module.css";
-import { Ingredient as IngredientInterface, ingredientType } from "../../../utils/types.ts";
+import { Ingredient as IngredientInterface } from "../../../utils/types.ts";
 import { BurgerConstructorState, getIngredientCount } from "../../../services/burger-constructor/reducer.ts";
 import { useDrag } from "react-dnd";
 import { addIngredient } from "../../../services/burger-constructor/actions.ts";
@@ -12,7 +10,7 @@ import { Link, useLocation } from "react-router";
 import { useAppDispatch } from "../../../hooks/index.ts";
 import { useSelector } from "react-redux";
 
-function Ingredient(props: IngredientInterface) {
+const Ingredient: FC<IngredientInterface> = (props) => {
 	const dispatch = useAppDispatch();
 	const location = useLocation();
 	const [dragId, setDragId] = useState<null | string>(null);
@@ -54,8 +52,6 @@ function Ingredient(props: IngredientInterface) {
 			<p className={`${styles.title} text text_type_main-default`}>{props.name}</p>
 		</Link>
 	);
-}
-
-Ingredient.propTypes = ingredientType;
+};
 
 export default Ingredient;

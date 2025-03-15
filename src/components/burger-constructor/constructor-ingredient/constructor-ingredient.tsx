@@ -1,13 +1,12 @@
-import PropTypes from "prop-types";
 import { ConstructorElement, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./constructor-ingredient.module.css";
 import { addIngredient, removeIngredient, sortIngredients } from "../../../services/burger-constructor/actions.ts";
 import { useDrag, useDrop } from "react-dnd";
-import { useRef } from "react";
-import { Ingredient, ingredientType } from "../../../utils/types.ts";
+import { FC, useRef } from "react";
+import { Ingredient } from "../../../utils/types.ts";
 import { useAppDispatch } from "../../../hooks/index.ts";
 
-function ConstructorIngredient(props: Ingredient & { formType: "top" | "bottom" | undefined }) {
+const ConstructorIngredient: FC<Ingredient & { formType: "top" | "bottom" | undefined }> = (props) => {
 	const dispatch = useAppDispatch();
 	const ref = useRef<HTMLDivElement | null>(null);
 
@@ -48,11 +47,6 @@ function ConstructorIngredient(props: Ingredient & { formType: "top" | "bottom" 
 			/>
 		</div>
 	);
-}
-
-ConstructorIngredient.propTypes = {
-	...ingredientType,
-	formType: PropTypes.string,
 };
 
 export default ConstructorIngredient;

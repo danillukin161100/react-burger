@@ -1,6 +1,6 @@
-import PropTypes from "prop-types";
+import { FC } from "react";
 
-function IconSuccess(props: { className: string | undefined; }) {
+const IconSuccess: FC<{ className: string | undefined; }> = (props) => {
 	return (
 		<svg
 			width="107"
@@ -94,9 +94,5 @@ function IconSuccess(props: { className: string | undefined; }) {
 		</svg>
 	);
 }
-
-IconSuccess.propTypes = {
-	className: PropTypes.string,
-};
 
 export default IconSuccess;
