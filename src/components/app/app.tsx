@@ -1,5 +1,5 @@
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
-import { HomePage, NotFoundPage, ProfilePage, ResetPasswordPage, ForgotPasswordPage, RegisterPage, LoginPage } from "../../pages/index.ts";
+import { HomePage, NotFoundPage, ProfilePage, ResetPasswordPage, ForgotPasswordPage, RegisterPage, LoginPage, FeedPage } from "../../pages/index.ts";
 import AppHeader from "../app-header/app-header.jsx";
 import IngredientDetails from "../burger-ingredients/ingredient-details/ingredient-details.tsx";
 import { useEffect } from "react";
@@ -53,6 +53,7 @@ function App() {
 					<Route path="/reset-password" element={<ProtectedRoute element={<ResetPasswordPage />} anonymous={true} />} />
 					<Route path="/profile" element={<ProtectedRoute element={<ProfilePage />} />} />
 					<Route path="/ingredients/:id" element={<IngredientDetails />} />
+					<Route path="/feed/" element={<FeedPage />} />
 					<Route path="*" element={<NotFoundPage />} />
 				</Routes>
 			</main>
