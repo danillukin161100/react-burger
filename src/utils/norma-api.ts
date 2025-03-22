@@ -1,6 +1,6 @@
 import { deleteCookie, getCookie, setCookie } from "./cookies";
 import { BASE_URL } from "./data";
-import { ApiResponse, Ingredient, Order, User } from "./types";
+import { ApiResponse, Ingredient, Order, OrderRequest, User } from "./types";
 
 const checkResponse = async (res: Response, cb: null | Function = null): Promise<ApiResponse | boolean> => {
 	if (res.status === 401) {
@@ -30,7 +30,7 @@ export const getIngredientsRequest = async (): Promise<Ingredient[] | boolean> =
 	});
 };
 
-export const createOrderRequest = (ingredients: {ingredients: string[]}): Promise<Order | boolean> | boolean => {
+export const createOrderRequest: OrderRequest = (ingredients) => {
 	const accessToken = getCookie("accessToken");
 	if (typeof accessToken !== "string") return false;
 	return request(`orders`, {

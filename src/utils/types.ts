@@ -55,3 +55,7 @@ export interface Order {
 	number: number;
 	price: number;
 }
+
+export interface OrderRequest {
+	(ingredients: {ingredients: string[]}): Promise<Order | boolean> | boolean;
+}
