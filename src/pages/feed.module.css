@@ -29,9 +29,9 @@
 	list-style: none;
 	padding: 0;
 	margin: 0;
-	columns: 3;
-    max-height: 160px;
-    overflow: hidden;
+	columns: 2;
+	max-height: 160px;
+	overflow: hidden;
 }
 
 .numbers > li:not(:last-child) {

@@ -1,10 +1,22 @@
 import { useEffect, useRef, useState } from "react";
 import { FeedItem } from "../components/feed-item/feed-item";
 import styles from "./feed.module.css";
+import { useAppDispatch } from "../hooks";
+import { connect, disconnect } from "../services/feed/actions";
+import { BASE_WSS_URL } from "../utils/data";
 
 export const FeedPage = () => {
 	const ref = useRef<HTMLDivElement | null>(null);
 	const [maxHeight, setMaxHeight] = useState(0);
+	const dispatch = useAppDispatch();
+
+	useEffect(() => {
+		dispatch(connect(`${BASE_WSS_URL}orders/all`));
+
+		return () => {
+			dispatch(disconnect());
+		};
+	}, []);
 
 	useEffect(() => {
 		const updateHeight = () => {
