@@ -13,6 +13,11 @@ export const categories = [
 	},
 ];
 
+export const orderStatus = {
+	pending: "Готовится",
+	done: "Выполнен"
+}
+
 export const ingredientParams = {
 	calories: "Калории,ккал",
 	proteins: "Белки, г",

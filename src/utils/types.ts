@@ -1,4 +1,4 @@
-import { store } from "../services/store";
+import { reducer, store } from "../services/store";
 
 export interface ApiResponse extends Response {
 	data?: object[];
@@ -10,7 +10,8 @@ export interface ApiResponse extends Response {
 }
 
 export type AppStore = typeof store;
-export type RootState = ReturnType<AppStore["getState"]>;
+export type RootState = ReturnType<typeof reducer>;
+// export type RootState = ReturnType<AppStore["getState"]>;
 export type AppDispatch = AppStore["dispatch"];
 
 export interface Ingredient {
@@ -48,7 +49,7 @@ export interface Order {
 		createdAt: string;
 		updatedAt: string;
 	};
-	status: string;
+	status: "pending" | "done";
 	name: string;
 	createdAt: string;
 	updatedAt: string;
@@ -57,5 +58,5 @@ export interface Order {
 }
 
 export interface OrderRequest {
-	(ingredients: {ingredients: string[]}): Promise<Order | boolean> | boolean;
+	(ingredients: { ingredients: string[] }): Promise<Order | boolean> | boolean;
 }
