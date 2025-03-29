@@ -34,7 +34,7 @@ export const ProfileLogin = () => {
 	};
 
 	return (
-		<form onSubmit={submitHandler}>
+		<form onSubmit={submitHandler} className="mt-20">
 			<Input type="text" placeholder="Имя" name="name" value={formData.name || ""} onChange={changeHandler} extraClass="mb-6" />
 			<EmailInput name="email" placeholder="Логин" value={formData.email || ""} onChange={changeHandler} extraClass="mb-6" />
 			<PasswordInput name="password" value={formData.password || ""} onChange={changeHandler} />
