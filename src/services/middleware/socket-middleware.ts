@@ -1,5 +1,6 @@
 import { ActionCreatorWithoutPayload, ActionCreatorWithPayload, Middleware } from "@reduxjs/toolkit";
 import { RootState } from "../../utils/types";
+import { updateTokenRequest } from "../../utils/norma-api";
 
 type WsActions<R> = {
 	connect: ActionCreatorWithPayload<string>;
@@ -13,7 +14,7 @@ type WsActions<R> = {
 
 const RECONNECT_PEROID = 3000;
 
-export const socketMiddleware = <R>(wsActions: WsActions<R>, withTokenRefresh: boolean = false): Middleware<Record<string, never>, RootState> => {
+export const socketMiddleware = <R>(wsActions: WsActions<R>): Middleware<Record<string, never>, RootState> => {
 	return (store) => {
 		let socket: WebSocket | null = null;
 		let isConnected = false;
@@ -55,7 +56,25 @@ export const socketMiddleware = <R>(wsActions: WsActions<R>, withTokenRefresh: b
 					try {
 						const parsedData = JSON.parse(data);
 
-						// code for withTokenRefresh
+						if (parsedData.message == "Invalid or missing token") {
+							updateTokenRequest()
+								.then((refreshedData) => {
+									if (refreshedData === undefined) return false;
+									if (typeof refreshedData === "boolean") return false;
+									if (refreshedData.accessToken === undefined) return false;
+
+									const wssUrl = new URL(url);
+									wssUrl.searchParams.set("token", refreshedData.accessToken.replace("Bearer ", ""));
+
+									dispatch(disconnect());
+									dispatch(connect(wssUrl.toString()));
+								})
+								.catch((err: Error) => {
+									dispatch(onError(err.message));
+								});
+
+							return;
+						}
 
 						dispatch(onMessage(parsedData));
 					} catch (error) {

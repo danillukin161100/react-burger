@@ -14,8 +14,6 @@ export const ProfilePage: FC<ProfilePageProps> = ({ children }) => {
 	const navigate = useNavigate();
 	const { pathname } = useLocation();
 
-	console.log(pathname);
-
 	const logoutHandler = (e: SyntheticEvent) => {
 		e.preventDefault();
 		dispatch(logoutUser());

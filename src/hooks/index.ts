@@ -1,5 +1,5 @@
-import { SyntheticEvent, useState } from "react";
-import { AppDispatch, AppStore, RootState } from "../utils/types";
+import { SyntheticEvent, useCallback, useState } from "react";
+import { AppDispatch, AppStore, Ingredient, RootState } from "../utils/types";
 import { useDispatch, useSelector, useStore } from "react-redux";
 
 export function useForm<T>(inputValues: T, afterChangeHandler: null | Function = null) {
@@ -14,6 +14,10 @@ export function useForm<T>(inputValues: T, afterChangeHandler: null | Function =
 		if (typeof afterChangeHandler === "function") afterChangeHandler();
 	};
 	return { formData, changeHandler, setFormData };
+}
+
+export function useIngredientsSum(ingredients: Ingredient[]) {
+	return useCallback(() => ingredients.reduce((acc, ingredient) => acc + ingredient.price * (ingredient.count || 1), 0), [ingredients]);
 }
 
 export const useAppDispatch = useDispatch.withTypes<AppDispatch>();

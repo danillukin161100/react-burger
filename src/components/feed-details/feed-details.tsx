@@ -1,9 +1,9 @@
-import { FC, useCallback, useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import styles from "./feed-details.module.css";
 import { useLocation, useParams } from "react-router";
 import { useSelector } from "react-redux";
 import { getOrderByNumber } from "../../services/orders/reducer";
-import { useAppDispatch } from "../../hooks";
+import { useAppDispatch, useIngredientsSum } from "../../hooks";
 import { getOrder } from "../../services/orders/actions";
 import { Ingredient, Order, RootState } from "../../utils/types";
 import { orderStatus } from "../../utils/data";
@@ -25,10 +25,7 @@ export const FeedDetails: FC = () => {
 		getIngredientsById(state, order?.ingredients)
 	);
 
-	const getPrice = useCallback(
-		() => ingredientsById.ingredients.reduce((acc, ingredient) => acc + ingredient.price * (ingredient.count || 1), 0),
-		[ingredientsById]
-	);
+	const getSum = useIngredientsSum(ingredientsById?.ingredients);
 
 	useEffect(() => {
 		if (orderFromOrders !== undefined) {
@@ -76,7 +73,7 @@ export const FeedDetails: FC = () => {
 			<div className={`${styles.footer} mt-10`}>
 				<FormattedDate date={new Date(order.createdAt)} className="text_color_inactive" />
 				<div className={styles.price}>
-					{getPrice()}
+					{getSum()}
 					<CurrencyIcon type={"primary"} />
 				</div>
 			</div>

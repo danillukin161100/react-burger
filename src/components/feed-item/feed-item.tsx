@@ -1,11 +1,12 @@
 import { CurrencyIcon, FormattedDate } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./feed-item.module.css";
-import { FC, useCallback } from "react";
+import { FC } from "react";
 import { Ingredient, Order } from "../../utils/types";
 import { orderStatus } from "../../utils/data";
 import { useSelector } from "react-redux";
 import { getIngredientsById, IngredientsState } from "../../services/ingredients/reducer";
 import { Link, useLocation } from "react-router";
+import { useIngredientsSum } from "../../hooks";
 
 export const FeedItem: FC<Order> = ({ number, name, ingredients, status, createdAt, isShowStatus }) => {
 	const location = useLocation();
@@ -13,12 +14,10 @@ export const FeedItem: FC<Order> = ({ number, name, ingredients, status, created
 		getIngredientsById(state, ingredients, 6)
 	);
 
-	const getSum = useCallback(() => {
-		return fullIngredients.ingredients.reduce((acc, ingredient) => ingredient.price + acc, 0);
-	}, [fullIngredients]);
+	const getSum = useIngredientsSum(fullIngredients.ingredients);
 
 	return (
-		<Link to={`/feed/${number}`} className={styles.wrap} state={{ backgroundLocation: location }}>
+		<Link to={`${location.pathname}/${number}`} className={styles.wrap} state={{ backgroundLocation: location }}>
 			<div className={`text text_type_digits-default ${styles.number}`}>#{number}</div>
 			<div className={`text_color_inactive ${styles.date}`}>
 				<FormattedDate date={new Date(createdAt)} />

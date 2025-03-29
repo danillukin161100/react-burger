@@ -146,7 +146,7 @@ export const updateUserRequest = (data: User) => {
 
 export const updateTokenRequest = () => {
 	const refreshToken = getCookie("refreshToken");
-	if (refreshToken === undefined) return false;
+	if (refreshToken === undefined) return new Promise<boolean>(() => false);
 
 	return request(`auth/token`, {
 		method: "POST",

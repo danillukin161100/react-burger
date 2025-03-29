@@ -45,7 +45,7 @@ export const FeedPage = () => {
 		};
 	}, [ref.current]);
 
-	if (!orders.length) return <Loader fullscreen={true} />;
+	if (!orders?.length) return <Loader fullscreen={true} />;
 
 	return (
 		<section className={styles.wrap}>
