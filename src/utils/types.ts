@@ -57,6 +57,7 @@ export interface Order {
 	updatedAt: string;
 	number: number;
 	price: number;
+	isShowStatus?: boolean;
 }
 
 export interface OrderRequest {

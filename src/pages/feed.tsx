@@ -7,6 +7,7 @@ import { BASE_WSS_URL } from "../utils/data";
 import { useSelector } from "react-redux";
 import { Order, RootState } from "../utils/types";
 import { OrderState, getLastOrdersByStatus } from "../services/orders/reducer";
+import Loader from "../components/loader/loader";
 
 export const FeedPage = () => {
 	const ref = useRef<HTMLDivElement | null>(null);
@@ -43,6 +44,8 @@ export const FeedPage = () => {
 			window.removeEventListener("resize", updateHeight);
 		};
 	}, [ref.current]);
+
+	if (!orders.length) return <Loader fullscreen={true} />;
 
 	return (
 		<section className={styles.wrap}>

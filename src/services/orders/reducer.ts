@@ -29,7 +29,7 @@ export const orderSlice: Slice<OrderState> = createSlice({
 	selectors: {
 		getLastOrdersByStatus: createSelector(
 			[(state: OrderState) => state.orders, (_state: OrderState, orderStatus: string) => orderStatus],
-			(orders, status) => orders.filter((order) => order.status === status).slice(0, 10)
+			(orders, status) => orders.filter((order) => order.status === status).slice(0, 14)
 		),
 		getOrderByNumber: createSelector([(state) => state.orders, (_state, number) => number], (orders: Order[], number) => {
 			let order = orders.find((order) => order.number === +number);

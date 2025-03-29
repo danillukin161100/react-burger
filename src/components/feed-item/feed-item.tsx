@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 import { getIngredientsById, IngredientsState } from "../../services/ingredients/reducer";
 import { Link, useLocation } from "react-router";
 
-export const FeedItem: FC<Order> = ({ number, name, ingredients, status, createdAt }) => {
+export const FeedItem: FC<Order> = ({ number, name, ingredients, status, createdAt, isShowStatus }) => {
 	const location = useLocation();
 	const fullIngredients: { count: number; ingredients: Ingredient[] } = useSelector((state: IngredientsState) =>
 		getIngredientsById(state, ingredients, 6)
@@ -24,7 +24,7 @@ export const FeedItem: FC<Order> = ({ number, name, ingredients, status, created
 				<FormattedDate date={new Date(createdAt)} />
 			</div>
 			<div className={`text text_type_main-medium ${styles.title}`}>{name}</div>
-			{false && <div className={styles.status}>{orderStatus[status]}</div>}
+			{isShowStatus && <div className={styles.status}>{orderStatus[status]}</div>}
 
 			<ul className={`${styles.ingredients} ${fullIngredients.count > 0 && styles.advanced}`} data-more={`+${fullIngredients.count}`}>
 				{fullIngredients.ingredients.map((ingredient) => (
