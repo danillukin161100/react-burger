@@ -1,13 +1,20 @@
-import { SyntheticEvent } from "react";
-import { Link, NavLink, useNavigate } from "react-router";
+import { FC, ReactElement, SyntheticEvent } from "react";
+import { Link, NavLink, useLocation, useNavigate } from "react-router";
 import styles from "./profile.module.css";
 import { logoutUser } from "../services/user/actions";
 import { useAppDispatch } from "../hooks";
 import { ProfileLogin } from "../components/profile/profile-login";
 
-export function ProfilePage() {
+export interface ProfilePageProps {
+	children?: ReactElement | undefined;
+}
+
+export const ProfilePage: FC<ProfilePageProps> = ({ children }) => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
+	const { pathname } = useLocation();
+
+	console.log(pathname);
 
 	const logoutHandler = (e: SyntheticEvent) => {
 		e.preventDefault();
@@ -19,7 +26,7 @@ export function ProfilePage() {
 		<section className={`${styles.wrap}`}>
 			<div className={styles.sidebar}>
 				<nav className={`${styles.menu} text text_type_main-medium`}>
-					<NavLink to="/profile" className={({ isActive }) => `${!isActive && "text_color_inactive"} pt-4 pb-4`}>
+					<NavLink to="/profile" className={`${pathname !== "/profile" && "text_color_inactive"} pt-4 pb-4`}>
 						Профиль
 					</NavLink>
 					<NavLink to="/profile/orders" className={({ isActive }) => `${!isActive && "text_color_inactive"} pt-4 pb-4`}>
@@ -33,7 +40,7 @@ export function ProfilePage() {
 				<p className={styles.description}>В этом разделе вы можете изменить&nbsp;свои персональные данные</p>
 			</div>
 
-			<ProfileLogin />
+			{children === undefined ? <ProfileLogin /> : children}
 		</section>
 	);
-}
+};
