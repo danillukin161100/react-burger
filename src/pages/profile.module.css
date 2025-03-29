@@ -19,9 +19,3 @@
 	color: var(--text-inactive-color);
 	opacity: 0.5;
 }
-
-.footer {
-	display: flex;
-	justify-content: flex-end;
-	margin-top: calc(var(--offset-base-size) * 6);
-}

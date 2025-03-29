@@ -6,5 +6,16 @@ import { ForgotPasswordPage } from "./forgot-password.tsx";
 import { RegisterPage } from "./register.tsx";
 import { LoginPage } from "./login.tsx";
 import { FeedPage } from "./feed.tsx";
+import { ProfileOrdersPage } from "./orders.tsx";
 
-export { HomePage, NotFoundPage, ProfilePage, ResetPasswordPage, ForgotPasswordPage, RegisterPage, LoginPage, FeedPage };
+export {
+    HomePage,
+    NotFoundPage,
+    ProfilePage,
+    ResetPasswordPage,
+    ForgotPasswordPage,
+    RegisterPage,
+    LoginPage,
+    FeedPage,
+    ProfileOrdersPage,
+};
