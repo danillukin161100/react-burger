@@ -9,6 +9,7 @@ import Modal from "../modal/modal.tsx";
 import { getUser } from "../../services/user/actions.ts";
 import ProtectedRoute from "../protected-route/protected-route.tsx";
 import { useAppDispatch, useAppSelector } from "../../hooks/index.ts";
+import { FeedDetails } from "../feed-details/feed-details.tsx";
 
 function App() {
 	const dispatch = useAppDispatch();
@@ -43,6 +44,19 @@ function App() {
 								</Modal>
 							}
 						/>
+						<Route
+							path="/feed/:id"
+							element={
+								<Modal
+									header={true}
+									onClose={() => {
+										navigate(-1);
+									}}
+								>
+									<FeedDetails />
+								</Modal>
+							}
+						/>
 					</Routes>
 				)}
 				<Routes location={state?.backgroundLocation || location}>
@@ -54,6 +68,7 @@ function App() {
 					<Route path="/profile" element={<ProtectedRoute element={<ProfilePage />} />} />
 					<Route path="/ingredients/:id" element={<IngredientDetails />} />
 					<Route path="/feed/" element={<FeedPage />} />
+					<Route path="/feed/:id" element={<FeedDetails />} />
 					<Route path="*" element={<NotFoundPage />} />
 				</Routes>
 			</main>

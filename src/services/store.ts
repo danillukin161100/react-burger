@@ -4,10 +4,9 @@ import { burgerConstructorSlice } from "./burger-constructor/reducer.ts";
 import { orderSlice } from "./orders/reducer.ts";
 import { userSlice } from "./user/reducer.ts";
 import { socketMiddleware } from "./middleware/socket-middleware.ts";
-import { connect, disconnect, onConnecting, onOpen, onError, onClose, onMessage } from "./feed/actions.ts";
-import { feedSlice } from "./feed/reducer.ts";
+import { connect, disconnect, onConnecting, onOpen, onError, onClose, onMessage } from "./orders/actions.ts";
 
-export const reducer = combineSlices(ingredientsSlice, burgerConstructorSlice, orderSlice, userSlice, feedSlice);
+export const reducer = combineSlices(ingredientsSlice, burgerConstructorSlice, orderSlice, userSlice);
 
 const feedMiddleware = socketMiddleware({
 	connect,

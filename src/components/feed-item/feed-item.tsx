@@ -5,8 +5,10 @@ import { Ingredient, Order } from "../../utils/types";
 import { orderStatus } from "../../utils/data";
 import { useSelector } from "react-redux";
 import { getIngredientsById, IngredientsState } from "../../services/ingredients/reducer";
+import { Link, useLocation } from "react-router";
 
 export const FeedItem: FC<Order> = ({ number, name, ingredients, status, createdAt }) => {
+	const location = useLocation();
 	const fullIngredients: { count: number; ingredients: Ingredient[] } = useSelector((state: IngredientsState) =>
 		getIngredientsById(state, ingredients, 6)
 	);
@@ -16,7 +18,7 @@ export const FeedItem: FC<Order> = ({ number, name, ingredients, status, created
 	}, [fullIngredients]);
 
 	return (
-		<div className={styles.wrap}>
+		<Link to={`/feed/${number}`} className={styles.wrap} state={{ backgroundLocation: location }}>
 			<div className={`text text_type_digits-default ${styles.number}`}>#{number}</div>
 			<div className={`text_color_inactive ${styles.date}`}>
 				<FormattedDate date={new Date(createdAt)} />
@@ -36,6 +38,6 @@ export const FeedItem: FC<Order> = ({ number, name, ingredients, status, created
 				{getSum()}
 				<CurrencyIcon type="primary" />
 			</div>
-		</div>
+		</Link>
 	);
 };

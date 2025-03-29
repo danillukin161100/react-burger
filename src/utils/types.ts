@@ -2,7 +2,8 @@ import { reducer, store } from "../services/store";
 
 export interface ApiResponse extends Response {
 	data?: object[];
-	order?: object;
+	order?: Order;
+	orders?: Order[];
 	success?: object | boolean;
 	user?: User;
 	accessToken?: string;
@@ -28,6 +29,7 @@ export interface Ingredient {
 	image_mobile: string;
 	image_large: string;
 	__v: number;
+	count?: number;
 }
 
 export interface Category {

@@ -2,21 +2,21 @@ import { useEffect, useRef, useState } from "react";
 import { FeedItem } from "../components/feed-item/feed-item";
 import styles from "./feed.module.css";
 import { useAppDispatch } from "../hooks";
-import { connect, disconnect } from "../services/feed/actions";
+import { connect, disconnect } from "../services/orders/actions";
 import { BASE_WSS_URL } from "../utils/data";
 import { useSelector } from "react-redux";
 import { Order, RootState } from "../utils/types";
-import { FeedState, getLastOrdersByStatus } from "../services/feed/reducer";
+import { OrderState, getLastOrdersByStatus } from "../services/orders/reducer";
 
 export const FeedPage = () => {
 	const ref = useRef<HTMLDivElement | null>(null);
 	const [maxHeight, setMaxHeight] = useState(0);
 	const dispatch = useAppDispatch();
-	const { orders, total, totalToday } = useSelector((state: RootState) => state.feed);
-	const ordersDone: Order[] = useSelector((state: FeedState) => {
+	const { orders, total, totalToday } = useSelector((state: RootState) => state.orders);
+	const ordersDone: Order[] = useSelector((state: OrderState) => {
 		return getLastOrdersByStatus(state, "done");
 	});
-	const ordersPending: Order[] = useSelector((state: FeedState) => {
+	const ordersPending: Order[] = useSelector((state: OrderState) => {
 		return getLastOrdersByStatus(state, "pending");
 	});
 
@@ -59,7 +59,7 @@ export const FeedPage = () => {
 					<div className="text text_type_main-medium mb-6">Готовы:</div>
 					<ul className={`text text_type_digits-default ${styles.numbers}`} style={{ color: "#00CCCC" }}>
 						{ordersDone.map((order) => (
-							<li>{order.number}</li>
+							<li key={order.number}>{order.number}</li>
 						))}
 					</ul>
 				</div>
@@ -67,7 +67,7 @@ export const FeedPage = () => {
 					<div className={`text text_type_main-medium mb-6`}>В работе:</div>
 					<ul className={`text text_type_digits-default ${styles.numbers}`}>
 						{ordersPending.map((order) => (
-							<li>{order.number}</li>
+							<li key={order.number}>{order.number}</li>
 						))}
 					</ul>
 				</div>

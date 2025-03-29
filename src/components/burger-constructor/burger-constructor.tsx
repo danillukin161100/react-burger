@@ -25,7 +25,7 @@ function BurgerConstructor() {
 	const listRef = useRef<HTMLDivElement | null>(null);
 	const constructorRef = useRef<HTMLDivElement | null>(null);
 
-	const { loading, modal } = useSelector((state: RootState) => state.orders);
+	const { isLoading, currentOrder } = useSelector((state: RootState) => state.orders);
 
 	const [maxHeight, setMaxHeight] = useState(100);
 	const [isScroll, setIsScroll] = useState(false);
@@ -94,7 +94,7 @@ function BurgerConstructor() {
 					{total} <CurrencyIcon type={"primary"} />
 				</span>
 
-				{loading ? (
+				{isLoading ? (
 					<Loader fullscreen={false} />
 				) : (
 					<Button onClick={createOrderHandler} htmlType="button" size="large">
@@ -102,8 +102,8 @@ function BurgerConstructor() {
 					</Button>
 				)}
 
-				{modal && (
-					<Modal onClose={() => closeOrderHandler()}>
+				{currentOrder && (
+					<Modal onClose={() => closeOrderHandler()} header={false}>
 						<OrderDetails />
 					</Modal>
 				)}

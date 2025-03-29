@@ -34,15 +34,30 @@ export const ingredientsSlice: Slice<IngredientsState> = createSlice({
 		getIngredientsById: createSelector(
 			[(state) => state.ingredients, (_state, ids: string[]) => ids, (_state, _ingredients, limit: number | undefined) => limit],
 			(ingredients, ids, limit) => {
+				if (ids === undefined) return;
 				let result: Ingredient[] = [];
 				ids.forEach((id) => {
 					const currentIngredient = ingredients.find((ingredient: Ingredient) => ingredient._id === id);
-					result.push({ ...currentIngredient, id: nanoid() });
+					const compareIngredient = result.find((ingredient: Ingredient) => ingredient._id === currentIngredient._id);
+
+					if (compareIngredient === undefined) {
+						result.push({
+							...currentIngredient,
+							count: 1,
+							id: nanoid(),
+						});
+					} else {
+						result = result.map((ingredient: Ingredient) =>
+							ingredient._id === compareIngredient._id
+								? { ...compareIngredient, count: compareIngredient.count ? compareIngredient.count + 1 : 1 }
+								: ingredient
+						);
+					}
 				});
 
 				if (limit !== undefined && limit !== 0) {
 					result.slice(0, limit);
-					
+
 					return {
 						count: result.length - limit,
 						ingredients: result.slice(0, 6),
@@ -51,7 +66,7 @@ export const ingredientsSlice: Slice<IngredientsState> = createSlice({
 
 				return {
 					count: result.length,
-					ingredients: result.slice(0, 6),
+					ingredients: result,
 				};
 			}
 		),
