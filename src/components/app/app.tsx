@@ -57,6 +57,19 @@ function App() {
 								</Modal>
 							}
 						/>
+						<Route
+							path="/profile/orders/:id"
+							element={
+								<Modal
+									header={true}
+									onClose={() => {
+										navigate(-1);
+									}}
+								>
+									<FeedDetails />
+								</Modal>
+							}
+						/>
 					</Routes>
 				)}
 				<Routes location={state?.backgroundLocation || location}>
