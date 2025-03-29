@@ -1,13 +1,14 @@
 import { Button, EmailInput, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useEffect, useState } from "react";
+import { SyntheticEvent, useEffect, useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router";
 import styles from "./profile.module.css";
 import { logoutUser, updateUser } from "../services/user/actions";
 import { useAppDispatch, useAppSelector, useForm } from "../hooks";
+import { User } from "../utils/types";
 
 export function ProfilePage() {
 	const { email, name } = useAppSelector((state) => state.user);
-	const initialFormData = {
+	const initialFormData: User = {
 		password: "",
 		email: typeof email === "string" ? email : "",
 		name: typeof name === "string" ? name : "",
@@ -23,13 +24,13 @@ export function ProfilePage() {
 		if (typeof formData === "object") setFormData({ ...formData, email, name });
 	}, [email, name]);
 
-	const logoutHandler = (e) => {
+	const logoutHandler = (e: SyntheticEvent) => {
 		e.preventDefault();
 		dispatch(logoutUser());
 		navigate("/login");
 	};
 
-	const submitHandler = (e) => {
+	const submitHandler = (e: SyntheticEvent) => {
 		e.preventDefault();
 		dispatch(updateUser(formData));
 		setIsChanged(false);
@@ -60,18 +61,8 @@ export function ProfilePage() {
 
 			<form onSubmit={submitHandler}>
 				<Input type="text" placeholder="Имя" name="name" value={formData.name || ""} onChange={changeHandler} extraClass="mb-6" />
-				<EmailInput
-					name="email"
-					placeholder="Логин"
-					value={formData.email || ""}
-					onChange={changeHandler}
-					extraClass="mb-6"
-				/>
-				<PasswordInput
-					name="password"
-					value={formData.password || ""}
-					onChange={changeHandler}
-				/>
+				<EmailInput name="email" placeholder="Логин" value={formData.email || ""} onChange={changeHandler} extraClass="mb-6" />
+				<PasswordInput name="password" value={formData.password || ""} onChange={changeHandler} />
 
 				{isChanged && (
 					<div className={styles.footer}>

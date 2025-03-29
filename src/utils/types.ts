@@ -40,7 +40,7 @@ export interface Category {
 export interface User {
 	login?: string;
 	email?: string;
-	paswword?: string;
+	password?: string;
 	name?: string;
 }
 
