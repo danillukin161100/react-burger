@@ -1,8 +1,8 @@
 import { Button, EmailInput, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./form-page.module.css";
 import { Link, useNavigate } from "react-router";
-import { registerUser } from "../services/user/actions";
-import { useAppDispatch, useForm } from "../hooks";
+import { registerUser } from "../../services/user/actions";
+import { useAppDispatch, useForm } from "../../hooks";
 import { FormEvent } from "react";
 
 export function RegisterPage() {

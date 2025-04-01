@@ -1,13 +1,13 @@
 import { useEffect, useRef, useState } from "react";
-import { FeedItem } from "../components/feed-item/feed-item";
+import { FeedItem } from "../../components/feed-item/feed-item";
 import styles from "./feed.module.css";
-import { useAppDispatch } from "../hooks";
-import { connect, disconnect } from "../services/orders/actions";
-import { BASE_WSS_URL } from "../utils/data";
+import { useAppDispatch } from "../../hooks";
+import { connect, disconnect } from "../../services/orders/actions";
+import { BASE_WSS_URL } from "../../utils/data";
 import { useSelector } from "react-redux";
-import { Order, RootState } from "../utils/types";
-import { OrderState, getLastOrdersByStatus } from "../services/orders/reducer";
-import Loader from "../components/loader/loader";
+import { Order, RootState } from "../../utils/types";
+import { OrderState, getLastOrdersByStatus } from "../../services/orders/reducer";
+import Loader from "../../components/loader/loader";
 
 export const FeedPage = () => {
 	const ref = useRef<HTMLDivElement | null>(null);

@@ -1,12 +1,12 @@
-import { HomePage } from "./home.tsx";
-import { NotFoundPage } from "./404.tsx";
-import { ProfilePage } from "./profile.tsx";
-import { ResetPasswordPage } from "./reset-password.tsx";
-import { ForgotPasswordPage } from "./forgot-password.tsx";
-import { RegisterPage } from "./register.tsx";
-import { LoginPage } from "./login.tsx";
-import { FeedPage } from "./feed.tsx";
-import { ProfileOrdersPage } from "./profile-orders.tsx";
+import { HomePage } from "./home/home.tsx";
+import { NotFoundPage } from "./404/404.tsx";
+import { ProfilePage } from "./profile/profile.tsx";
+import { ResetPasswordPage } from "./profile/reset-password.tsx";
+import { ForgotPasswordPage } from "./profile/forgot-password.tsx";
+import { RegisterPage } from "./profile/register.tsx";
+import { LoginPage } from "./profile/login.tsx";
+import { FeedPage } from "./feed/feed.tsx";
+import { ProfileOrdersPage } from "./profile/profile-orders.tsx";
 
 export {
     HomePage,
