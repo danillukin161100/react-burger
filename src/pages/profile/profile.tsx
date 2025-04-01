@@ -1,20 +1,16 @@
-import { FC, ReactElement, SyntheticEvent } from "react";
+import { FC, FormEvent, PropsWithChildren } from "react";
 import { Link, NavLink, useLocation, useNavigate } from "react-router";
 import styles from "./profile.module.css";
 import { logoutUser } from "../../services/user/actions";
 import { useAppDispatch } from "../../hooks";
 import { ProfileLogin } from "../../components/profile/profile-login";
 
-export interface ProfilePageProps {
-	children?: ReactElement | undefined;
-}
-
-export const ProfilePage: FC<ProfilePageProps> = ({ children }) => {
+export const ProfilePage: FC<PropsWithChildren> = ({ children }) => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 	const { pathname } = useLocation();
 
-	const logoutHandler = (e: SyntheticEvent) => {
+	const logoutHandler = (e: FormEvent) => {
 		e.preventDefault();
 		dispatch(logoutUser());
 		navigate("/login");

@@ -12,7 +12,7 @@ type WsActions<R> = {
 	onMessage: ActionCreatorWithPayload<R>;
 };
 
-const RECONNECT_PEROID = 3000;
+const RECONNECT_PERIOD = 3000;
 
 export const socketMiddleware = <R>(wsActions: WsActions<R>): Middleware<Record<string, never>, RootState> => {
 	return (store) => {
@@ -42,7 +42,7 @@ export const socketMiddleware = <R>(wsActions: WsActions<R>): Middleware<Record<
 					if (isConnected) {
 						reconnectTimer = window.setTimeout(() => {
 							dispatch(connect(url));
-						}, RECONNECT_PEROID);
+						}, RECONNECT_PERIOD);
 					}
 				};
 
