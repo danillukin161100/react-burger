@@ -1,13 +1,12 @@
-import { useSelector } from "react-redux";
 import styles from "./ingredient-details.module.css";
 import { getIngredientById } from "../../../services/ingredients/reducer.ts";
 import { useLocation, useParams } from "react-router";
 import { NotFoundPage } from "../../../pages";
+import { useAppSelector } from "../../../hooks/index.ts";
 
 function IngredientDetails() {
-	// const ingredient = useSelector(getModalIngredient);
 	const { id } = useParams();
-	const ingredient = useSelector((state) => getIngredientById(state, id));
+	const ingredient = useAppSelector((state) => getIngredientById(state, id));
 
 	if (!ingredient) return <NotFoundPage />;
 

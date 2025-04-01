@@ -2,20 +2,19 @@ import { FC, useEffect, useState } from "react";
 import { Counter, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./ingredient.module.css";
 import { Ingredient as IngredientInterface } from "../../../utils/types.ts";
-import { BurgerConstructorState, getIngredientCount } from "../../../services/burger-constructor/reducer.ts";
+import { getIngredientCount } from "../../../services/burger-constructor/reducer.ts";
 import { useDrag } from "react-dnd";
 import { addIngredient } from "../../../services/burger-constructor/actions.ts";
 import { nanoid } from "@reduxjs/toolkit";
 import { Link, useLocation } from "react-router";
-import { useAppDispatch } from "../../../hooks/index.ts";
-import { useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "../../../hooks/index.ts";
 
 const Ingredient: FC<IngredientInterface> = (props) => {
 	const dispatch = useAppDispatch();
 	const location = useLocation();
 	const [dragId, setDragId] = useState<null | string>(null);
 
-	const count = useSelector((state) => getIngredientCount(state as BurgerConstructorState, props));
+	const count = useAppSelector((state) => getIngredientCount(state, props));
 
 	const contextMenuHandler = (ingredient: IngredientInterface) => {
 		dispatch(addIngredient({ ...ingredient, id: nanoid() }));

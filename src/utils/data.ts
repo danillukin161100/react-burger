@@ -13,6 +13,11 @@ export const categories = [
 	},
 ];
 
+export const orderStatus = {
+	pending: "Готовится",
+	done: "Выполнен"
+}
+
 export const ingredientParams = {
 	calories: "Калории,ккал",
 	proteins: "Белки, г",
@@ -21,3 +26,4 @@ export const ingredientParams = {
 };
 
 export const BASE_URL = "https://norma.nomoreparties.space/api";
+export const BASE_WSS_URL = "wss://norma.nomoreparties.space/";

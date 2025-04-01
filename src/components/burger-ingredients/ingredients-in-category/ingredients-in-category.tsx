@@ -1,13 +1,13 @@
 import Ingredient from "../ingredient/ingredient.tsx";
 import styles from "./ingredients-in-category.module.css";
-import { useSelector } from "react-redux";
-import { getIngredientsByCategory, IngredientsState } from "../../../services/ingredients/reducer";
+import { getIngredientsByCategory } from "../../../services/ingredients/reducer";
 import { Category, Ingredient as IngredientInterface } from "../../../utils/types.ts";
 import { FC, RefObject } from "react";
+import { useAppSelector } from "../../../hooks/index.ts";
 
 const IngredientsInCategory: FC<{ category: Category; categoryRefs: Map<string, RefObject<HTMLDivElement>> }> = (props) => {
 	const { category, categoryRefs } = props;
-	const ingredients: IngredientInterface[] = useSelector((state) => getIngredientsByCategory(state as IngredientsState, category.key));
+	const ingredients: IngredientInterface[] = useAppSelector((state) => getIngredientsByCategory(state, category.key));
 	const categoryRef = categoryRefs.get(category.key);
 
 	return (

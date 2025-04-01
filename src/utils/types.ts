@@ -1,8 +1,9 @@
-import { store } from "../services/store";
+import { reducer, store } from "../services/store";
 
 export interface ApiResponse extends Response {
 	data?: object[];
-	order?: object;
+	order?: Order;
+	orders?: Order[];
 	success?: object | boolean;
 	user?: User;
 	accessToken?: string;
@@ -10,7 +11,8 @@ export interface ApiResponse extends Response {
 }
 
 export type AppStore = typeof store;
-export type RootState = ReturnType<AppStore["getState"]>;
+export type RootState = ReturnType<typeof reducer>;
+// export type RootState = ReturnType<AppStore["getState"]>;
 export type AppDispatch = AppStore["dispatch"];
 
 export interface Ingredient {
@@ -27,6 +29,7 @@ export interface Ingredient {
 	image_mobile: string;
 	image_large: string;
 	__v: number;
+	count?: number;
 }
 
 export interface Category {
@@ -37,7 +40,7 @@ export interface Category {
 export interface User {
 	login?: string;
 	email?: string;
-	paswword?: string;
+	password?: string;
 	name?: string;
 }
 
@@ -48,14 +51,15 @@ export interface Order {
 		createdAt: string;
 		updatedAt: string;
 	};
-	status: string;
+	status: "pending" | "done";
 	name: string;
 	createdAt: string;
 	updatedAt: string;
 	number: number;
 	price: number;
+	isShowStatus?: boolean;
 }
 
 export interface OrderRequest {
-	(ingredients: {ingredients: string[]}): Promise<Order | boolean> | boolean;
+	(ingredients: { ingredients: string[] }): Promise<Order | boolean> | boolean;
 }

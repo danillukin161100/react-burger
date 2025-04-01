@@ -46,6 +46,13 @@ export const createOrderRequest: OrderRequest = (ingredients) => {
 	});
 };
 
+export const getOrderRequest = async (number: number | string) => {
+	return await request(`orders/${number}`).then((res) => {
+		if (typeof res === "boolean") return res;
+		return res.orders as Order[];
+	});
+};
+
 export const registerUserRequest = async (user: User) => {
 	const res = await request(`auth/register`, {
 		method: "POST",
@@ -71,7 +78,7 @@ export const loginUserRequest = async (user: User) => {
 	if (typeof res === "boolean") return res;
 	if (res.accessToken) setCookie("accessToken", res.accessToken, { expires: 1200 });
 	if (res.refreshToken) setCookie("refreshToken", res.refreshToken);
-	setCookie("isAuth", 1);
+	setCookie("isAuth", 1, { expires: 1200 });
 	return res;
 };
 
@@ -139,7 +146,7 @@ export const updateUserRequest = (data: User) => {
 
 export const updateTokenRequest = () => {
 	const refreshToken = getCookie("refreshToken");
-	if (refreshToken === undefined) return false;
+	if (refreshToken === undefined) return new Promise<boolean>(() => false);
 
 	return request(`auth/token`, {
 		method: "POST",
@@ -149,7 +156,10 @@ export const updateTokenRequest = () => {
 		body: JSON.stringify({ token: refreshToken }),
 	}).then((res) => {
 		if (typeof res === "boolean") return res;
-		if (res.accessToken) setCookie("accessToken", res.accessToken, { expires: 1200 });
+		if (res.accessToken) {
+			setCookie("isAuth", 1, { expires: 1200 });
+			setCookie("accessToken", res.accessToken, { expires: 1200 });
+		}
 		if (res.refreshToken) setCookie("refreshToken", res.refreshToken);
 		return res;
 	});

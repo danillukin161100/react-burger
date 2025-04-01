@@ -17,7 +17,7 @@ function AppHeader() {
 							<BurgerIcon type={pathname === "/" ? "primary" : "secondary"} className="mr-2" />
 							Конструктор
 						</NavLink>
-						<NavLink to="/orders" className={({ isActive }) => `${isActive && styles.active} ${styles.link} p-5`}>
+						<NavLink to="/feed" className={({ isActive }) => `${isActive && styles.active} ${styles.link} p-5`}>
 							<ListIcon type={pathname === "/orders" ? "primary" : "secondary"} className="mr-2" />
 							Лента заказов
 						</NavLink>

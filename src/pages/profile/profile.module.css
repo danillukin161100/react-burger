@@ -1,12 +1,13 @@
 .wrap {
 	display: flex;
 	column-gap: calc(var(--offset-base-size) * 15);
-	margin-top: calc(var(--offset-base-size) * 30);
+	margin-top: calc(var(--offset-base-size) * 10);
 }
 
 .sidebar {
 	flex: 0 0 auto;
 	width: calc(var(--offset-base-size) * 80);
+	margin-top: calc(var(--offset-base-size) * 20);
 }
 
 .menu {
@@ -20,8 +21,8 @@
 	opacity: 0.5;
 }
 
-.footer {
-	display: flex;
-	justify-content: flex-end;
-	margin-top: calc(var(--offset-base-size) * 6);
+.order {
+	overflow: hidden;
+	overflow-y: auto;
+	padding-right: 8px;
 }
