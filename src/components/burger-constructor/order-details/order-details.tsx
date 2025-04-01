@@ -1,12 +1,11 @@
-import { useSelector } from "react-redux";
 import IconSuccess from "../../icons/icon-success.tsx";
 
 import styles from "./order-details.module.css";
 import Loader from "../../loader/loader.tsx";
-import { RootState } from "../../../utils/types.ts";
+import { useAppSelector } from "../../../hooks/index.ts";
 
 function OrderDetails() {
-	const { currentOrder } = useSelector((state: RootState) => state.orders);
+	const { currentOrder } = useAppSelector((state) => state.orders);
 
 	if (currentOrder === null) return <Loader fullscreen={true} />;
 

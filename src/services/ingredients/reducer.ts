@@ -1,6 +1,6 @@
-import { createSelector, createSlice, current, nanoid, Slice, SliceSelectors } from "@reduxjs/toolkit";
+import { createSelector, createSlice, nanoid, Slice, SliceSelectors } from "@reduxjs/toolkit";
 import { loadIngredients, removeModalIngredient, setCurrentCategory, setModalIngredient } from "./actions";
-import { Ingredient } from "../../utils/types";
+import { Ingredient, RootState } from "../../utils/types";
 
 export type IngredientsState = {
 	ingredients: Ingredient[];
@@ -102,4 +102,4 @@ export const ingredientsSlice: Slice<IngredientsState> = createSlice({
 });
 
 export const { getAllIngredients, getIngredientsByCategory, getCurrentCategoryKey, getModalIngredient, getIngredientById, getIngredientsById } =
-	ingredientsSlice.selectors as SliceSelectors<IngredientsState>;
+	ingredientsSlice.selectors as SliceSelectors<RootState>;

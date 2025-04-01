@@ -1,25 +1,20 @@
 import { useEffect, useRef, useState } from "react";
 import { FeedItem } from "../../components/feed-item/feed-item";
 import styles from "./feed.module.css";
-import { useAppDispatch } from "../../hooks";
+import { useAppDispatch, useAppSelector } from "../../hooks";
 import { connect, disconnect } from "../../services/orders/actions";
 import { BASE_WSS_URL } from "../../utils/data";
-import { useSelector } from "react-redux";
 import { Order, RootState } from "../../utils/types";
-import { OrderState, getLastOrdersByStatus } from "../../services/orders/reducer";
+import { getLastOrdersByStatus } from "../../services/orders/reducer";
 import Loader from "../../components/loader/loader";
 
 export const FeedPage = () => {
 	const ref = useRef<HTMLDivElement | null>(null);
 	const [maxHeight, setMaxHeight] = useState(0);
 	const dispatch = useAppDispatch();
-	const { orders, total, totalToday } = useSelector((state: RootState) => state.orders);
-	const ordersDone: Order[] = useSelector((state: OrderState) => {
-		return getLastOrdersByStatus(state, "done");
-	});
-	const ordersPending: Order[] = useSelector((state: OrderState) => {
-		return getLastOrdersByStatus(state, "pending");
-	});
+	const { orders, total, totalToday } = useAppSelector((state: RootState) => state.orders);
+	const ordersDone: Order[] = useAppSelector((state: RootState) => getLastOrdersByStatus(state, "done"));
+	const ordersPending: Order[] = useAppSelector((state: RootState) => getLastOrdersByStatus(state, "pending"));
 
 	useEffect(() => {
 		dispatch(connect(`${BASE_WSS_URL}orders/all`));

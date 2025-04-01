@@ -1,6 +1,6 @@
 import { createSelector, createSlice, Slice, SliceSelectors } from "@reduxjs/toolkit";
 import { closeOrder, createOrder, getOrder, onClose, onConnecting, onMessage, onOpen } from "./actions.ts";
-import { Order } from "../../utils/types.ts";
+import { Order, RootState } from "../../utils/types.ts";
 
 export type OrderState = {
 	currentOrder: Order | null;
@@ -92,4 +92,4 @@ export const orderSlice: Slice<OrderState> = createSlice({
 	},
 });
 
-export const { getLastOrdersByStatus, getOrderByNumber } = orderSlice.selectors as SliceSelectors<OrderState>;
+export const { getLastOrdersByStatus, getOrderByNumber } = orderSlice.selectors as SliceSelectors<RootState>;

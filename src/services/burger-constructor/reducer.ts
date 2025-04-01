@@ -1,7 +1,7 @@
 import { createSelector, createSlice, Slice, SliceSelectors } from "@reduxjs/toolkit";
 import { addIngredient, removeIngredient, sortIngredients } from "./actions";
 import { createOrder } from "../orders/actions.ts";
-import { Ingredient } from "../../utils/types";
+import { Ingredient, RootState } from "../../utils/types";
 
 export interface BurgerConstructorState {
 	ingredients: Ingredient[];
@@ -80,4 +80,4 @@ export const burgerConstructorSlice: Slice<BurgerConstructorState> = createSlice
 	},
 });
 
-export const { getIngredients, getBun, getTotal, getIngredientCount } = burgerConstructorSlice.selectors as SliceSelectors<BurgerConstructorState>;
+export const { getIngredients, getBun, getTotal, getIngredientCount } = burgerConstructorSlice.selectors as SliceSelectors<RootState>;

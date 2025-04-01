@@ -3,16 +3,13 @@ import styles from "./feed-item.module.css";
 import { FC } from "react";
 import { Ingredient, Order } from "../../utils/types";
 import { orderStatus } from "../../utils/data";
-import { useSelector } from "react-redux";
-import { getIngredientsById, IngredientsState } from "../../services/ingredients/reducer";
+import { getIngredientsById } from "../../services/ingredients/reducer";
 import { Link, useLocation } from "react-router";
-import { useIngredientsSum } from "../../hooks";
+import { useAppSelector, useIngredientsSum } from "../../hooks";
 
 export const FeedItem: FC<Order> = ({ number, name, ingredients, status, createdAt, isShowStatus }) => {
 	const location = useLocation();
-	const fullIngredients: { count: number; ingredients: Ingredient[] } = useSelector((state: IngredientsState) =>
-		getIngredientsById(state, ingredients, 6)
-	);
+	const fullIngredients: { count: number; ingredients: Ingredient[] } = useAppSelector((state) => getIngredientsById(state, ingredients, 6));
 
 	const getSum = useIngredientsSum(fullIngredients.ingredients);
 

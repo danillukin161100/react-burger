@@ -5,15 +5,14 @@ import { categories } from "../../utils/data";
 import { setCurrentCategory } from "../../services/ingredients/actions";
 import IngredientsInCategory from "./ingredients-in-category/ingredients-in-category.tsx";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useAppDispatch } from "../../hooks";
-import { useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "../../hooks";
 
 function BurgerIngredients() {
 	const ref = useRef<HTMLDivElement | null>(null);
 	const categoryRefs = new Map<string, RefObject<HTMLDivElement>>(categories.map((category) => [category.key, createRef()]));
 	const [maxHeight, setMaxHeight] = useState(0);
 	const dispatch = useAppDispatch();
-	const currentCategoryKey = useSelector(getCurrentCategoryKey);
+	const currentCategoryKey = useAppSelector(getCurrentCategoryKey);
 
 	useEffect(() => {
 		const updateHeight = () => {

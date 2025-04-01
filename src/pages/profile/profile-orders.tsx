@@ -1,10 +1,8 @@
 import { useRef, useState, useEffect } from "react";
-import { useSelector } from "react-redux";
 import { FeedItem } from "../../components/feed-item/feed-item";
 import Loader from "../../components/loader/loader";
-import { useAppDispatch } from "../../hooks";
+import { useAppDispatch, useAppSelector } from "../../hooks";
 import { BASE_WSS_URL } from "../../utils/data";
-import { RootState } from "../../utils/types";
 import { connect, disconnect } from "../../services/orders/actions";
 import styles from "./profile.module.css";
 
@@ -12,7 +10,7 @@ export const ProfileOrdersPage = () => {
 	const ref = useRef<HTMLDivElement | null>(null);
 	const [maxHeight, setMaxHeight] = useState(0);
 	const dispatch = useAppDispatch();
-	const { orders } = useSelector((state: RootState) => state.orders);
+	const { orders } = useAppSelector((state) => state.orders);
 
 	useEffect(() => {
 		dispatch(connect(`${BASE_WSS_URL}orders`));

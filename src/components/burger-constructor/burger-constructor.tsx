@@ -3,7 +3,6 @@ import { CurrencyIcon, Button } from "@ya.praktikum/react-developer-burger-ui-co
 import Modal from "../modal/modal.tsx";
 import OrderDetails from "./order-details/order-details.tsx";
 import styles from "./burger-constructor.module.css";
-import { useSelector } from "react-redux";
 import { getBun, getIngredients, getTotal } from "../../services/burger-constructor/reducer.ts";
 import EmptyElement from "./empty-element/empty-element.tsx";
 import ConstructorIngredient from "./constructor-ingredient/constructor-ingredient.tsx";
@@ -11,21 +10,21 @@ import Loader from "../loader/loader.tsx";
 import { closeOrder, createOrder } from "../../services/orders/actions.ts";
 import { useNavigate } from "react-router";
 import { getCookie } from "../../utils/cookies.ts";
-import { useAppDispatch } from "../../hooks/index.ts";
+import { useAppDispatch, useAppSelector } from "../../hooks/index.ts";
 import { Ingredient, RootState } from "../../utils/types.ts";
 
 function BurgerConstructor() {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 
-	const bun = useSelector(getBun);
-	const total = useSelector(getTotal);
-	const ingredients: Ingredient[] = useSelector(getIngredients);
+	const bun = useAppSelector(getBun);
+	const total = useAppSelector(getTotal);
+	const ingredients: Ingredient[] = useAppSelector(getIngredients);
 
 	const listRef = useRef<HTMLDivElement | null>(null);
 	const constructorRef = useRef<HTMLDivElement | null>(null);
 
-	const { isLoading, currentOrder } = useSelector((state: RootState) => state.orders);
+	const { isLoading, currentOrder } = useAppSelector((state: RootState) => state.orders);
 
 	const [maxHeight, setMaxHeight] = useState(100);
 	const [isScroll, setIsScroll] = useState(false);

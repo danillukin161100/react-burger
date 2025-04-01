@@ -1,27 +1,25 @@
 import { FC, useEffect, useState } from "react";
 import styles from "./feed-details.module.css";
 import { useLocation, useParams } from "react-router";
-import { useSelector } from "react-redux";
 import { getOrderByNumber } from "../../services/orders/reducer";
-import { useAppDispatch, useIngredientsSum } from "../../hooks";
+import { useAppDispatch, useAppSelector, useIngredientsSum } from "../../hooks";
 import { getOrder } from "../../services/orders/actions";
 import { Ingredient, Order, RootState } from "../../utils/types";
 import { orderStatus } from "../../utils/data";
 import Loader from "../loader/loader";
-import { getIngredientsById, IngredientsState } from "../../services/ingredients/reducer";
+import { getIngredientsById } from "../../services/ingredients/reducer";
 import { CurrencyIcon, FormattedDate } from "@ya.praktikum/react-developer-burger-ui-components";
-import { OrderState } from "../../services/orders/reducer";
 
 export const FeedDetails: FC = () => {
 	const { id } = useParams();
 	if (id === undefined) return;
 	const dispatch = useAppDispatch();
-	const orderFromOrders: Order | undefined = useSelector((state: OrderState) => getOrderByNumber(state, id));
-	const currentOrder = useSelector((state: RootState) => state.orders.currentOrder);
+	const orderFromOrders: Order | undefined = useAppSelector((state) => getOrderByNumber(state, id));
+	const currentOrder = useAppSelector((state: RootState) => state.orders.currentOrder);
 	const [order, setOrder] = useState<Order | null>(null);
 	const { state } = useLocation();
 
-	const ingredientsById: { count: number; ingredients: Ingredient[] } = useSelector((state: IngredientsState) =>
+	const ingredientsById: { count: number; ingredients: Ingredient[] } = useAppSelector((state) =>
 		getIngredientsById(state, order?.ingredients)
 	);
 
