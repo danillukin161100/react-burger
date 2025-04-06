@@ -10,7 +10,7 @@ export type IngredientsState = {
 	modal: Ingredient | null;
 };
 
-const initialState: IngredientsState = {
+export const initialState: IngredientsState = {
 	ingredients: [],
 	currentCategoryKey: "bun",
 	loading: true,
@@ -103,3 +103,5 @@ export const ingredientsSlice: Slice<IngredientsState> = createSlice({
 
 export const { getAllIngredients, getIngredientsByCategory, getCurrentCategoryKey, getModalIngredient, getIngredientById, getIngredientsById } =
 	ingredientsSlice.selectors as SliceSelectors<RootState>;
+
+export default ingredientsSlice;

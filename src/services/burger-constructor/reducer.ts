@@ -8,7 +8,7 @@ export interface BurgerConstructorState {
 	bun: null | Ingredient;
 }
 
-const initialState: BurgerConstructorState = {
+export const initialState: BurgerConstructorState = {
 	ingredients: [],
 	bun: null,
 };
@@ -81,3 +81,5 @@ export const burgerConstructorSlice: Slice<BurgerConstructorState> = createSlice
 });
 
 export const { getIngredients, getBun, getTotal, getIngredientCount } = burgerConstructorSlice.selectors as SliceSelectors<RootState>;
+
+export default burgerConstructorSlice
