@@ -2,7 +2,7 @@ import { deleteCookie, getCookie, setCookie } from "./cookies";
 import { BASE_URL } from "./data";
 import { ApiResponse, Ingredient, Order, OrderRequest, User } from "./types";
 
-const checkResponse = async (res: Response, cb: null | Function = null): Promise<ApiResponse | boolean> => {
+export const checkResponse = async (res: Response, cb: null | Function = null): Promise<ApiResponse | boolean> => {
 	if (res.status === 401) {
 		if (res.url.indexOf("token") < 0 && typeof cb === "function") {
 			const isUpdate = await updateTokenRequest();
@@ -18,7 +18,7 @@ const checkResponse = async (res: Response, cb: null | Function = null): Promise
 	return Promise.reject(`Error ${res.status}`);
 };
 
-const request = async (endpoint: string, options: RequestInit | undefined = undefined, cb: Function | null = null) => {
+export const request = async (endpoint: string, options: RequestInit | undefined = undefined, cb: Function | null = null) => {
 	const res = await fetch(`${BASE_URL}/${endpoint}`, options);
 	return await checkResponse(res, cb);
 };
