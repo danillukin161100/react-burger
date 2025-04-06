@@ -8,7 +8,7 @@ type UserState = User & {
 	isLoggedIn: boolean;
 };
 
-const initialState: UserState = {
+export const initialState: UserState = {
 	email: undefined,
 	name: undefined,
 	loading: false,
@@ -75,3 +75,5 @@ export const userSlice: Slice<UserState> = createSlice({
 			});
 	},
 });
+
+export default userSlice;

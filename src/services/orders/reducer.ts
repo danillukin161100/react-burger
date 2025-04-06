@@ -12,7 +12,7 @@ export type OrderState = {
 	error: null | string;
 };
 
-const initialState: OrderState = {
+export const initialState: OrderState = {
 	currentOrder: null,
 	orders: [],
 	total: null,
@@ -93,3 +93,4 @@ export const orderSlice: Slice<OrderState> = createSlice({
 });
 
 export const { getLastOrdersByStatus, getOrderByNumber } = orderSlice.selectors as SliceSelectors<RootState>;
+export default orderSlice;
