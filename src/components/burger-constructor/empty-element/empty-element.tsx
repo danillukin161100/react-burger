@@ -18,7 +18,7 @@ const EmptyElement: FC<{ type: "top" | "bottom" | null; text: string }> = (props
 		<div
 			className={`${styles.element} constructor-element ${type !== null ? "constructor-element_pos_" + type : ""}`}
 			ref={dropRef}
-			data-testid={`constructor-ingredient`}
+			data-testid={`constructor-ingredient-empty`}
 		>
 			<span className="constructor-element__row">
 				<span className="constructor-element__text">{text}</span>

@@ -11,7 +11,7 @@ const IngredientsInCategory: FC<{ category: Category; categoryRefs: Map<string, 
 	const categoryRef = categoryRefs.get(category.key);
 
 	return (
-		<div ref={categoryRef}>
+		<div ref={categoryRef} data-testid={`ingredients-in-cat-${category.key}`}>
 			<h3 className="mb-6 text text_type_main-medium">{category.title}</h3>
 
 			<div className={`${styles.list} pl-4 pr-4 pb-10`}>
