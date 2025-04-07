@@ -35,7 +35,7 @@ const ConstructorIngredient: FC<Ingredient & { formType: "top" | "bottom" | unde
 	const opacity = isDragging ? 0 : 1;
 
 	return (
-		<div className={styles.item} ref={ref} style={{ opacity }}>
+		<div className={styles.item} ref={ref} style={{ opacity }} data-testid={`constructor-ingredient-${props.type}`}>
 			{props.type !== "bun" && <DragIcon type={"primary"} />}
 			<ConstructorElement
 				type={props.formType}

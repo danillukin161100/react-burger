@@ -13,6 +13,7 @@
 		"test:ui": "vitest --ui"
 	},
 	"dependencies": {
+		"@4tw/cypress-drag-drop": "^2.3.0",
 		"@babel/runtime": "^7.25.6",
 		"@reduxjs/toolkit": "^2.5.1",
 		"@ya.praktikum/react-developer-burger-ui-components": "^1.14.2",

@@ -18,7 +18,7 @@ function IngredientDetails() {
 			<div className={`text text_type_main-large ${styles.header} ${!state?.backgroundLocation && styles.headerPage}`}>Детали ингредиента</div>
 			<div className={`${styles.wrap}`}>
 				<img src={ingredient.image_large} className="mb-4" alt={ingredient.name} />
-				<p className={`${styles.title} text text_type_main-medium`}>{ingredient.name}</p>
+				<p className={`${styles.title} text text_type_main-medium`} data-testid="ingredient-details-name">{ingredient.name}</p>
 
 				<div className={`${styles.list} mt-8`}>
 					{calories && (

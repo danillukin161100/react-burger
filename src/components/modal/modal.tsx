@@ -30,7 +30,7 @@ const Modal: FC<{ children: ReactNode; header: boolean; onClose<event>(event: ev
 		<div className={`${styles.modal}`}>
 			<ModalOverlay onClick={onClose} isActive={isActive} />
 			<div className={`${styles.modalWindow} ${isActive && styles.modalWindowActive} p-10 ${header ? "pt-10" : "pt-30"} pb-15`}>
-				<button type="button" className={styles.close} onClick={onClose}>
+				<button type="button" className={styles.close} onClick={onClose} data-testid="close-modal-button">
 					<CloseIcon type={"primary"} />
 				</button>
 				{children}

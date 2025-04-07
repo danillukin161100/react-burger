@@ -42,13 +42,14 @@ const Ingredient: FC<IngredientInterface> = (props) => {
 				contextMenuHandler(props);
 			}}
 			ref={dragRef}
+			data-testid="ingredient-card"
 		>
 			{count > 0 && <Counter count={count} size="default" />}
 			<img src={props.image} alt={props.name} className="pl-4 pr-4 mb-1" />
 			<span className={`${styles.price} text text_type_digits-default mb-1`}>
 				{props.price} <CurrencyIcon className="ml-1" type={"primary"} />
 			</span>
-			<p className={`${styles.title} text text_type_main-default`}>{props.name}</p>
+			<p className={`${styles.title} text text_type_main-default`} data-testid="ingredient-card-title">{props.name}</p>
 		</Link>
 	);
 };
