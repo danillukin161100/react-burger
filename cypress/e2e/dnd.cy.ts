@@ -8,18 +8,13 @@ describe("Burger Constructor DnD", () => {
 	});
 
 	it("Drag bun to constructor", () => {
-		cy.get("@ingredients").first().trigger("dragstart");
-		cy.wait(500);
-		cy.get("@constructor").first().trigger("drop");
+		cy.dnd(cy.get("@ingredients").first(), cy.get("@constructor").first());
 	});
 
 	it("Drag ingredients to constructor", () => {
 		cy.get('[data-testid="ingredients-in-cat-main"] [data-testid="ingredient-card"]').as("main-ingredients");
 		cy.get("@main-ingredients").each(($ingredient, $i) => {
-			cy.get("@main-ingredients").eq($i).trigger("dragstart");
-			cy.wait(100);
-			cy.get("@constructor").eq(1).trigger("drop");
-			cy.wait(100);
+			cy.dnd(cy.get("@main-ingredients").eq($i), cy.get("@constructor").eq(1));
 			cy.get("@constructor").should("contain.text", $ingredient.find('[data-testid="ingredient-card-title"]').text());
 		});
 	});

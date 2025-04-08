@@ -24,10 +24,7 @@ describe("Modal", () => {
 
 	it("should close modal on click overlay", () => {
 		cy.get("@ingredient").click();
-		cy.get("[data-testid=modal-overlay]").then(($overlay) => {
-			const rect = $overlay[0].getBoundingClientRect();
-			cy.get("body").click(rect.left + 10, rect.top + 10);
-		});
+		cy.clickOnElementWithCoords(cy.get("[data-testid=modal-overlay]"), { x: 10, y: 10 });
 		cy.get("#modals").should("be.empty");
 	});
 });

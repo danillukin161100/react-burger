@@ -1,3 +1,5 @@
+import type {} from "cypress";
+
 /// <reference types="cypress" />
 // ***********************************************
 // This example commands.ts shows you how to
@@ -36,3 +38,16 @@
 //   }
 // }
 
+Cypress.Commands.add("clickOnElementWithCoords", ($overlayElement, coords = { x: 0, y: 0 }) => {
+	$overlayElement.then(($overlay) => {
+		const rect = $overlay[0].getBoundingClientRect();
+		cy.get("body").click(rect.left + coords.x, rect.top + coords.y);
+	});
+});
+
+Cypress.Commands.add("dnd", ($drag, $drop) => {
+	$drag.trigger("dragstart");
+	cy.wait(100);
+	$drop.trigger("drop");
+	cy.wait(100);
+});
