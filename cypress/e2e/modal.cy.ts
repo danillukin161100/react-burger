@@ -2,7 +2,7 @@ import type {} from "cypress";
 
 describe("Modal", () => {
 	beforeEach(() => {
-		cy.visit("http://localhost:5173/");
+		cy.visit("/");
 		cy.get("[data-testid=ingredient-card]").first().as("ingredient");
 	});
 

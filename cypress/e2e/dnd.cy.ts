@@ -2,7 +2,7 @@ import type {} from "cypress";
 
 describe("Burger Constructor DnD", () => {
 	beforeEach(() => {
-		cy.visit("http://localhost:5173/");
+		cy.visit("/");
 		cy.get('[data-testid="ingredient-card"]').as("ingredients");
 		cy.get('[data-testid^="constructor-ingredient"]').as("constructor");
 	});
