@@ -51,3 +51,11 @@ Cypress.Commands.add("dnd", ($drag, $drop) => {
 	$drop.trigger("drop");
 	cy.wait(100);
 });
+
+Cypress.Commands.add("getBySel", (selector) => {
+	return cy.get(`[data-testid="${selector}"]`);
+});
+
+Cypress.Commands.add("getBySelLike", (selector) => {
+	return cy.get(`[data-testid*="${selector}"]`);
+});

@@ -3,7 +3,7 @@ import type {} from "cypress";
 describe("Modal", () => {
 	beforeEach(() => {
 		cy.visit("/");
-		cy.get("[data-testid=ingredient-card]").first().as("ingredient");
+		cy.getBySel("ingredient-card").first().as("ingredient");
 	});
 
 	it("should open modal ingredient", () => {
@@ -12,19 +12,19 @@ describe("Modal", () => {
 			.invoke("text")
 			.then((text) => {
 				cy.get("@ingredient").click();
-				cy.get("[data-testid=ingredient-details-name]").contains(text);
+				cy.getBySel("ingredient-details-name").contains(text);
 			});
 	});
 
 	it("should close modal on click button", () => {
 		cy.get("@ingredient").click();
-		cy.get("[data-testid=close-modal-button]").click();
-		cy.get("#modals").should("be.empty");
+		cy.getBySel("close-modal-button").click();
+		cy.getBySel("modals").should("be.empty");
 	});
 
 	it("should close modal on click overlay", () => {
 		cy.get("@ingredient").click();
-		cy.clickOnElementWithCoords(cy.get("[data-testid=modal-overlay]"), { x: 10, y: 10 });
-		cy.get("#modals").should("be.empty");
+		cy.clickOnElementWithCoords(cy.getBySel("modal-overlay"), { x: 10, y: 10 });
+		cy.getBySel("modals").should("be.empty");
 	});
 });

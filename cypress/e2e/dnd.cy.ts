@@ -3,8 +3,8 @@ import type {} from "cypress";
 describe("Burger Constructor DnD", () => {
 	beforeEach(() => {
 		cy.visit("/");
-		cy.get('[data-testid="ingredient-card"]').as("ingredients");
-		cy.get('[data-testid^="constructor-ingredient"]').as("constructor");
+		cy.getBySel('ingredient-card').as("ingredients");
+		cy.getBySelLike('constructor-ingredient').as("constructor");
 	});
 
 	it("Drag bun to constructor", () => {
